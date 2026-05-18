@@ -1,0 +1,6 @@
+package empire.digiprem.mycolowepapp
+
+import androidx.navigation.ExperimentalBrowserHistoryApi
+import androidx.navigation.NavController
+import androidx.navigation.bindToBrowserNavigation
+import empire.digiprem.mycolowepapp.core.navigation.NavigationGraph

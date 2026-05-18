@@ -1,0 +1,23 @@
+package empire.digiprem.mycolowepapp.core.navigation
+
+import kotlinx.serialization.Serializable
+
+sealed interface NavigationGraph {
+
+    @Serializable
+    data object Landing : NavigationGraph
+
+    @Serializable
+    data object Registration : NavigationGraph
+
+    @Serializable
+    data class Confirmation(val referenceNumber: String) : NavigationGraph
+    @Serializable
+    data  class Error404(val path: String) : NavigationGraph
+
+    @Serializable
+    data object AdminLogin : NavigationGraph
+
+    @Serializable
+    data object AdminDashboard : NavigationGraph
+}

@@ -1,0 +1,105 @@
+<resources>
+    <!-- App -->
+    <string name="app_name">My Colo</string>
+    <string name="powered_by">Powered by Digi-Prem</string>
+
+    <!-- Landing -->
+    <string name="landing_hero_title">Rejoignez-nous pour une expérience unique</string>
+    <string name="landing_hero_subtitle">Une colonie inoubliable pour toute la famille. Inscrivez-vous dès maintenant et vivez des moments exceptionnels ensemble.</string>
+    <string name="landing_badge">COLONIE MY COLO · INSCRIPTIONS OUVERTES</string>
+    <string name="landing_cta_register">S\'inscrire maintenant</string>
+    <string name="landing_cta_admin_login">Connexion Admin</string>
+    <string name="landing_nav_program">Programme</string>
+    <string name="landing_nav_contact">Contact</string>
+    <string name="landing_feature_1_title">Inscription simple</string>
+    <string name="landing_feature_1_desc">Formulaire rapide et intuitif pour s\'inscrire en quelques minutes</string>
+    <string name="landing_feature_2_title">Code de sécurité</string>
+    <string name="landing_feature_2_desc">Accès sécurisé avec un code fourni par l\'organisateur</string>
+    <string name="landing_feature_3_title">Ouvert à tous</string>
+    <string name="landing_feature_3_desc">Élèves, étudiants, travailleurs – toute la communauté est la bienvenue</string>
+    <string name="landing_feature_4_title">Suivi admin</string>
+    <string name="landing_feature_4_desc">Interface d\'administration complète pour gérer les inscriptions</string>
+
+    <!-- Countdown -->
+    <string name="countdown_days">Jours</string>
+    <string name="countdown_hours">Heures</string>
+    <string name="countdown_minutes">Minutes</string>
+    <string name="countdown_seconds">Secondes</string>
+    <string name="countdown_expired">Inscriptions clôturées</string>
+
+    <!-- Registration form -->
+    <string name="form_title">Formulaire d\'inscription</string>
+    <string name="form_full_name">Nom complet *</string>
+    <string name="form_full_name_hint">Entrez votre nom et prénom</string>
+    <string name="form_age">Âge *</string>
+    <string name="form_age_hint">Votre âge en années</string>
+    <string name="form_family_name">Nom de la famille *</string>
+    <string name="form_family_name_hint">Nom de votre famille</string>
+    <string name="form_job_status">Métier / Statut *</string>
+    <string name="form_job_student_school">Élève</string>
+    <string name="form_job_student_higher">Étudiant</string>
+    <string name="form_job_worker">Travailleur</string>
+    <string name="form_job_seeking">En attente de travailler</string>
+    <string name="form_security_code">Code de sécurité *</string>
+    <string name="form_security_code_hint">Entrez le code fourni par l\'organisateur</string>
+    <string name="form_submit">Envoyer l\'inscription</string>
+
+    <!-- Validation messages -->
+    <string name="form_validation_full_name_required">Le nom complet est requis</string>
+    <string name="form_validation_age_required">L\'âge est requis</string>
+    <string name="form_validation_age_invalid">Veuillez entrer un âge valide</string>
+    <string name="form_validation_family_name_required">Le nom de famille est requis</string>
+    <string name="form_validation_job_status_required">Veuillez sélectionner votre statut</string>
+    <string name="form_validation_security_code_required">Le code de sécurité est requis</string>
+    <string name="form_validation_security_code_invalid">Code de sécurité incorrect</string>
+
+    <!-- Confirmation -->
+    <string name="confirmation_title">Inscription enregistrée !</string>
+    <string name="confirmation_subtitle">Votre inscription a bien été soumise. Vous recevrez une confirmation après vérification.</string>
+    <string name="confirmation_reference_label">Numéro de référence</string>
+    <string name="confirmation_step_submitted">Soumise</string>
+    <string name="confirmation_step_verification">Vérification</string>
+    <string name="confirmation_step_confirmed">Confirmée</string>
+    <string name="confirmation_go_home">Retour à l\'accueil</string>
+    <string name="confirmation_share">Partager</string>
+
+    <!-- Admin Login -->
+    <string name="admin_login_title">Espace Administrateur</string>
+    <string name="admin_login_subtitle">Connectez-vous pour accéder au tableau de bord</string>
+    <string name="admin_email">Adresse email</string>
+    <string name="admin_email_hint">admin@mycolo.fr</string>
+    <string name="admin_password">Mot de passe</string>
+    <string name="admin_password_hint">Votre mot de passe</string>
+    <string name="admin_connect">Se connecter</string>
+    <string name="admin_secure_label">Connexion sécurisée</string>
+    <string name="admin_feature_1">Tableau de bord complet</string>
+    <string name="admin_feature_2">Gestion des participants</string>
+    <string name="admin_feature_3">Export PDF et Excel</string>
+    <string name="admin_feature_4">Statistiques en temps réel</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_title">Tableau de bord</string>
+    <string name="dashboard_total">Total inscrits</string>
+    <string name="dashboard_validated">Validés</string>
+    <string name="dashboard_pending">En attente</string>
+    <string name="dashboard_rejected">Refusés</string>
+    <string name="dashboard_by_status">Répartition par statut professionnel</string>
+    <string name="dashboard_by_age">Répartition par tranche d\'âge</string>
+    <string name="dashboard_export_pdf">Télécharger PDF</string>
+    <string name="dashboard_export_excel">Exporter Excel</string>
+    <string name="dashboard_participants_list">Liste des participants</string>
+    <string name="dashboard_search_hint">Rechercher un participant…</string>
+    <string name="dashboard_logout">Déconnexion</string>
+    <string name="dashboard_nav_overview">Vue d\'ensemble</string>
+    <string name="dashboard_nav_participants">Participants</string>
+    <string name="dashboard_nav_stats">Statistiques</string>
+    <string name="dashboard_nav_pdf">Rapport PDF</string>
+    <string name="dashboard_nav_excel">Export Excel</string>
+    <string name="dashboard_nav_settings">Paramètres</string>
+    <string name="dashboard_notifications">Notifications</string>
+
+    <!-- Status chips -->
+    <string name="status_validated">Validé</string>
+    <string name="status_pending">En attente</string>
+    <string name="status_rejected">Refusé</string>
+</resources>
