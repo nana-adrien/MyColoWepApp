@@ -4,16 +4,17 @@ koin = "4.1.0"
 kotlin-wrappers = "2026.5.3"
 
 androidx-lifecycle = "2.9.6"
-composeMultiplatform = "1.10.0"
+composeMultiplatform = "1.10.3"
 junit = "4.13.2"
-kotlin = "2.3.0"
+kotlin = "2.3.21"
 material3 = "1.10.0-alpha05"
 material-icon = "1.7.3"
 navigation-compose= "2.9.2"
 adaptive ="1.2.0-alpha04"
 kotlinx-coroutines = "1.9.0"
 
-supabase = "3.1.4"
+supabase = "3.6.0"
+kotlinx-datetime = "0.6.2"
 ktor="3.2.3"
 coil="3.3.0"
 coil-network="3.3.0"
@@ -52,14 +53,15 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 ktor-client-java = { group = "io.ktor", name = "ktor-client-java", version.ref = "ktor" }
 
 # superbase
-supabase-bom          = { module = "io.github.jan-tennert.supabase:bom", version.ref = "supabase" }
-supabase-postgrest    = { module = "io.github.jan-tennert.supabase:postgrest-kt" }
-supabase-auth         = { module = "io.github.jan-tennert.supabase:auth-kt" }
-supabase-storage      = { module = "io.github.jan-tennert.supabase:storage-kt" }
-supabase-realtime     = { module = "io.github.jan-tennert.supabase:realtime-kt" }
+#supabase-bom          = { module = "io.github.jan-tennert.supabase:bom", version.ref = "supabase"}
+supabase-postgrest    = { module = "io.github.jan-tennert.supabase:postgrest-kt" , version.ref = "supabase"}
+supabase-auth         = { module = "io.github.jan-tennert.supabase:auth-kt" , version.ref = "supabase"}
+supabase-storage      = { module = "io.github.jan-tennert.supabase:storage-kt" , version.ref = "supabase"}
+supabase-realtime     = { module = "io.github.jan-tennert.supabase:realtime-kt" , version.ref = "supabase"}
 
 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 
 compose-material-icons-core= { module = "org.jetbrains.compose.material:material-icons-core", version.ref = "material-icon" }
 compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "material-icon" }

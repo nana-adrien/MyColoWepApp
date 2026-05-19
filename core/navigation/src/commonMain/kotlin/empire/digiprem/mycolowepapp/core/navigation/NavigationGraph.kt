@@ -20,4 +20,7 @@ sealed interface NavigationGraph {
 
     @Serializable
     data object AdminDashboard : NavigationGraph
+
+    @Serializable
+    data object AdminSecurityCodes : NavigationGraph
 }

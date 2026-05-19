@@ -14,6 +14,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(project(":core:domain"))
+            implementation(project(":feature:admin:login:domain"))
             implementation(project(":core:presentation"))
             implementation(project(":core:design_system"))
             implementation(libs.compose.runtime)

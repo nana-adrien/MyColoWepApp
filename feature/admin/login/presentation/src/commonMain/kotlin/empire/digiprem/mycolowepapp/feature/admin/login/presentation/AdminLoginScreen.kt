@@ -24,6 +24,8 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -87,6 +89,20 @@ fun AdminLoginScreen(
     }
 
     val isMobile = currentDeviceConfigure().isMobileDevice()
+
+    // Dialog erreur auth (réseau / identifiants)
+    state.errorDialog?.let { message ->
+        AlertDialog(
+            onDismissRequest = { viewModel.onAction(AdminLoginAction.OnDismissErrorDialog) },
+            title = { Text(text = "Connexion refusée", fontWeight = FontWeight.Bold) },
+            text = { Text(text = message) },
+            confirmButton = {
+                Button(onClick = { viewModel.onAction(AdminLoginAction.OnDismissErrorDialog) }) {
+                    Text("OK")
+                }
+            }
+        )
+    }
 
     Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         if (isMobile) {

@@ -12,6 +12,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(project(":core:domain"))
             implementation(project(":feature:registration:domain"))
         }
     }

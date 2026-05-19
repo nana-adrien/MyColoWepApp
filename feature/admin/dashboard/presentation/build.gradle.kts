@@ -14,10 +14,15 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(project(":core:domain"))
             api(project(":core:presentation"))
             implementation(project(":core:design_system"))
             implementation(project(":feature:admin:dashboard:domain"))
+            implementation(project(":feature:admin:dashboard:data"))
             implementation(project(":feature:registration:domain"))
+            implementation(projects.feature.admin.securityCode.domain)
+            implementation(projects.feature.admin.securityCode.data)
+            implementation(projects.feature.admin.securityCode.presentation)
             //  implementation("org.jetbrains.kotlinx:kotlinx-browser:0.3")
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
@@ -40,7 +45,7 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
-
+            implementation(libs.supabase.auth)
         }
     }
 }

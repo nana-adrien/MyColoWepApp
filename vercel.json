@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "buildCommand": "./gradlew webApp:wasmJsBrowserDistribution",
+  "outputDirectory": "webApp/build/dist/wasmJs/productionExecutable",
+  "installCommand": "npm install",
+  "framework": null,
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*).wasm",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/wasm"
+        }
+      ]
+    }
+  ]
+}

@@ -16,6 +16,7 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":core:presentation"))
             implementation(project(":core:design_system"))
+            implementation(project(":core:domain"))
             implementation(project(":feature:registration:domain"))
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
