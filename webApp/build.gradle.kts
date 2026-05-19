@@ -26,3 +26,10 @@ kotlin {
         }
     }
 }
+tasks.register<Copy>("wasmJsBrowserDistributionAndCopyToProduction") {
+
+    // dependsOn("wasmJsBrowserDistribution")
+    dependsOn("wasmJsBrowserDistribution")
+    from("$buildDir/dist/wasmJs/productionExecutable/")
+    into("$projectDir/production/portfolio/")
+}
