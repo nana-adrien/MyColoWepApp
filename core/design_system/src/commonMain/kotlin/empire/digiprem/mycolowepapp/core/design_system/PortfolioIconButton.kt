@@ -23,23 +23,23 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 
-enum class  PortfolioIconButtonType{
+enum class  MyColoIconButtonType{
     primary,
     secondary,
 }
 @Composable
-fun  PortfolioIconButton(
+fun  MyColoIconButton(
     modifier: Modifier = Modifier,
     model: Any,
-    type: PortfolioIconButtonType = PortfolioIconButtonType.primary,
+    type: MyColoIconButtonType = MyColoIconButtonType.primary,
     tint: Color=Color.White,
     onClick: () -> Unit,
 ) {
 
     val backgroundColor = when(type){
-        PortfolioIconButtonType.primary -> { MaterialTheme.colorScheme.primary
+        MyColoIconButtonType.primary -> { MaterialTheme.colorScheme.primary
         }
-        PortfolioIconButtonType.secondary -> {
+        MyColoIconButtonType.secondary -> {
             Color.Transparent
         }
     }

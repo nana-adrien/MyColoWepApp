@@ -3,32 +3,13 @@ package empire.digiprem.mycolowepapp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport
+import androidx.compose.ui.window.ComposeViewportConfiguration
 import androidx.navigation.ExperimentalBrowserHistoryApi
 import androidx.navigation.NavController
 import androidx.navigation.bindToBrowserNavigation
 import empire.digiprem.mycolowepapp.core.navigation.NavigationGraph
 import kotlinx.browser.document
 import kotlinx.browser.window
-
-@OptIn(markerClass = [ExperimentalComposeUiApi::class])
-actual fun PlatformComposeViewport(
-    content: @Composable (() -> Unit)) {
-    val body=document.body?:return
-    // On cherche l'élément où Compose s'affiche (souvent d'ID "root")
-    val root = document.getElementById("root")
-
-    // On force l'autorisation du clic droit sur cet élément
-    root?.addEventListener("contextmenu", { event ->
-        // On NE FAIT PAS event.preventDefault() ici.
-        // On laisse l'événement remonter au navigateur.
-        event.stopPropagation()
-    }, true)
-
-    ComposeViewport (
-        viewportContainerId = "root",
-        content=content
-    )
-}
 
 
 @OptIn(ExperimentalBrowserHistoryApi::class)
@@ -75,4 +56,27 @@ actual suspend fun onNavHostReady(navController: NavController) {
             else -> ""
         }
     }
+}
+
+@OptIn(markerClass = [ExperimentalComposeUiApi::class])
+actual fun PlatformComposeViewport(
+    configure: ComposeViewportConfiguration.() -> Unit,
+    content: @Composable (() -> Unit)
+) {
+    val body=document.body?:return
+    // On cherche l'élément où Compose s'affiche (souvent d'ID "root")
+    val root = document.getElementById("root")
+
+    // On force l'autorisation du clic droit sur cet élément
+    root?.addEventListener("contextmenu", { event ->
+        // On NE FAIT PAS event.preventDefault() ici.
+        // On laisse l'événement remonter au navigateur.
+        event.stopPropagation()
+    }, true)
+
+    ComposeViewport (
+        viewportContainerId = "root",
+        configure = configure,
+        content=content
+    )
 }

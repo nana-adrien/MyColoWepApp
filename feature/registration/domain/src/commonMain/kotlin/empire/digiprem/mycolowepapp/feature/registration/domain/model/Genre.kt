@@ -1,4 +1,6 @@
 package empire.digiprem.mycolowepapp.feature.registration.domain.model
 
-class Genre {
+enum class Genre {
+    MALE,
+    FEMALE,
 }

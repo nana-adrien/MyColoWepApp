@@ -1,4 +1,4 @@
-package octopusfx.client.mobile.core.shared.util
+package empire.digiprem.mycolowepapp.core.domain.util
 
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.getString

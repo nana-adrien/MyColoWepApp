@@ -37,6 +37,7 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+            implementation(libs.compose.ui)
           //  implementation(libs.supabase.bom)
             implementation(libs.kotlinx.datetime)
             implementation(libs.supabase.postgrest)

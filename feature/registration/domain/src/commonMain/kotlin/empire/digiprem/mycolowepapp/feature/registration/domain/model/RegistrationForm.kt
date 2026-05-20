@@ -8,9 +8,3 @@ data class RegistrationForm(
     val securityCode: String = ""
 )
 
-enum class JobStatus {
-    STUDENT_SCHOOL,
-    STUDENT_HIGHER,
-    WORKER,
-    SEEKING_WORK
-}

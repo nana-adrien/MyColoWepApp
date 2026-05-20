@@ -7,9 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,14 +17,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -45,12 +39,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import empire.digiprem.mycolowepapp.core.theme.Primary
 import empire.digiprem.mycolowepapp.core.theme.PrimaryDark
-import mycolowepapp.shared.generated.resources.Res
-import mycolowepapp.shared.generated.resources.powered_by
-import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.unit.min
 import empire.digiprem.mycolowepapp.core.design_system.components.wrapper.CardWrapper
 import empire.digiprem.mycolowepapp.core.design_system.extension.asString
 import empire.digiprem.mycolowepapp.core.domain.util.UiText
@@ -103,8 +93,6 @@ fun WebFormPageScaffold(
     description: String = "Inscription à la colonie",
     logo: @Composable (Color) -> Unit = { BrandLogo(color = it) },
     formDetailSection: @Composable () -> Unit = { BrandLogoDetail() },
-    errorMessage: UiText? = null,
-    onCleanErrorClick: (() -> Unit)? = null,
     formContent: @Composable () -> Unit
 ) {
     val isMobileDevice = currentDeviceConfigure().isMobileDevice()
@@ -134,8 +122,6 @@ fun WebFormPageScaffold(
             modifier = modifier,
             pageDescription = pageDescription,
             formContent = formContent,
-            errorMessage = errorMessage,
-            onCleanErrorClick = { onCleanErrorClick?.invoke() },
         )
     } else {
         WebFormPageScaffoldDesktop(
@@ -143,9 +129,6 @@ fun WebFormPageScaffold(
             pageDescription = pageDescription,
             formDetailSection = formDetailSection,
             formContent = formContent,
-            errorMessage = errorMessage,
-            onCleanErrorClick = { onCleanErrorClick?.invoke() },
-
         )
     }
 }
@@ -154,17 +137,14 @@ fun WebFormPageScaffold(
 private fun WebFormPageScaffoldMobile(
     modifier: Modifier = Modifier,
     pageDescription: @Composable (ColumnScope) -> Unit,
-    errorMessage: UiText? = null,
-    onCleanErrorClick: () -> Unit,
     formContent: @Composable () -> Unit
 ) {
-    val animeBoxError by animateDpAsState(
-        targetValue = if (errorMessage == null) 0.dp else 46.dp
-    )
+
+    val height = LocalWindowInfo.current.containerDpSize.height
 
     Box(
         modifier = modifier
-            .wrapContentHeight()
+            .heightIn(min = height)
             .background(MaterialTheme.colorScheme.background).padding(top = 30.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -189,35 +169,9 @@ private fun WebFormPageScaffoldMobile(
                     .wrapContentSize()
                     .padding(horizontal = 20.dp, vertical = 10.dp),
             ) {
-                Column(
-                    modifier = Modifier.wrapContentSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    errorMessage?.let {
-                        Spacer(Modifier.height(10.dp))
-                        Row(
-                            modifier = Modifier.fillMaxWidth().heightIn(min = animeBoxError)
-                                .clip(MaterialTheme.shapes.medium)
-                                .background(MaterialTheme.colorScheme.errorContainer).padding(vertical = 20.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            IconButton(
-                                modifier = Modifier.padding(horizontal = 10.dp).size(24.dp),
-                                onClick = {
-                                    onCleanErrorClick()
-                                }) {
-                                Icon(Icons.Filled.Close, null, tint = Color.White)
-                            }
-                            Text(
-                                text = it.asString(),
-                                style = MaterialTheme.typography.bodyMedium,
-                            )
-                        }
-                        Spacer(Modifier.height(10.dp))
-                    }
-                    formContent()
-                }
+
+                formContent()
+
             }
 
         }
@@ -228,14 +182,9 @@ private fun WebFormPageScaffoldMobile(
 private fun WebFormPageScaffoldDesktop(
     modifier: Modifier = Modifier,
     pageDescription: @Composable (ColumnScope) -> Unit,
-    errorMessage: UiText? = null,
-    onCleanErrorClick: () -> Unit,
     formDetailSection: @Composable () -> Unit,
     formContent: @Composable () -> Unit
 ) {
-    val animeBoxError by animateDpAsState(
-        targetValue = if (errorMessage == null) 0.dp else 46.dp
-    )
     val height = LocalWindowInfo.current.containerDpSize.height
     Row(
         modifier = modifier.background(brush = Brush.verticalGradient(listOf(PrimaryDark, Primary))),
@@ -279,35 +228,8 @@ private fun WebFormPageScaffoldDesktop(
                         .padding(top = 30.dp)
                         .padding(horizontal = 20.dp, vertical = 20.dp),
                 ) {
-                    Column(
-                        modifier = Modifier.wrapContentSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        errorMessage?.let {
-                            Spacer(Modifier.height(10.dp))
-                            Row(
-                                modifier = Modifier.fillMaxWidth().heightIn(min = animeBoxError)
-                                    .clip(MaterialTheme.shapes.medium)
-                                    .background(MaterialTheme.colorScheme.errorContainer).padding(vertical = 20.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)
-                            ) {
-                                IconButton(
-                                    modifier = Modifier.padding(horizontal = 10.dp).size(24.dp),
-                                    onClick = {
-                                        onCleanErrorClick()
-                                    }) {
-                                    Icon(Icons.Filled.Close, null, tint = Color.White)
-                                }
-                                Text(
-                                    text = it.asString(),
-                                    style = MaterialTheme.typography.bodyMedium,
-                                )
-                            }
-                            Spacer(Modifier.height(10.dp))
-                        }
-                        formContent()
-                    }
+
+                    formContent()
 
                 }
             }

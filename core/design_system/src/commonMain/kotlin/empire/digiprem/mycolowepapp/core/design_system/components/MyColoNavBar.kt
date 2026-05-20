@@ -37,6 +37,8 @@ data class NavItem(val id: String, val label: String)
 
 @Composable
 fun ColumnScope.MyColoNavBar(
+    containerColor: Color=Color.Transparent,
+    contentColor: Color=Color.White,
     scrollState: LazyListState,
     navItems: List<NavItem> = emptyList(),
     selectedNavItem: NavItem? = null,
@@ -51,13 +53,13 @@ fun ColumnScope.MyColoNavBar(
     val bgColor by animateColorAsState(
         targetValue = if (scrollState.firstVisibleItemIndex > 0 || scrollOffset > 100f)
             MaterialTheme.colorScheme.surface.copy(alpha = 0.95f)
-        else Color.Transparent,
+        else containerColor,
         label = "navBg"
     )
     val contentColor by animateColorAsState(
         targetValue = if (scrollState.firstVisibleItemIndex > 0 || scrollOffset > 100f)
             MaterialTheme.colorScheme.onSurface
-        else Color.White,
+        else contentColor,
         label = "navContent"
     )
 

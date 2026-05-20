@@ -32,22 +32,18 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -89,6 +85,8 @@ import empire.digiprem.mycolowepapp.core.ui.StatusChip
 import empire.digiprem.mycolowepapp.feature.admin.dashboard.domain.model.Participant
 import empire.digiprem.mycolowepapp.feature.admin.dashboard.domain.model.ParticipantStatus
 import empire.digiprem.mycolowepapp.feature.registration.domain.model.JobStatus
+import empire.digiprem.mycolowepapp.feature.registration.domain.model.RegistrationForm
+import empire.digiprem.mycolowepapp.feature.registration.presentation.form.RegisterForm
 import kotlinx.coroutines.launch
 import mycolowepapp.shared.generated.resources.Res
 import mycolowepapp.shared.generated.resources.dashboard_by_age
@@ -203,13 +201,19 @@ private fun DesktopOverviewContent(state: AdminDashboardState, onAction: (AdminD
             exit    = slideOutHorizontally(targetOffsetX = { it })
         ) {
             Box(
-                modifier = Modifier.width(360.dp).fillMaxHeight()
+                modifier = Modifier.width(400.dp).fillMaxHeight()
                     .background(MaterialTheme.colorScheme.surface)
                     .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(topStart = 0.dp))
             ) {
                 if (state.showRegistrationForm) {
-                    ParticipantFormContent(form = state.registrationForm, onAction = onAction,
-                        onClose = { onAction(AdminDashboardAction.OnDismissRegistrationForm) })
+
+                    RegisterForm(
+                        onSuccess = {
+
+                        }
+                    )
+                  /*  ParticipantFormContent(form = state.registrationForm, onAction = onAction,
+                        onClose = { onAction(AdminDashboardAction.OnDismissRegistrationForm) })*/
                 } else {
                     state.selectedParticipant?.let {
                         ParticipantDetailContent(participant = it,
@@ -328,17 +332,23 @@ private fun MobileDashboardLayout(state: AdminDashboardState, onAction: (AdminDa
             ) {
                 Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
                     Column(modifier = Modifier.fillMaxSize()) {
-                        MobileDetailTopBar(
+                        /*MobileDetailTopBar(
                             title   = "Nouveau participant",
                             onClose = { onAction(AdminDashboardAction.OnDismissRegistrationForm) }
+                        )*/
+                        RegisterForm(
+                            onSuccess = {
+
+                            }
                         )
                         Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
-                            ParticipantFormContent(
+
+                            /*ParticipantFormContent(
                                 form      = state.registrationForm,
                                 onAction  = onAction,
                                 onClose   = { onAction(AdminDashboardAction.OnDismissRegistrationForm) },
                                 showHeader = false
-                            )
+                            )*/
                         }
                     }
                 }

@@ -11,6 +11,8 @@ kotlin {
     wasmJs { browser() }
 
     sourceSets {
-        commonMain.dependencies {}
+        commonMain.dependencies {
+            implementation(libs.compose.resources)
+        }
     }
 }

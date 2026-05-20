@@ -20,6 +20,7 @@ kotlin {
             implementation(project(":feature:admin:dashboard:domain"))
             implementation(project(":feature:admin:dashboard:data"))
             implementation(project(":feature:registration:domain"))
+            implementation(projects.feature.registration.presentation)
             implementation(projects.feature.admin.securityCode.domain)
             implementation(projects.feature.admin.securityCode.data)
             implementation(projects.feature.admin.securityCode.presentation)

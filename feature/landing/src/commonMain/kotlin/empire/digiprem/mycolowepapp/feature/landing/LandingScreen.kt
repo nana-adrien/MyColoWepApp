@@ -53,6 +53,7 @@ import empire.digiprem.mycolowepapp.core.design_system.components.MyColoFooter
 import empire.digiprem.mycolowepapp.core.design_system.components.MyColoNavBar
 import empire.digiprem.mycolowepapp.core.design_system.components.NavItem
 import empire.digiprem.mycolowepapp.core.design_system.currentDeviceConfigure
+import empire.digiprem.mycolowepapp.core.design_system.layout.AdaptativeContainerLayout
 import empire.digiprem.mycolowepapp.core.design_system.layout.SectionLayout
 import empire.digiprem.mycolowepapp.core.theme.Primary
 import empire.digiprem.mycolowepapp.core.theme.PrimaryDark
@@ -149,7 +150,17 @@ private fun HeroSection(targetDate: Long, onRegisterClick: () -> Unit) {
                 contentScale = ContentScale.Crop,
             )
             .background(Color.Black.copy(alpha = 0.3f))
-            .background(brush = Brush.horizontalGradient(colors = listOf(Color.Black, Color.Transparent,Color.Transparent,Color.Transparent,Color.Black))),
+            .background(
+                brush = Brush.horizontalGradient(
+                    colors = listOf(
+                        Color.Black,
+                        Color.Transparent,
+                        Color.Transparent,
+                        Color.Transparent,
+                        Color.Black
+                    )
+                )
+            ),
         contentAlignment = Alignment.Center
     ) {
         FloatingBox(seed = 42, modifier = Modifier.align(Alignment.TopStart).padding(top = 80.dp, start = 40.dp)) {
@@ -159,35 +170,52 @@ private fun HeroSection(targetDate: Long, onRegisterClick: () -> Unit) {
             Box(modifier = Modifier.size(40.dp).background(Color.White.copy(alpha = 0.06f), RoundedCornerShape(12.dp)))
         }
 
-        Column(
-            modifier = Modifier.widthIn(max = if (isMobile) 360.dp else 800.dp)
-                .padding(horizontal = if (isMobile) 20.dp else 32.dp, vertical = 80.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Box(
-                modifier = Modifier.background(Color.White.copy(alpha = 0.2f), RoundedCornerShape(50.dp))
-                    .padding(horizontal = 16.dp, vertical = 6.dp)
+        AdaptativeContainerLayout {
+            Column(
+                modifier = Modifier
+                    //.widthIn(max = if (isMobile) 360.dp else 800.dp)
+                    .padding(horizontal = if (isMobile) 20.dp else 32.dp, vertical = 80.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("COLONIE MY COLO · INSCRIPTIONS OUVERTES", style = MaterialTheme.typography.labelMedium, color = Color.White, fontWeight = FontWeight.SemiBold)
-            }
-            Spacer(modifier = Modifier.height(24.dp))
-            Text(
-                text = stringResource(Res.string.landing_hero_title),
-                fontSize = if (isMobile) 26.sp else 36.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = Color.White,
-                textAlign = TextAlign.Center,
-                lineHeight = if (isMobile) 34.sp else 44.sp
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(text = stringResource(Res.string.landing_hero_subtitle), style = MaterialTheme.typography.bodyLarge, color = Color.White.copy(alpha = 0.85f), textAlign = TextAlign.Center)
-            Spacer(modifier = Modifier.height(40.dp))
-            CountdownTimer(targetDate = targetDate)
-            Spacer(modifier = Modifier.height(40.dp))
-            Box(modifier = Modifier.widthIn(max = 320.dp)) {
-                MyColoFilledButton(text = stringResource(Res.string.landing_cta_register), onClick = onRegisterClick)
+                Box(
+                    modifier = Modifier.background(Color.White.copy(alpha = 0.2f), RoundedCornerShape(50.dp))
+                        .padding(horizontal = 16.dp, vertical = 6.dp)
+                ) {
+                    Text(
+                        "COLONIE MY COLO · INSCRIPTIONS OUVERTES",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = Color.White,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+                Spacer(modifier = Modifier.height(24.dp))
+                Text(
+                    text = stringResource(Res.string.landing_hero_title),
+                    fontSize = if (isMobile) 26.sp else 36.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Color.White,
+                    textAlign = TextAlign.Center,
+                    lineHeight = if (isMobile) 34.sp else 44.sp
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = stringResource(Res.string.landing_hero_subtitle),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color.White.copy(alpha = 0.85f),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(40.dp))
+                CountdownTimer(targetDate = targetDate)
+                Spacer(modifier = Modifier.height(40.dp))
+                Box(modifier = Modifier.widthIn(max = 320.dp)) {
+                    MyColoFilledButton(
+                        text = stringResource(Res.string.landing_cta_register),
+                        onClick = onRegisterClick
+                    )
+                }
             }
         }
+
     }
 }
 
@@ -197,20 +225,60 @@ private fun FeaturesSection() {
     SectionLayout(modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp)) {
         if (isMobile) {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier.fillMaxWidth()) {
-                FeatureCard(icon = Icons.Filled.Add, title = stringResource(Res.string.landing_feature_1_title), description = stringResource(Res.string.landing_feature_1_desc), modifier = Modifier.fillMaxWidth())
-                FeatureCard(icon = Icons.Filled.Lock, title = stringResource(Res.string.landing_feature_2_title), description = stringResource(Res.string.landing_feature_2_desc), modifier = Modifier.fillMaxWidth())
-                FeatureCard(icon = Icons.Filled.Person, title = stringResource(Res.string.landing_feature_3_title), description = stringResource(Res.string.landing_feature_3_desc), modifier = Modifier.fillMaxWidth())
-                FeatureCard(icon = Icons.Filled.Settings, title = stringResource(Res.string.landing_feature_4_title), description = stringResource(Res.string.landing_feature_4_desc), modifier = Modifier.fillMaxWidth())
+                FeatureCard(
+                    icon = Icons.Filled.Add,
+                    title = stringResource(Res.string.landing_feature_1_title),
+                    description = stringResource(Res.string.landing_feature_1_desc),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                FeatureCard(
+                    icon = Icons.Filled.Lock,
+                    title = stringResource(Res.string.landing_feature_2_title),
+                    description = stringResource(Res.string.landing_feature_2_desc),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                FeatureCard(
+                    icon = Icons.Filled.Person,
+                    title = stringResource(Res.string.landing_feature_3_title),
+                    description = stringResource(Res.string.landing_feature_3_desc),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                FeatureCard(
+                    icon = Icons.Filled.Settings,
+                    title = stringResource(Res.string.landing_feature_4_title),
+                    description = stringResource(Res.string.landing_feature_4_desc),
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         } else {
             Column(verticalArrangement = Arrangement.spacedBy(20.dp), modifier = Modifier.fillMaxWidth()) {
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(20.dp)) {
-                    FeatureCard(icon = Icons.Filled.Add, title = stringResource(Res.string.landing_feature_1_title), description = stringResource(Res.string.landing_feature_1_desc), modifier = Modifier.weight(1f))
-                    FeatureCard(icon = Icons.Filled.Lock, title = stringResource(Res.string.landing_feature_2_title), description = stringResource(Res.string.landing_feature_2_desc), modifier = Modifier.weight(1f))
+                    FeatureCard(
+                        icon = Icons.Filled.Add,
+                        title = stringResource(Res.string.landing_feature_1_title),
+                        description = stringResource(Res.string.landing_feature_1_desc),
+                        modifier = Modifier.weight(1f)
+                    )
+                    FeatureCard(
+                        icon = Icons.Filled.Lock,
+                        title = stringResource(Res.string.landing_feature_2_title),
+                        description = stringResource(Res.string.landing_feature_2_desc),
+                        modifier = Modifier.weight(1f)
+                    )
                 }
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(20.dp)) {
-                    FeatureCard(icon = Icons.Filled.Person, title = stringResource(Res.string.landing_feature_3_title), description = stringResource(Res.string.landing_feature_3_desc), modifier = Modifier.weight(1f))
-                    FeatureCard(icon = Icons.Filled.Settings, title = stringResource(Res.string.landing_feature_4_title), description = stringResource(Res.string.landing_feature_4_desc), modifier = Modifier.weight(1f))
+                    FeatureCard(
+                        icon = Icons.Filled.Person,
+                        title = stringResource(Res.string.landing_feature_3_title),
+                        description = stringResource(Res.string.landing_feature_3_desc),
+                        modifier = Modifier.weight(1f)
+                    )
+                    FeatureCard(
+                        icon = Icons.Filled.Settings,
+                        title = stringResource(Res.string.landing_feature_4_title),
+                        description = stringResource(Res.string.landing_feature_4_desc),
+                        modifier = Modifier.weight(1f)
+                    )
                 }
             }
         }
@@ -219,13 +287,31 @@ private fun FeaturesSection() {
 
 @Composable
 private fun FeatureCard(icon: ImageVector, title: String, description: String, modifier: Modifier = Modifier) {
-    Card(modifier = modifier, shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface), elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)) {
+    Card(
+        modifier = modifier,
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
         Column(modifier = Modifier.padding(24.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Box(modifier = Modifier.size(48.dp).background(MaterialTheme.colorScheme.primaryContainer, RoundedCornerShape(12.dp)), contentAlignment = Alignment.Center) {
+            Box(
+                modifier = Modifier.size(48.dp)
+                    .background(MaterialTheme.colorScheme.primaryContainer, RoundedCornerShape(12.dp)),
+                contentAlignment = Alignment.Center
+            ) {
                 Icon(imageVector = icon, contentDescription = null, tint = Primary, modifier = Modifier.size(28.dp))
             }
-            Text(text = title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
-            Text(text = description, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = description,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }

@@ -2,16 +2,23 @@ package empire.digiprem.mycolowepapp.feature.registration.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import empire.digiprem.mycolowepapp.core.domain.util.UiText
 import empire.digiprem.mycolowepapp.core.domain.util.onFailure
 import empire.digiprem.mycolowepapp.core.domain.util.onSuccess
 import empire.digiprem.mycolowepapp.feature.registration.domain.error.RegistrationError
+import empire.digiprem.mycolowepapp.feature.registration.domain.model.RegistrationForm
 import empire.digiprem.mycolowepapp.feature.registration.domain.usecase.RegisterParticipantUseCase
 import empire.digiprem.mycolowepapp.feature.registration.domain.usecase.ValidateSecurityCodeUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -20,92 +27,106 @@ class RegistrationViewModel(
     private val registerParticipant: RegisterParticipantUseCase
 ) : ViewModel() {
 
+    var isStarted = false
     private val _state = MutableStateFlow(RegistrationState())
-    val state: StateFlow<RegistrationState> = _state.asStateFlow()
-
+    val state = _state.onStart {
+        if (!isStarted) {
+            observeValidateTextField()
+            isStarted = true
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000L),
+        initialValue = RegistrationState()
+    )
     private val _eventChannel = Channel<RegistrationEvent>()
     val events = _eventChannel.receiveAsFlow()
 
-    fun onAction(action: RegistrationAction) {
-        when (action) {
-            // Étape 1 — code de sécurité
-            is RegistrationAction.OnSecurityCodeChange -> _state.update {
-                it.copy(form = it.form.copy(securityCode = action.value), codeError = null)
-            }
-            is RegistrationAction.OnValidateCodeClick -> validateCode()
+    val fullNameValidateFlow = _state
+        .map { it.fullNameTextFieldState.text.toString() }
+        .map { text -> text.length >= 5 }
+        .distinctUntilChanged()
 
-            // Étape 2 — formulaire
-            is RegistrationAction.OnFullNameChange -> _state.update {
-                it.copy(form = it.form.copy(fullName = action.value), errorMessage = null)
+    val birthDateValidateFlow = _state
+        .map { it.birthDate != null }
+        .distinctUntilChanged()
+
+    val familyNameValidateFlow = _state
+        .map { it.familyNameTextFieldState.text.toString() }
+        .map { text -> text.length >= 5 }
+        .distinctUntilChanged()
+
+    val securityCodeValidateFlow = _state
+        .map { it.securityCodeTextFieldState.text.toString() }
+        .map { it.isNotEmpty() }
+        .distinctUntilChanged()
+
+    val jobStatusValidateFlow = _state
+        .map { it.jobStatus != null }
+        .distinctUntilChanged()
+
+    val genreValidateFlow = _state
+        .map { it.genre != null }
+        .distinctUntilChanged()
+
+
+    fun observeValidateTextField() {
+        /*combine(
+            fullNameValidateFlow,
+            birthDateValidateFlow,
+            jobStatusValidateFlow,
+            genreValidateFlow,
+            familyNameValidateFlow,
+        ) { fullName, birthDate, jobStatus, genre, familyName ->
+            fullName && birthDate && jobStatus && genre && familyName
+        }.combine(
+            securityCodeValidateFlow,
+        ) { isValid, securityCode ->
+            _state.update {
+                it.copy(
+                    userCanSendFrom = isValid && securityCode,
+                )
             }
-            is RegistrationAction.OnFamilyNameChange -> _state.update {
-                it.copy(form = it.form.copy(familyName = action.value), errorMessage = null)
-            }
-            is RegistrationAction.OnAgeChange -> {
-                if (action.value.all { c -> c.isDigit() } && action.value.length <= 3) {
-                    _state.update { it.copy(form = it.form.copy(age = action.value), errorMessage = null) }
-                }
-            }
-            is RegistrationAction.OnJobStatusChange -> _state.update {
-                it.copy(form = it.form.copy(jobStatus = action.status), errorMessage = null)
-            }
-            is RegistrationAction.OnSubmitClick -> submit()
-            is RegistrationAction.OnClearError -> _state.update { it.copy(errorMessage = null, codeError = null) }
         }
+            .launchIn(viewModelScope)*/
     }
 
-    private fun validateCode() {
-        val code = _state.value.form.securityCode.trim()
-        if (code.isBlank()) {
-            _state.update { it.copy(codeError = "Le code de sécurité est requis") }
-            return
-        }
-        viewModelScope.launch {
-            _state.update { it.copy(isCodeValidating = true, codeError = null) }
-            validateSecurityCode(code)
-                .onSuccess { isValid ->
-                    if (isValid) {
-                        _state.update { it.copy(isCodeValidating = false, isCodeValidated = true) }
-                    } else {
-                        _state.update { it.copy(isCodeValidating = false, codeError = "Code invalide ou désactivé") }
-                    }
-                }
-                .onFailure { error ->
-                    _state.update { it.copy(isCodeValidating = false, codeError = error.toMessage()) }
-                }
+    fun onAction(action: RegistrationAction) {
+        when (action) {
+            is RegistrationAction.OnSubmitClick -> submit()
+            is RegistrationAction.OnClearError -> _state.update { it.copy(errorMessage = null, codeError = null) }
+            is RegistrationAction.OnJobStatusChange -> _state.update { it.copy(jobStatus = action.status) }
+            is RegistrationAction.OnGenreChange -> _state.update { it.copy(genre = action.genre) }
+            is RegistrationAction.OnBirthDateChange -> _state.update { it.copy(birthDate = action.birthDate) }
+            else -> Unit
         }
     }
 
     private fun submit() {
-        val form = _state.value.form
-        val validationError = when {
-            form.fullName.isBlank()   -> "Le prénom est requis"
-            form.familyName.isBlank() -> "Le nom de famille est requis"
-            form.age.isBlank() || form.age.toIntOrNull() == null -> "Veuillez entrer un âge valide"
-            form.jobStatus == null    -> "Veuillez sélectionner votre statut professionnel"
-            else                      -> null
-        }
-        if (validationError != null) {
-            _state.update { it.copy(errorMessage = validationError) }
-            return
-        }
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, errorMessage = null) }
-            registerParticipant(form)
+            val registrationForm = RegistrationForm(
+                fullName = state.value.fullNameTextFieldState.text.toString(),
+                securityCode = state.value.fullNameTextFieldState.text.toString(),
+                jobStatus = state.value.jobStatus,
+                familyName = state.value.fullNameTextFieldState.text.toString(),
+                age = state.value.fullNameTextFieldState.text.toString(),
+            )
+            registerParticipant(registrationForm)
                 .onSuccess { referenceNumber ->
                     _state.update { it.copy(isLoading = false) }
                     _eventChannel.send(RegistrationEvent.OnRegistrationSuccess(referenceNumber))
                 }
                 .onFailure { error ->
-                    _state.update { it.copy(isLoading = false, errorMessage = error.toMessage()) }
+                    _state.update { it.copy(isLoading = false, errorMessage = error.toUiText()) }
                 }
         }
     }
 }
 
-private fun RegistrationError.toMessage(): String = when (this) {
-    RegistrationError.InvalidSecurityCode -> "Code de sécurité invalide ou désactivé"
-    RegistrationError.AlreadyRegistered   -> "Un participant avec ce nom et cet âge est déjà inscrit"
-    RegistrationError.NetworkError        -> "Connexion impossible. Vérifiez votre réseau."
-    is RegistrationError.Unknown          -> "Erreur : $message"
+private fun RegistrationError.toUiText(): UiText = when (this) {
+    RegistrationError.InvalidSecurityCode -> UiText.DynamicString("Code de sécurité invalide ou désactivé")
+    RegistrationError.AlreadyRegistered -> UiText.DynamicString("Un participant avec ce nom et cet âge est déjà inscrit")
+    RegistrationError.NetworkError -> UiText.DynamicString("Connexion impossible. Vérifiez votre réseau.")
+    is RegistrationError.Unknown -> UiText.DynamicString("Erreur : $message")
 }

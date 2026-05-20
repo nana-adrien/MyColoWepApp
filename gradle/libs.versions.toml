@@ -63,6 +63,8 @@ supabase-realtime     = { module = "io.github.jan-tennert.supabase:realtime-kt" 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 
+compose-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "composeMultiplatform" }
+
 compose-material-icons-core= { module = "org.jetbrains.compose.material:material-icons-core", version.ref = "material-icon" }
 compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "material-icon" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation-compose" }

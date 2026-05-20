@@ -2,7 +2,7 @@
   "version": 2,
   "buildCommand": "./gradlew webApp:wasmJsBrowserDistribution",
   "outputDirectory": "webApp/build/dist/wasmJs/productionExecutable",
-  "installCommand": "npm install",
+
   "framework": null,
   "routes": [
     {

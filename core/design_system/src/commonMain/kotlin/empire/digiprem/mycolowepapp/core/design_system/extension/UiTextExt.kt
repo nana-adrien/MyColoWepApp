@@ -1,7 +1,7 @@
-package octopusfx.client.mobile.core.design_system.extension
+package empire.digiprem.mycolowepapp.core.design_system.extension
 
 import androidx.compose.runtime.Composable
-import octopusfx.client.mobile.core.shared.util.UiText
+import empire.digiprem.mycolowepapp.core.domain.util.UiText
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

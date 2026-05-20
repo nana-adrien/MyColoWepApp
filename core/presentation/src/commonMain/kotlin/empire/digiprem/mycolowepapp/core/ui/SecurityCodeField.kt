@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Icon
@@ -14,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,16 +34,17 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SecurityCodeField(
-    value: String,
+    state: TextFieldState,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     isError: Boolean = false,
     errorMessage: String? = null
 ) {
-    Column(
+  /*  Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    )
+    {
         Text(
             text = stringResource(Res.string.form_security_code),
             style = MaterialTheme.typography.labelLarge,
@@ -50,7 +54,8 @@ fun SecurityCodeField(
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
         )
-        OutlinedTextField(
+        Ba(
+
             value = value,
             onValueChange = { newValue ->
                 if (newValue.length <= 10) onValueChange(newValue.uppercase())
@@ -97,5 +102,5 @@ fun SecurityCodeField(
             ),
             singleLine = true
         )
-    }
+    }*/
 }

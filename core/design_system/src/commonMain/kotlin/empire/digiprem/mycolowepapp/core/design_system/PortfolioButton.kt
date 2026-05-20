@@ -24,7 +24,7 @@ enum class ButtonType {
 
 
 @Composable
-fun PortfolioButton(
+fun MyColoButton(
     text: String,
     model: Any? = null,
     isLoading: Boolean = false,

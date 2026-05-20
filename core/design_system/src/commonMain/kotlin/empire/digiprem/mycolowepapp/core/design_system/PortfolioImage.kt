@@ -24,7 +24,7 @@ import coil3.compose.rememberAsyncImagePainter
 import coil3.util.DebugLogger
 
 @Composable
-fun PortfolioImage(
+fun MyColoImage(
     modifier: Modifier = Modifier,
     image: String?,
     contentDescription: String? = null,

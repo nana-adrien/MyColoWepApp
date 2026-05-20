@@ -34,6 +34,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.coil.compose)
             implementation(libs.coil.svg)
+            implementation(libs.kotlinx.datetime)
             implementation(libs.coil.network.ktor)
             implementation(libs.bundles.ktor.common)
             implementation(libs.koin.core)

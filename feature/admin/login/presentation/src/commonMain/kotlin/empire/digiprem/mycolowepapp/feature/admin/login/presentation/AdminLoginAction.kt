@@ -5,5 +5,6 @@ sealed interface AdminLoginAction {
     data class OnPasswordChange(val value: String) : AdminLoginAction
     data object OnTogglePasswordVisibility : AdminLoginAction
     data object OnLoginClick : AdminLoginAction
+    data object OnLeanErrorMessageClick : AdminLoginAction
     data object OnDismissErrorDialog : AdminLoginAction
 }

@@ -5,11 +5,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import empire.digiprem.mycolowepapp.core.navigation.NavigationGraph
@@ -32,53 +38,77 @@ import io.github.jan.supabase.auth.status.SessionStatus
 import kotlinx.coroutines.flow.first
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.dsl.koinApplication
 
 @Composable
 fun App() {
     KoinApplication(application = {
-        modules(supabaseModule, adminLoginDataModule, dashboardDataModule, registrationDataModule, securityCodeDataModule, appModule)
+        modules(
+            supabaseModule,
+            adminLoginDataModule,
+            dashboardDataModule,
+            registrationDataModule,
+            securityCodeDataModule,
+            appModule
+        )
     }) {
-        MyColoTheme {
-            val navController = rememberNavController()
-            val supabaseClient: SupabaseClient = koinInject()
+        val appViewModel: AppViewModel = koinViewModel()
+        val navController = rememberNavController()
+        val state by appViewModel.state.collectAsState()
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
 
+
+        MyColoTheme {
+            // startDestination résolu UNE SEULE FOIS, après chargement complet
             NavHost(
                 navController = navController,
                 startDestination = NavigationGraph.Landing,
                 modifier = Modifier.fillMaxSize()
             ) {
                 composable<NavigationGraph.Landing> {
-                    LandingScreen(
-                        onNavigateToRegistration = {
-                            navController.navigate(NavigationGraph.Registration)
-                        },
-                        onNavigateToAdmin = {
-                            navController.navigate(NavigationGraph.AdminLogin)
-                        }
-                    )
+                    key(navBackStackEntry?.id) {
+                        LandingScreen(
+                            onNavigateToRegistration = {
+                                navController.navigate(NavigationGraph.Registration)
+                            },
+                            onNavigateToAdmin = {
+                                navController.navigate(
+                                    if (state.isAuthenticated) NavigationGraph.AdminDashboard else
+                                        NavigationGraph.AdminLogin
+                                )
+                            }
+                        )
+                    }
                 }
 
                 composable<NavigationGraph.Registration> {
-                    RegistrationScreen(
-                        onNavigateBack = { navController.popBackStack() },
-                        onNavigateToConfirmation = { ref ->
-                            navController.navigate(NavigationGraph.Confirmation(ref)) {
-                                popUpTo<NavigationGraph.Registration> { inclusive = true }
+                    key(navBackStackEntry?.id) {
+
+                        RegistrationScreen(
+                            onNavigateBack = { navController.popBackStack() },
+                            onNavigateToConfirmation = { ref ->
+                                navController.navigate(NavigationGraph.Confirmation(ref)) {
+                                    popUpTo<NavigationGraph.Registration> { inclusive = true }
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
 
                 composable<NavigationGraph.Confirmation> {
-                    val route = it.toRoute<NavigationGraph.Confirmation>()
-                    ConfirmationScreen(
-                        referenceNumber = route.referenceNumber,
-                        onNavigateHome = {
-                            navController.navigate(NavigationGraph.Landing) {
-                                popUpTo<NavigationGraph.Landing> { inclusive = true }
+                    key(navBackStackEntry?.id) {
+                        val route = it.toRoute<NavigationGraph.Confirmation>()
+                        ConfirmationScreen(
+                            referenceNumber = route.referenceNumber,
+                            onNavigateHome = {
+                                navController.navigate(NavigationGraph.Landing) {
+                                    popUpTo<NavigationGraph.Landing> { inclusive = true }
+                                }
                             }
-                        }
-                    )
+                        )
+
+                    }
                 }
 
                 composable<NavigationGraph.AdminLogin> {
@@ -93,52 +123,58 @@ fun App() {
                 }
 
                 composable<NavigationGraph.AdminDashboard> {
-                    AdminDashboardScreen(
-                        onLogout = {
-                            navController.navigate(NavigationGraph.AdminLogin) {
-                                popUpTo(NavigationGraph.Landing) { inclusive = false }
+                    key(navBackStackEntry?.id) {
+
+                        AdminDashboardScreen(
+                            onLogout = {
+                                navController.navigate(NavigationGraph.AdminLogin) {
+                                    popUpTo(NavigationGraph.Landing) { inclusive = false }
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
 
                 composable<NavigationGraph.AdminSecurityCodes> {
-                    SecurityCodeScreen(
-                        onNavigateBack = { navController.popBackStack() }
-                    )
+                    key(navBackStackEntry?.id) {
+
+                        SecurityCodeScreen(
+                            onNavigateBack = { navController.popBackStack() }
+                        )
+                    }
                 }
 
                 composable<NavigationGraph.Error404> {
-                    Box(modifier = Modifier.fillMaxSize().background(Color.Red))
+                    key(navBackStackEntry?.id) {
+
+                        Box(modifier = Modifier.fillMaxSize().background(Color.Red))
+                    }
                 }
             }
 
-            LaunchedEffect(navController) {
-                // 1. URL routing (browser hash → écran)
-                onNavHostReady(navController)
+        }
 
-                // 2. Attendre que Supabase termine le chargement de la session
-                //    depuis le localStorage (évite le faux "pas de session" au refresh)
-                supabaseClient.auth.sessionStatus
-                    .first { it !is SessionStatus.Authenticated /*LoadingFromStorage*/ }
+        // Garde réactive : gère les changements d'auth EN COURS de session
+        // (ex: session expire pendant l'utilisation, login réussi depuis AdminLogin)
+        LaunchedEffect(state.isAuthenticated, state.isLoadingSession) {
+            if (state.isLoadingSession) return@LaunchedEffect
 
-                // 3. Guards d'authentification (après que la session soit résolue)
-                val hasSession = runCatching {
-                    supabaseClient.auth.currentSessionOrNull() != null
-                }.getOrDefault(false)
+            val currentRoute = navController.currentDestination?.route.orEmpty()
+            when {
+                state.isAuthenticated && currentRoute.contains("AdminLogin") ->
+                    navController.navigate(NavigationGraph.AdminDashboard) {
+                        popUpTo<NavigationGraph.AdminLogin> { inclusive = true }
+                    }
 
-                val currentRoute = navController.currentDestination?.route.orEmpty()
-                when {
-                    hasSession && currentRoute.contains("AdminLogin") ->
-                        navController.navigate(NavigationGraph.AdminDashboard) {
-                            popUpTo<NavigationGraph.AdminLogin> { inclusive = true }
-                        }
-                    !hasSession && currentRoute.contains("AdminDashboard") ->
-                        navController.navigate(NavigationGraph.AdminLogin) {
-                            popUpTo<NavigationGraph.AdminDashboard> { inclusive = true }
-                        }
-                }
+                !state.isAuthenticated && currentRoute.contains("AdminDashboard") ->
+                    navController.navigate(NavigationGraph.AdminLogin) {
+                        popUpTo<NavigationGraph.AdminDashboard> { inclusive = true }
+                    }
             }
+        }
+        LaunchedEffect(navController) {
+            // 1. URL routing (browser hash → écran)
+            onNavHostReady(navController)
         }
     }
 }
