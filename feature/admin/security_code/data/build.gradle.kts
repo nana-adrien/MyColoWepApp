@@ -12,6 +12,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:domain"))
+            implementation(project(":core:data"))
             implementation(project(":feature:admin:security_code:domain"))
             implementation(libs.supabase.postgrest)
             implementation(libs.supabase.auth)

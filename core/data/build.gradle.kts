@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -13,10 +14,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:domain"))
-            implementation(project(":core:data"))
-            implementation(project(":feature:admin:login:domain"))
-            implementation(libs.supabase.auth)
-            implementation(libs.koin.core)
+            implementation(libs.ktor.client.core)
+            implementation(libs.kotlinx.serialization.json)
             implementation(libs.coroutines.core)
         }
         jsMain.dependencies {

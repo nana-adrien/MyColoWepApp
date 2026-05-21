@@ -7,8 +7,9 @@ sealed interface DataError : ResultError {
         data object Network : Remote
         data object Unauthorized : Remote
         data object ServerError : Remote
-        data object Conflict : Remote           // violation contrainte UNIQUE
+        data object Conflict : Remote
         data object NotFound : Remote
+        data object Serialization : Remote
         data class Unknown(val message: String = "") : Remote
     }
 }

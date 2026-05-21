@@ -2,7 +2,7 @@ package empire.digiprem.mycolowepapp.feature.admin.login.data.datasource
 
 import empire.digiprem.mycolowepapp.core.domain.error.DataError
 import empire.digiprem.mycolowepapp.core.domain.util.Result
-import empire.digiprem.mycolowepapp.core.domain.util.safeSupabaseCall
+import empire.digiprem.mycolowepapp.core.data.networking.safeSupabaseCall
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email

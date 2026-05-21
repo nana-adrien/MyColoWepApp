@@ -30,6 +30,7 @@ dependencyResolutionManagement {
 
 // Core modules
 include(":core:domain")
+include(":core:data")
 include(":core:navigation")
 include(":core:resources")
 include(":core:presentation")

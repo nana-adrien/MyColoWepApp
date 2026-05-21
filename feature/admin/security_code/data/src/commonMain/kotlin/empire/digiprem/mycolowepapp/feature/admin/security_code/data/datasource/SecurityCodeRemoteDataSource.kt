@@ -2,7 +2,7 @@ package empire.digiprem.mycolowepapp.feature.admin.security_code.data.datasource
 
 import empire.digiprem.mycolowepapp.core.domain.error.DataError
 import empire.digiprem.mycolowepapp.core.domain.util.Result
-import empire.digiprem.mycolowepapp.core.domain.util.safeSupabaseCall
+import empire.digiprem.mycolowepapp.core.data.networking.safeSupabaseCall
 import empire.digiprem.mycolowepapp.feature.admin.security_code.data.dto.SecurityCodeDto
 import empire.digiprem.mycolowepapp.feature.admin.security_code.data.dto.SecurityCodeInsertDto
 import io.github.jan.supabase.SupabaseClient
