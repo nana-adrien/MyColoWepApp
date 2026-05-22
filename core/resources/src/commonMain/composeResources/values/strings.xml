@@ -35,11 +35,11 @@
     <string name="form_age_hint">Votre âge en années</string>
     <string name="form_family_name">Nom de la famille *</string>
     <string name="form_family_name_hint">Nom de votre famille</string>
-    <string name="form_job_status">Métier / Statut *</string>
-    <string name="form_job_student_school">Élève</string>
-    <string name="form_job_student_higher">Étudiant</string>
-    <string name="form_job_worker">Travailleur</string>
-    <string name="form_job_seeking">En attente de travailler</string>
+    <string name="form_education_level">Niveau d\'étude *</string>
+    <string name="education_level_kindergarten">Maternelle</string>
+    <string name="education_level_primary">Primaire</string>
+    <string name="education_level_secondary">Collège / Lycée</string>
+    <string name="education_level_higher_worker">Étudiant / Travailleur</string>
     <string name="form_security_code">Code de sécurité *</string>
     <string name="form_security_code_hint">Entrez le code fourni par l\'organisateur</string>
     <string name="form_submit">Envoyer l'inscription</string>
@@ -64,7 +64,7 @@
     <string name="form_validation_age_required">L\'âge est requis</string>
     <string name="form_validation_age_invalid">Veuillez entrer un âge valide</string>
     <string name="form_validation_family_name_required">Le nom de famille est requis</string>
-    <string name="form_validation_job_status_required">Veuillez sélectionner votre statut</string>
+    <string name="form_validation_education_level_required">Veuillez sélectionner votre niveau d\'étude</string>
     <string name="form_validation_security_code_required">Le code de sécurité est requis</string>
     <string name="form_validation_security_code_invalid">Code de sécurité incorrect</string>
 

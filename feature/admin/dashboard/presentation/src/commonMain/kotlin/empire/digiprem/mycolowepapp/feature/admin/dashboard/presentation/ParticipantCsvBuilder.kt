@@ -2,7 +2,7 @@ package empire.digiprem.mycolowepapp.feature.admin.dashboard.presentation
 
 import empire.digiprem.mycolowepapp.feature.admin.dashboard.domain.model.Participant
 import empire.digiprem.mycolowepapp.feature.admin.dashboard.domain.model.ParticipantStatus
-import empire.digiprem.mycolowepapp.feature.registration.domain.model.JobStatus
+import empire.digiprem.mycolowepapp.feature.registration.domain.model.EducationLevel
 
 internal object ParticipantCsvBuilder {
 
@@ -13,41 +13,37 @@ internal object ParticipantCsvBuilder {
             "N°",
             "Nom complet",
             "Prénom de famille",
+            "Date de naissance",
             "Âge",
-            "Situation professionnelle",
-            "Statut d'inscription",
+            "Niveau d'étude",
             "Date d'inscription"
         ).joinToString(SEPARATOR)
 
         val rows = participants.mapIndexed { index, p ->
+            val birthFormatted = "%02d/%02d/%04d".format(
+                p.birthDate.dayOfMonth, p.birthDate.monthNumber, p.birthDate.year
+            )
             listOf(
                 (index + 1).toString(),
                 p.fullName.escapeCsv(),
                 p.familyName.escapeCsv(),
+                birthFormatted,
                 "${p.age} ans",
-                jobStatusLabel(p.jobStatus).escapeCsv(),
-                statusLabel(p.status),
-                p.registrationDate.escapeCsv()
+                educationLevelLabel(p.educationLevel).escapeCsv(),
+                p.registeredAt.escapeCsv()
             ).joinToString(SEPARATOR)
         }
 
         return (listOf(header) + rows).joinToString("\r\n")
     }
 
-    private fun jobStatusLabel(status: JobStatus): String = when (status) {
-        JobStatus.STUDENT_SCHOOL -> "Élève"
-        JobStatus.STUDENT_HIGHER -> "Étudiant"
-        JobStatus.WORKER         -> "Travailleur"
-        JobStatus.SEEKING_WORK   -> "Sans emploi"
+    private fun educationLevelLabel(level: EducationLevel): String = when (level) {
+        EducationLevel.KINDERGARTEN  -> "Maternelle"
+        EducationLevel.PRIMARY       -> "Primaire"
+        EducationLevel.SECONDARY     -> "Collège / Lycée"
+        EducationLevel.HIGHER_WORKER -> "Étudiant / Travailleur"
     }
 
-    private fun statusLabel(status: ParticipantStatus): String = when (status) {
-        ParticipantStatus.VALIDATED -> "Validé"
-        ParticipantStatus.PENDING   -> "En attente"
-        ParticipantStatus.REJECTED  -> "Rejeté"
-    }
-
-    // RFC 4180 : encadre de guillemets si le champ contient le séparateur ou des guillemets
     private fun String.escapeCsv(): String =
         if (contains(SEPARATOR) || contains('"') || contains('\n'))
             "\"${replace("\"", "\"\"")}\""

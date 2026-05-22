@@ -84,7 +84,7 @@ import empire.digiprem.mycolowepapp.core.ui.ParticipantChipStatus
 import empire.digiprem.mycolowepapp.core.ui.StatusChip
 import empire.digiprem.mycolowepapp.feature.admin.dashboard.domain.model.Participant
 import empire.digiprem.mycolowepapp.feature.admin.dashboard.domain.model.ParticipantStatus
-import empire.digiprem.mycolowepapp.feature.registration.domain.model.JobStatus
+import empire.digiprem.mycolowepapp.feature.registration.domain.model.EducationLevel
 import empire.digiprem.mycolowepapp.feature.registration.domain.model.RegistrationForm
 import empire.digiprem.mycolowepapp.feature.registration.presentation.form.RegisterForm
 import kotlinx.coroutines.launch
@@ -597,7 +597,7 @@ fun ParticipantDetailContent(
         DetailInfoRow("Âge",                "${participant.age} ans")
         if (participant.educationLevel.isNotBlank())
             DetailInfoRow("Niveau d'étude", participant.educationLevel)
-        DetailInfoRow("Statut professionnel", jobStatusLabel(participant.jobStatus))
+        DetailInfoRow("Niveau d'étude", educationLevelLabel(participant.educationLevel))
         DetailInfoRow("Date d'inscription",   participant.registeredAt)
 
         Spacer(Modifier.height(8.dp))
@@ -699,16 +699,16 @@ fun ParticipantFormContent(
             colors        = OutlinedTextFieldDefaults.colors(focusedBorderColor = Primary, focusedLabelColor = Primary, cursorColor = Primary)
         )
 
-        // Sélection du statut professionnel
-        Text("Statut professionnel *", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        // Sélection du niveau d'étude
+        Text("Niveau d'étude *", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            JobStatus.entries.chunked(2).forEach { rowItems ->
+            EducationLevel.entries.chunked(2).forEach { rowItems ->
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    rowItems.forEach { jobStatus ->
+                    rowItems.forEach { level ->
                         FilterChip(
-                            selected = form.selectedJobStatus == jobStatus,
-                            onClick  = { onAction(AdminDashboardAction.OnFormJobStatusChange(jobStatus)) },
-                            label    = { Text(jobStatusLabel(jobStatus), style = MaterialTheme.typography.labelSmall) },
+                            selected = form.selectedEducationLevel == level,
+                            onClick  = { onAction(AdminDashboardAction.OnFormEducationLevelChange(level)) },
+                            label    = { Text(educationLevelLabel(level), style = MaterialTheme.typography.labelSmall) },
                             modifier = Modifier.weight(1f),
                             colors   = FilterChipDefaults.filterChipColors(selectedContainerColor = Primary, selectedLabelColor = Color.White)
                         )
@@ -818,7 +818,7 @@ private fun ParticipantsTableCard(
                         Text(participant.familyName, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                     Text("${participant.age} ans", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(0.5f))
-                    Text(jobStatusLabel(participant.jobStatus), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1.5f))
+                    Text(educationLevelLabel(participant.educationLevel), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1.5f))
                     Text(participant.registeredAt, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
                     /*Box(modifier = Modifier.weight(1f)) {
                         StatusChip(status = when (participant.status) {
@@ -857,7 +857,7 @@ private fun MobileParticipantsCard(participants: List<Participant>, onParticipan
                 ) {
                     Column(modifier = Modifier.weight(1f).padding(end = 8.dp)) {
                         Text(participant.fullName, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
-                        Text("${participant.age} ans · ${jobStatusLabel(participant.jobStatus)}",
+                        Text("${participant.age} ans · ${educationLevelLabel(participant.educationLevel)}",
                             style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                   /*  StatusChip(status = when (participant.status) {
@@ -906,9 +906,9 @@ private fun DashboardErrorPage(message: String, onRetry: () -> Unit) {
 
 // ── Utilitaire ────────────────────────────────────────────────────────────────
 
-private fun jobStatusLabel(status: JobStatus): String = when (status) {
-    JobStatus.STUDENT_SCHOOL -> "Élève"
-    JobStatus.STUDENT_HIGHER -> "Étudiant"
-    JobStatus.WORKER         -> "Travailleur"
-    JobStatus.SEEKING_WORK   -> "En recherche"
+private fun educationLevelLabel(level: EducationLevel): String = when (level) {
+    EducationLevel.KINDERGARTEN  -> "Maternelle"
+    EducationLevel.PRIMARY       -> "Primaire"
+    EducationLevel.SECONDARY     -> "Collège / Lycée"
+    EducationLevel.HIGHER_WORKER -> "Étudiant / Travailleur"
 }

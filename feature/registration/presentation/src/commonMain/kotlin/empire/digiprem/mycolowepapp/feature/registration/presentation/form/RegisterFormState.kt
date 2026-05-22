@@ -3,13 +3,13 @@ package empire.digiprem.mycolowepapp.feature.registration.presentation.form
 import androidx.compose.foundation.text.input.TextFieldState
 import empire.digiprem.mycolowepapp.core.domain.util.UiText
 import empire.digiprem.mycolowepapp.feature.registration.domain.model.Genre
-import empire.digiprem.mycolowepapp.feature.registration.domain.model.JobStatus
+import empire.digiprem.mycolowepapp.feature.registration.domain.model.EducationLevel
 import kotlinx.datetime.LocalDate
 
 data class RegisterFormState(
     val fullNameTextFieldState: TextFieldState = TextFieldState(),
     val birthDate: LocalDate?=null,
-    val jobStatus: JobStatus? = null,
+    val educationLevel: EducationLevel? = null,
     val genre: Genre?= null,
     val familyNameTextFieldState: TextFieldState =TextFieldState(),
     val securityCodeTextFieldState: TextFieldState =TextFieldState(),

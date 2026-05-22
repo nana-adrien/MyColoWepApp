@@ -1,8 +1,7 @@
 package empire.digiprem.mycolowepapp.feature.admin.dashboard.presentation
 
 import empire.digiprem.mycolowepapp.feature.admin.dashboard.domain.model.Participant
-import empire.digiprem.mycolowepapp.feature.admin.dashboard.domain.model.ParticipantStatus
-import empire.digiprem.mycolowepapp.feature.registration.domain.model.JobStatus
+import empire.digiprem.mycolowepapp.feature.registration.domain.model.EducationLevel
 
 // ── Section active du dashboard ──────────────────────────────────────────────
 
@@ -14,16 +13,15 @@ data class ParticipantFormData(
     val fullName: String = "",
     val familyName: String = "",
     val birthDate: String = "",
-    val educationLevel: String = "",
-    val selectedJobStatus: JobStatus? = null,
+    val selectedEducationLevel: EducationLevel? = null,
     val isSubmitting: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
 ) {
     val isValid: Boolean
         get() = fullName.isNotBlank()
             && familyName.isNotBlank()
             && birthDate.matches(Regex("""\d{4}-\d{2}-\d{2}"""))
-            && selectedJobStatus != null
+            && selectedEducationLevel != null
 }
 
 // ── Formulaire de changement de mot de passe ─────────────────────────────────
@@ -33,7 +31,7 @@ data class PasswordFormData(
     val confirmPassword: String = "",
     val isSubmitting: Boolean = false,
     val successMessage: String? = null,
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
 ) {
     val isValid: Boolean
         get() = newPassword.length >= 8 && newPassword == confirmPassword
@@ -62,12 +60,10 @@ data class AdminDashboardState(
     val loadError: String? = null,
     val adminEmail: String = "",
     val currentSection: DashboardSection = DashboardSection.Overview,
-    // Master-detail & ajout
     val selectedParticipant: Participant? = null,
     val showRegistrationForm: Boolean = false,
     val registrationForm: ParticipantFormData = ParticipantFormData(),
-    // Paramètres
-    val passwordForm: PasswordFormData = PasswordFormData()
+    val passwordForm: PasswordFormData = PasswordFormData(),
 ) {
     val showRightPanel: Boolean
         get() = selectedParticipant != null || showRegistrationForm
@@ -77,19 +73,19 @@ data class AdminDashboardState(
         else participants.filter {
             it.fullName.contains(searchQuery, ignoreCase = true) ||
             it.familyName.contains(searchQuery, ignoreCase = true) ||
-            it.educationLevel.contains(searchQuery, ignoreCase = true)
+            it.educationLevel.name.contains(searchQuery, ignoreCase = true)
         }
 
     val totalCount: Int get() = participants.size
 
-    val byJobStatus: Map<JobStatus, Int>
-        get() = JobStatus.entries.associateWith { s -> participants.count { it.jobStatus == s } }
+    val byEducationLevel: Map<EducationLevel, Int>
+        get() = EducationLevel.entries.associateWith { level -> participants.count { it.educationLevel == level } }
 
     val byAgeRange: Map<String, Int>
         get() = mapOf(
+            "0-14"  to participants.count { it.age in 0..14 },
             "15-20" to participants.count { it.age in 15..20 },
             "21-30" to participants.count { it.age in 21..30 },
-            "31-45" to participants.count { it.age in 31..45 },
-            "46-60" to participants.count { it.age in 46..60 }
+            "31+"   to participants.count { it.age >= 31 },
         )
 }

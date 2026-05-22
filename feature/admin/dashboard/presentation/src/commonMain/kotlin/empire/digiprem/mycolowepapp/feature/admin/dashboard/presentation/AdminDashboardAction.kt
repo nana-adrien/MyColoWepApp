@@ -1,7 +1,7 @@
 package empire.digiprem.mycolowepapp.feature.admin.dashboard.presentation
 
 import empire.digiprem.mycolowepapp.feature.admin.dashboard.domain.model.Participant
-import empire.digiprem.mycolowepapp.feature.registration.domain.model.JobStatus
+import empire.digiprem.mycolowepapp.feature.registration.domain.model.EducationLevel
 
 sealed interface AdminDashboardAction {
 
@@ -28,7 +28,7 @@ sealed interface AdminDashboardAction {
     data class OnFormFamilyNameChange(val value: String) : AdminDashboardAction
     data class OnFormBirthDateChange(val value: String) : AdminDashboardAction
     data class OnFormEducationLevelChange(val value: String) : AdminDashboardAction
-    data class OnFormJobStatusChange(val jobStatus: JobStatus) : AdminDashboardAction
+    data class OnFormEducationLevelChange(val educationLevel: EducationLevel) : AdminDashboardAction
     data object OnSubmitRegistrationForm : AdminDashboardAction
 
     // ── Paramètres — changement de mot de passe ───────────────────────────────

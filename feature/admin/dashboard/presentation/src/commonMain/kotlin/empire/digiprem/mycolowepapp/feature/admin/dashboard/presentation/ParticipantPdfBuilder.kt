@@ -1,7 +1,7 @@
 package empire.digiprem.mycolowepapp.feature.admin.dashboard.presentation
 
 import empire.digiprem.mycolowepapp.feature.admin.dashboard.domain.model.Participant
-import empire.digiprem.mycolowepapp.feature.registration.domain.model.JobStatus
+import empire.digiprem.mycolowepapp.feature.registration.domain.model.EducationLevel
 
 internal object ParticipantPdfBuilder {
 
@@ -101,11 +101,11 @@ $rows
         val birthFormatted = "%02d/%02d/%04d".format(
             p.birthDate.dayOfMonth, p.birthDate.monthNumber, p.birthDate.year
         )
-        val jobLabel = when (p.jobStatus) {
-            JobStatus.STUDENT_SCHOOL -> "Élève"
-            JobStatus.STUDENT_HIGHER -> "Étudiant(e)"
-            JobStatus.WORKER         -> "Travailleur(se)"
-            JobStatus.SEEKING_WORK   -> "Sans emploi"
+        val jobLabel = when (p.educationLevel) {
+            EducationLevel.KINDERGARTEN  -> "Maternelle"
+            EducationLevel.PRIMARY       -> "Primaire"
+            EducationLevel.SECONDARY     -> "Collège / Lycée"
+            EducationLevel.HIGHER_WORKER -> "Étudiant / Travailleur"
         }
         val edu = p.educationLevel.ifBlank { "—" }
         return """    <tr data-row="$index"><td class="num">$index</td><td>${p.fullName}</td><td>${p.familyName}</td><td>$birthFormatted</td><td>${p.age} ans</td><td>$edu</td><td>$jobLabel</td></tr>"""

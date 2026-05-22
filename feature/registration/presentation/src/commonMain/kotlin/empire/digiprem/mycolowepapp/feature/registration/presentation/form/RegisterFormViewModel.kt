@@ -1,6 +1,5 @@
 package empire.digiprem.mycolowepapp.feature.registration.presentation.form
 
-import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,13 +9,9 @@ import empire.digiprem.mycolowepapp.core.domain.util.onSuccess
 import empire.digiprem.mycolowepapp.feature.registration.domain.error.RegistrationError
 import empire.digiprem.mycolowepapp.feature.registration.domain.model.RegistrationForm
 import empire.digiprem.mycolowepapp.feature.registration.domain.usecase.RegisterParticipantUseCase
-import empire.digiprem.mycolowepapp.feature.registration.presentation.RegistrationAction
-import empire.digiprem.mycolowepapp.feature.registration.presentation.RegistrationEvent
-import empire.digiprem.mycolowepapp.feature.registration.presentation.RegistrationState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
@@ -62,8 +57,8 @@ class RegisterFormViewModel (
         .map { it.isNotEmpty() }
         .distinctUntilChanged()
 
-    val jobStatusValidateFlow = _state
-        .map { it.jobStatus != null }
+    val educationLevelValidateFlow = _state
+        .map { it.educationLevel != null }
         .distinctUntilChanged()
 
     val genreValidateFlow = _state
@@ -75,11 +70,11 @@ class RegisterFormViewModel (
         combine(
             fullNameValidateFlow,
             birthDateValidateFlow,
-            jobStatusValidateFlow,
+            educationLevelValidateFlow,
             genreValidateFlow,
             familyNameValidateFlow,
-        ) { fullName, birthDate, jobStatus, genre, familyName ->
-            fullName && birthDate && jobStatus && genre && familyName
+        ) { fullName, birthDate, educationLevel, genre, familyName ->
+            fullName && birthDate && educationLevel && genre && familyName
         }.combine(
             securityCodeValidateFlow,
         ) { isValid, securityCode ->
@@ -95,7 +90,7 @@ class RegisterFormViewModel (
         when (action) {
             is RegisterFormAction.OnSubmitClick -> submit()
             is RegisterFormAction.OnClearError -> _state.update { it.copy(errorMessage = null, codeError = null) }
-            is RegisterFormAction.OnJobStatusChange -> _state.update { it.copy(jobStatus = action.status) }
+            is RegisterFormAction.OnEducationLevelChange -> _state.update { it.copy(educationLevel = action.educationLevel) }
             is RegisterFormAction.OnGenreChange -> _state.update { it.copy(genre = action.genre) }
             is RegisterFormAction.OnBirthDateChange -> _state.update { it.copy(birthDate = action.birthDate) }
             else -> Unit
@@ -109,9 +104,10 @@ class RegisterFormViewModel (
                 val registrationForm = RegistrationForm(
                     fullName = state.value.fullNameTextFieldState.text.toString(),
                     securityCode = state.value.securityCodeTextFieldState.text.toString(),
-                    jobStatus = state.value.jobStatus,
+                    educationLevel = state.value.educationLevel,
                     familyName = state.value.familyNameTextFieldState.text.toString(),
-                    age = state.value.birthDate.toString(),
+                    birthDate = state.value.birthDate.toString(),
+                    genre = state.value.genre!!
                 )
                 registerParticipant(registrationForm)
                     .onSuccess { referenceNumber ->

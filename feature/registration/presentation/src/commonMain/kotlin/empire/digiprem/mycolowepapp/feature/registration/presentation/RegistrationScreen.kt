@@ -94,7 +94,8 @@ import empire.digiprem.mycolowepapp.core.theme.PrimaryContainer
 import empire.digiprem.mycolowepapp.core.theme.PrimaryDark
 import empire.digiprem.mycolowepapp.core.ui.currentTimeMillis
 import empire.digiprem.mycolowepapp.feature.registration.domain.model.Genre
-import empire.digiprem.mycolowepapp.feature.registration.domain.model.JobStatus
+import empire.digiprem.mycolowepapp.feature.registration.domain.model.EducationLevel
+import empire.digiprem.mycolowepapp.feature.registration.presentation.extension.toLabel
 import empire.digiprem.mycolowepapp.feature.registration.presentation.form.RegisterForm
 import empire.digiprem.mycolowepapp.feature.registration.presentation.form.RegisterFormAction
 import kotlinx.coroutines.launch

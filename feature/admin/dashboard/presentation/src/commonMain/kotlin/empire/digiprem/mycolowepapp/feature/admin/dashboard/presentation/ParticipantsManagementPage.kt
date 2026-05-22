@@ -52,7 +52,7 @@ import empire.digiprem.mycolowepapp.core.ui.ParticipantChipStatus
 import empire.digiprem.mycolowepapp.core.ui.StatusChip
 import empire.digiprem.mycolowepapp.feature.admin.dashboard.domain.model.Participant
 import empire.digiprem.mycolowepapp.feature.admin.dashboard.domain.model.ParticipantStatus
-import empire.digiprem.mycolowepapp.feature.registration.domain.model.JobStatus
+import empire.digiprem.mycolowepapp.feature.registration.domain.model.EducationLevel
 
 @Composable
 internal fun ParticipantsManagementPage(
@@ -302,7 +302,7 @@ private fun ParticipantsManagementTable(
                         Text(birthFormatted,              style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f))
                         Text("${p.age} ans",               style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(0.55f))
                         Text(p.educationLevel.ifBlank { "—" }, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1.4f))
-                        Text(jobStatusLabel(p.jobStatus),  style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1.2f))
+                        Text(educationLevelLabel(p.educationLevel),  style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1.2f))
                         Row(modifier = Modifier.weight(0.8f), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                             IconButton(onClick = { onDelete(p.id) }, modifier = Modifier.size(32.dp)
                                 .background(MaterialTheme.colorScheme.surfaceVariant, CircleShape)) {
@@ -352,7 +352,7 @@ private fun MobileParticipantManagementList(
                     Text(p.familyName, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Spacer(Modifier.height(2.dp))
                     Text(
-                        "Né(e) le $birthFormatted · ${p.age} ans · ${jobStatusLabel(p.jobStatus)}",
+                        "Né(e) le $birthFormatted · ${p.age} ans · ${educationLevelLabel(p.educationLevel)}",
                         style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     if (p.educationLevel.isNotBlank()) {
@@ -387,9 +387,9 @@ private fun ParticipantStatus.toChipStatus(): ParticipantChipStatus = when (this
     ParticipantStatus.REJECTED  -> ParticipantChipStatus.REJECTED
 }
 
-private fun jobStatusLabel(status: JobStatus): String = when (status) {
-    JobStatus.STUDENT_SCHOOL -> "Élève"
-    JobStatus.STUDENT_HIGHER -> "Étudiant"
-    JobStatus.WORKER         -> "Travailleur"
-    JobStatus.SEEKING_WORK   -> "Sans emploi"
+private fun educationLevelLabel(level: EducationLevel): String = when (level) {
+    EducationLevel.KINDERGARTEN  -> "Maternelle"
+    EducationLevel.PRIMARY       -> "Primaire"
+    EducationLevel.SECONDARY     -> "Collège / Lycée"
+    EducationLevel.HIGHER_WORKER -> "Étudiant / Travailleur"
 }

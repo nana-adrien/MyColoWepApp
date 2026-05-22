@@ -141,11 +141,7 @@ class AdminDashboardViewModel(
             }
 
             is AdminDashboardAction.OnFormEducationLevelChange -> _state.update {
-                it.copy(registrationForm = it.registrationForm.copy(educationLevel = action.value, error = null))
-            }
-
-            is AdminDashboardAction.OnFormJobStatusChange -> _state.update {
-                it.copy(registrationForm = it.registrationForm.copy(selectedJobStatus = action.jobStatus, error = null))
+                it.copy(registrationForm = it.registrationForm.copy(selectedEducationLevel = action.educationLevel, error = null))
             }
 
             is AdminDashboardAction.OnSubmitRegistrationForm -> submitRegistrationForm()
@@ -212,8 +208,7 @@ class AdminDashboardViewModel(
             fullName       = form.fullName.trim(),
             familyName     = form.familyName.trim(),
             birthDate      = birthDate,
-            educationLevel = form.educationLevel.trim(),
-            jobStatus      = form.selectedJobStatus!!,
+            educationLevel = form.selectedEducationLevel!!,
             registeredAt   = "2026-${currentMonthDay()}",
         )
         _state.update { s ->

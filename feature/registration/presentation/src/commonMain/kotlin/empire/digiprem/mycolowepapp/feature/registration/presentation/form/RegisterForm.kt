@@ -46,7 +46,8 @@ import empire.digiprem.mycolowepapp.core.design_system.components.form.SecurityC
 import empire.digiprem.mycolowepapp.core.design_system.components.form.SelectableField
 import empire.digiprem.mycolowepapp.core.design_system.extension.asString
 import empire.digiprem.mycolowepapp.feature.registration.domain.model.Genre
-import empire.digiprem.mycolowepapp.feature.registration.domain.model.JobStatus
+import empire.digiprem.mycolowepapp.feature.registration.domain.model.EducationLevel
+import empire.digiprem.mycolowepapp.feature.registration.presentation.extension.toLabel
 import empire.digiprem.mycolowepapp.feature.registration.presentation.RegistrationAction
 import mycolowepapp.shared.generated.resources.Res
 import mycolowepapp.shared.generated.resources.form_family_name
@@ -155,14 +156,14 @@ private fun RegisterFormContent(
             title = "Niveau d'etude",
             placeholder = "ex.Maternelle",
             enabled = !state.isLoading,
-            selectItem = state.jobStatus,
-            items = JobStatus.entries.map {
+            selectItem = state.educationLevel,
+            items = EducationLevel.entries.map {
                 SelectableField(
                     id = it,
-                    text = it.name.lowercase(),
+                    text = it.toLabel(),
                 )
             },
-            onSelectItem = { jobStatus -> onAction(RegisterFormAction.OnJobStatusChange(jobStatus)) },
+            onSelectItem = { level -> onAction(RegisterFormAction.OnEducationLevelChange(level)) },
         )
         Spacer(Modifier.height(4.dp))
         SecurityCodeTextField(

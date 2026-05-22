@@ -1,6 +1,6 @@
 package empire.digiprem.mycolowepapp.feature.admin.dashboard.domain.model
 
-import empire.digiprem.mycolowepapp.feature.registration.domain.model.JobStatus
+import empire.digiprem.mycolowepapp.feature.registration.domain.model.EducationLevel
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -9,10 +9,9 @@ import kotlinx.datetime.toLocalDateTime
 data class Participant(
     val id: String,
     val fullName: String,
-    val jobStatus: JobStatus,
+    val educationLevel: EducationLevel,
     val familyName: String,
     val birthDate: LocalDate,
-    val educationLevel: String = "",
     val registeredAt: String,
 ) {
     val age: Int
