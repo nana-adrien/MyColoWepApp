@@ -269,18 +269,23 @@ private fun ParticipantsManagementTable(
                     .background(MaterialTheme.colorScheme.background, RoundedCornerShape(8.dp))
                     .padding(horizontal = 12.dp, vertical = 8.dp)
             ) {
-                Text("Nom",         style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(2f))
-                Text("Âge",        style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(0.6f))
-                Text("Situation",  style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1.4f))
-                Text("Statut",     style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
-                Text("Actions",    style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1.2f))
+                Text("#",             style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(0.35f))
+                Text("Nom complet",   style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1.8f))
+                Text("Naissance",     style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
+                Text("Âge",           style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(0.55f))
+                Text("Niveau d'étude",style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1.4f))
+                Text("Situation",     style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1.2f))
+                Text("Actions",       style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(0.8f))
             }
 
             if (participants.isEmpty()) {
                 EmptyParticipantsState()
             } else {
-                participants.forEach { p ->
+                participants.forEachIndexed { index, p ->
                     val isSelected = p.id == selectedParticipant?.id
+                    val birthFormatted = "%02d/%02d/%04d".format(
+                        p.birthDate.dayOfMonth, p.birthDate.monthNumber, p.birthDate.year
+                    )
                     HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, thickness = 0.5.dp)
                     Row(
                         modifier          = Modifier.fillMaxWidth()
@@ -289,29 +294,16 @@ private fun ParticipantsManagementTable(
                             .padding(horizontal = 12.dp, vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Column(modifier = Modifier.weight(2f)) {
+                        Text("${index + 1}", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(0.35f))
+                        Column(modifier = Modifier.weight(1.8f)) {
                             Text(p.fullName,   style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Medium)
                             Text(p.familyName, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
-                        Text("${p.age} ans",             style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(0.6f))
-                        Text(jobStatusLabel(p.jobStatus), style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1.4f))
-                        Box(modifier = Modifier.weight(1f)) {
-                            StatusChip(status = p.status.toChipStatus())
-                        }
-                        // Boutons d'action
-                        Row(modifier = Modifier.weight(1.2f), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                            if (p.status != ParticipantStatus.VALIDATED) {
-                                IconButton(onClick = { onValidate(p.id) }, modifier = Modifier.size(32.dp)
-                                    .background(MaterialTheme.colorScheme.secondaryContainer, CircleShape)) {
-                                    Icon(Icons.Filled.Check, "Valider", tint = Secondary, modifier = Modifier.size(16.dp))
-                                }
-                            }
-                            if (p.status != ParticipantStatus.REJECTED) {
-                                IconButton(onClick = { onReject(p.id) }, modifier = Modifier.size(32.dp)
-                                    .background(MaterialTheme.colorScheme.errorContainer, CircleShape)) {
-                                    Icon(Icons.Filled.Close, "Refuser", tint = MaterialTheme.colorScheme.error, modifier = Modifier.size(16.dp))
-                                }
-                            }
+                        Text(birthFormatted,              style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f))
+                        Text("${p.age} ans",               style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(0.55f))
+                        Text(p.educationLevel.ifBlank { "—" }, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1.4f))
+                        Text(jobStatusLabel(p.jobStatus),  style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1.2f))
+                        Row(modifier = Modifier.weight(0.8f), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                             IconButton(onClick = { onDelete(p.id) }, modifier = Modifier.size(32.dp)
                                 .background(MaterialTheme.colorScheme.surfaceVariant, CircleShape)) {
                                 Icon(Icons.Filled.Delete, "Supprimer", tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(16.dp))
@@ -338,7 +330,10 @@ private fun MobileParticipantManagementList(
         EmptyParticipantsState()
         return
     }
-    participants.forEach { p ->
+    participants.forEachIndexed { index, p ->
+        val birthFormatted = "%02d/%02d/%04d".format(
+            p.birthDate.dayOfMonth, p.birthDate.monthNumber, p.birthDate.year
+        )
         Card(
             modifier  = Modifier.fillMaxWidth(),
             shape     = RoundedCornerShape(12.dp),
@@ -350,29 +345,23 @@ private fun MobileParticipantManagementList(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(p.fullName,  style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
-                    Text("${p.familyName} · ${p.age} ans · ${jobStatusLabel(p.jobStatus)}",
-                        style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Spacer(Modifier.height(4.dp))
-                    StatusChip(status = p.status.toChipStatus())
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Text("#${index + 1}", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(p.fullName, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
+                    }
+                    Text(p.familyName, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Spacer(Modifier.height(2.dp))
+                    Text(
+                        "Né(e) le $birthFormatted · ${p.age} ans · ${jobStatusLabel(p.jobStatus)}",
+                        style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    if (p.educationLevel.isNotBlank()) {
+                        Text(p.educationLevel, style = MaterialTheme.typography.labelSmall, color = Primary)
+                    }
                 }
-                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    if (p.status != ParticipantStatus.VALIDATED) {
-                        IconButton(onClick = { onValidate(p.id) }, modifier = Modifier.size(36.dp)
-                            .background(MaterialTheme.colorScheme.secondaryContainer, CircleShape)) {
-                            Icon(Icons.Filled.Check, "Valider", tint = Secondary, modifier = Modifier.size(18.dp))
-                        }
-                    }
-                    if (p.status != ParticipantStatus.REJECTED) {
-                        IconButton(onClick = { onReject(p.id) }, modifier = Modifier.size(36.dp)
-                            .background(MaterialTheme.colorScheme.errorContainer, CircleShape)) {
-                            Icon(Icons.Filled.Close, "Refuser", tint = MaterialTheme.colorScheme.error, modifier = Modifier.size(18.dp))
-                        }
-                    }
-                    IconButton(onClick = { onDelete(p.id) }, modifier = Modifier.size(36.dp)
-                        .background(MaterialTheme.colorScheme.surfaceVariant, CircleShape)) {
-                        Icon(Icons.Filled.Delete, "Supprimer", tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(18.dp))
-                    }
+                IconButton(onClick = { onDelete(p.id) }, modifier = Modifier.size(36.dp)
+                    .background(MaterialTheme.colorScheme.surfaceVariant, CircleShape)) {
+                    Icon(Icons.Filled.Delete, "Supprimer", tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(18.dp))
                 }
             }
         }

@@ -593,12 +593,15 @@ fun ParticipantDetailContent(
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
         Spacer(Modifier.height(16.dp))
 
-        DetailInfoRow("Âge",                  "${participant.age} ans")
+        DetailInfoRow("Date de naissance", "%02d/%02d/%04d".format(participant.birthDate.dayOfMonth, participant.birthDate.monthNumber, participant.birthDate.year))
+        DetailInfoRow("Âge",                "${participant.age} ans")
+        if (participant.educationLevel.isNotBlank())
+            DetailInfoRow("Niveau d'étude", participant.educationLevel)
         DetailInfoRow("Statut professionnel", jobStatusLabel(participant.jobStatus))
-        DetailInfoRow("Date d'inscription",   participant.registrationDate)
+        DetailInfoRow("Date d'inscription",   participant.registeredAt)
 
         Spacer(Modifier.height(8.dp))
-        Row(
+       /* Row(
             modifier          = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -609,7 +612,7 @@ fun ParticipantDetailContent(
                 ParticipantStatus.PENDING   -> ParticipantChipStatus.PENDING
                 ParticipantStatus.REJECTED  -> ParticipantChipStatus.REJECTED
             })
-        }
+        }*/
     }
 }
 
@@ -678,13 +681,22 @@ fun ParticipantFormContent(
             colors        = OutlinedTextFieldDefaults.colors(focusedBorderColor = Primary, focusedLabelColor = Primary, cursorColor = Primary)
         )
         OutlinedTextField(
-            value           = form.age,
-            onValueChange   = { onAction(AdminDashboardAction.OnFormAgeChange(it)) },
-            label           = { Text("Âge *") },
-            modifier        = Modifier.fillMaxWidth(),
-            singleLine      = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            colors          = OutlinedTextFieldDefaults.colors(focusedBorderColor = Primary, focusedLabelColor = Primary, cursorColor = Primary)
+            value         = form.birthDate,
+            onValueChange = { onAction(AdminDashboardAction.OnFormBirthDateChange(it)) },
+            label         = { Text("Date de naissance * (AAAA-MM-JJ)") },
+            modifier      = Modifier.fillMaxWidth(),
+            singleLine    = true,
+            placeholder   = { Text("2000-01-15", style = MaterialTheme.typography.bodySmall) },
+            colors        = OutlinedTextFieldDefaults.colors(focusedBorderColor = Primary, focusedLabelColor = Primary, cursorColor = Primary)
+        )
+        OutlinedTextField(
+            value         = form.educationLevel,
+            onValueChange = { onAction(AdminDashboardAction.OnFormEducationLevelChange(it)) },
+            label         = { Text("Niveau d'étude") },
+            modifier      = Modifier.fillMaxWidth(),
+            singleLine    = true,
+            placeholder   = { Text("Ex : Lycée, BTS, Licence…", style = MaterialTheme.typography.bodySmall) },
+            colors        = OutlinedTextFieldDefaults.colors(focusedBorderColor = Primary, focusedLabelColor = Primary, cursorColor = Primary)
         )
 
         // Sélection du statut professionnel
@@ -807,14 +819,14 @@ private fun ParticipantsTableCard(
                     }
                     Text("${participant.age} ans", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(0.5f))
                     Text(jobStatusLabel(participant.jobStatus), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1.5f))
-                    Text(participant.registrationDate, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
-                    Box(modifier = Modifier.weight(1f)) {
+                    Text(participant.registeredAt, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
+                    /*Box(modifier = Modifier.weight(1f)) {
                         StatusChip(status = when (participant.status) {
                             ParticipantStatus.VALIDATED -> ParticipantChipStatus.VALIDATED
                             ParticipantStatus.PENDING   -> ParticipantChipStatus.PENDING
                             ParticipantStatus.REJECTED  -> ParticipantChipStatus.REJECTED
                         })
-                    }
+                    }*/
                 }
             }
             if (participants.isEmpty()) {
@@ -848,11 +860,11 @@ private fun MobileParticipantsCard(participants: List<Participant>, onParticipan
                         Text("${participant.age} ans · ${jobStatusLabel(participant.jobStatus)}",
                             style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
-                    StatusChip(status = when (participant.status) {
+                  /*  StatusChip(status = when (participant.status) {
                         ParticipantStatus.VALIDATED -> ParticipantChipStatus.VALIDATED
                         ParticipantStatus.PENDING   -> ParticipantChipStatus.PENDING
                         ParticipantStatus.REJECTED  -> ParticipantChipStatus.REJECTED
-                    })
+                    })*/
                 }
             }
             if (participants.isEmpty()) {

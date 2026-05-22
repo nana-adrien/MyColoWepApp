@@ -26,7 +26,8 @@ sealed interface AdminDashboardAction {
     data object OnDismissRegistrationForm : AdminDashboardAction
     data class OnFormFullNameChange(val value: String) : AdminDashboardAction
     data class OnFormFamilyNameChange(val value: String) : AdminDashboardAction
-    data class OnFormAgeChange(val value: String) : AdminDashboardAction
+    data class OnFormBirthDateChange(val value: String) : AdminDashboardAction
+    data class OnFormEducationLevelChange(val value: String) : AdminDashboardAction
     data class OnFormJobStatusChange(val jobStatus: JobStatus) : AdminDashboardAction
     data object OnSubmitRegistrationForm : AdminDashboardAction
 

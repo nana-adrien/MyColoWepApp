@@ -13,7 +13,8 @@ enum class DashboardSection { Overview, Participants, SecurityCodes, Settings }
 data class ParticipantFormData(
     val fullName: String = "",
     val familyName: String = "",
-    val age: String = "",
+    val birthDate: String = "",
+    val educationLevel: String = "",
     val selectedJobStatus: JobStatus? = null,
     val isSubmitting: Boolean = false,
     val error: String? = null
@@ -21,7 +22,7 @@ data class ParticipantFormData(
     val isValid: Boolean
         get() = fullName.isNotBlank()
             && familyName.isNotBlank()
-            && age.toIntOrNull()?.let { it in 1..120 } == true
+            && birthDate.matches(Regex("""\d{4}-\d{2}-\d{2}"""))
             && selectedJobStatus != null
 }
 
@@ -75,13 +76,11 @@ data class AdminDashboardState(
         get() = if (searchQuery.isBlank()) participants
         else participants.filter {
             it.fullName.contains(searchQuery, ignoreCase = true) ||
-                it.familyName.contains(searchQuery, ignoreCase = true)
+            it.familyName.contains(searchQuery, ignoreCase = true) ||
+            it.educationLevel.contains(searchQuery, ignoreCase = true)
         }
 
-    val totalCount: Int     get() = participants.size
-    val validatedCount: Int get() = participants.count { it.status == ParticipantStatus.VALIDATED }
-    val pendingCount: Int   get() = participants.count { it.status == ParticipantStatus.PENDING }
-    val rejectedCount: Int  get() = participants.count { it.status == ParticipantStatus.REJECTED }
+    val totalCount: Int get() = participants.size
 
     val byJobStatus: Map<JobStatus, Int>
         get() = JobStatus.entries.associateWith { s -> participants.count { it.jobStatus == s } }
