@@ -5,9 +5,9 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.feature.registration.domain)
-            implementation(projects.feature.registration.data)
-            api(projects.feature.registration.presentation)
+            implementation(projects.feature.preAuth.domain)
+            implementation(projects.feature.preAuth.data)
+            api(projects.feature.preAuth.presentation)
             implementation(libs.koin.core)
         }
         androidMain.dependencies {

@@ -5,12 +5,10 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.core.domain)
-            implementation(projects.core.data)
-            implementation(libs.koin.core)
             implementation(projects.feature.securityCode.domain)
             implementation(projects.feature.securityCode.data)
-            implementation(projects.feature.securityCode.presentation)
+            api(projects.feature.securityCode.presentation)
+            implementation(libs.koin.core)
         }
         androidMain.dependencies {
             implementation(libs.koin.android)

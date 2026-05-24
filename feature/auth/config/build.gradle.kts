@@ -1,11 +1,3 @@
-import com.codingfeline.buildkonfig.compiler.FieldSpec
-import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
-import extensions.pathToPackageName
-import org.gradle.kotlin.dsl.getByType
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import java.util.Properties
-import kotlin.apply
-
 plugins {
     alias(libs.plugins.convention.kmp.library)
 }
@@ -13,8 +5,9 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.core.domain)
-            implementation(projects.core.data)
+            implementation(projects.feature.auth.domain)
+            implementation(projects.feature.auth.data)
+            api(projects.feature.auth.presentation)
             implementation(libs.koin.core)
         }
         androidMain.dependencies {

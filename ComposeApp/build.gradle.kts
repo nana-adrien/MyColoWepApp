@@ -1,30 +1,44 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.composeMultiplatform)
-    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.convention.cmp.application)
 }
 
 kotlin {
-    js {
-        browser()
-        binaries.executable()
-    }
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
-        binaries.executable()
-    }
 
     sourceSets {
+
+        androidMain.dependencies {
+            implementation(libs.androidx.activity.compose)
+            implementation(libs.core.splashscreen)
+            implementation(libs.koin.android)
+        }
         wasmJsMain.dependencies {
             implementation("org.jetbrains.kotlinx:kotlinx-browser:0.3")
         }
 
+        webMain.dependencies {
+            implementation(libs.wrappers.browser)
+        }
         commonMain.dependencies {
-            implementation(projects.shared)
+            implementation(libs.supabase.postgrest)
+            implementation(libs.supabase.auth)
+            implementation(libs.supabase.realtime)
+            implementation(libs.supabase.storage)
+
+            implementation(project(":core:navigation"))
+            implementation(project(":core:presentation"))
+            implementation(project(":core:design_system"))
+            implementation(project(":feature:confirmation"))
+            implementation(project(":feature:auth:config"))
+            implementation(project(":feature:registration:config"))
+            implementation(project(":feature:security_code:config"))
+            implementation(project(":feature:participants:config"))
+            implementation(project(":feature:feed:config"))
+            implementation(project(":feature:live:config"))
+            implementation(project(":feature:profile:config"))
+            implementation(project(":feature:pre_auth:config"))
+            implementation(project(":feature:settings:config"))
 
             implementation(libs.compose.ui)
         }
