@@ -1,0 +1,7 @@
+TEAM_ID=
+
+PRODUCT_NAME=Octopufx_Box_Office
+PRODUCT_BUNDLE_IDENTIFIER=octopusfx.client.mobile.boxoffice.Octopufx_Box_Office$(TEAM_ID)
+
+CURRENT_PROJECT_VERSION=1
+MARKETING_VERSION=1.0

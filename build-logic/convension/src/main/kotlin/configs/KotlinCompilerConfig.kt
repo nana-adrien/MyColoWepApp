@@ -1,0 +1,4 @@
+package configs
+
+class KotlinCompilerConfig {
+}
