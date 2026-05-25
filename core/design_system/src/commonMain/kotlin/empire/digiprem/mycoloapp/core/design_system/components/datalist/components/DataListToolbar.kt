@@ -24,14 +24,14 @@ fun <T> DataListToolbar(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        _root_ide_package_.empire.digiprem.mycolowepapp.core.design_system.components.datalist.components.ExportMenu(
+        ExportMenu(
             onExport = onExport
         )
-        _root_ide_package_.empire.digiprem.mycolowepapp.core.design_system.components.datalist.components.ImportMenu(
+        ImportMenu(
             onImport = onImport
         )
         Spacer(modifier = Modifier.weight(1f))
-        _root_ide_package_.empire.digiprem.mycolowepapp.core.design_system.components.datalist.components.DataListColumnToggle(
+        DataListColumnToggle(
             columns = columns,
             visibleColumns = visibleColumns,
             onToggle = onToggleColumn

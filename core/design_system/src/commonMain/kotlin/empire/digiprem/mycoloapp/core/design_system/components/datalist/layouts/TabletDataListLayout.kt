@@ -16,14 +16,17 @@ import empire.digiprem.mycoloapp.core.design_system.components.datalist.componen
 import empire.digiprem.mycoloapp.core.design_system.components.datalist.components.DataListPagination
 import empire.digiprem.mycoloapp.core.design_system.components.datalist.components.DataListTable
 import empire.digiprem.mycoloapp.core.design_system.components.datalist.components.DataListToolbar
+import empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ColumnDef
+import empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction
+import empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListState
 
 @Composable
 fun <T> TabletDataListLayout(
     title: String,
-    columns: List<empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ColumnDef<T>>,
-    state: empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListState<T>,
+    columns: List<ColumnDef<T>>,
+    state: ListState<T>,
     itemKey: (T) -> String,
-    onAction: (empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction<T>) -> Unit,
+    onAction: (ListAction<T>) -> Unit,
     detailContent: @Composable (T) -> Unit,
     emptyContent: @Composable () -> Unit,
     newButtonLabel: String,
@@ -31,37 +34,37 @@ fun <T> TabletDataListLayout(
 ) {
     Row(modifier = modifier.fillMaxSize()) {
         Column(modifier = Modifier.weight(1f).fillMaxHeight()) {
-            _root_ide_package_.empire.digiprem.mycolowepapp.core.design_system.components.datalist.components.DataListHeader(
+            DataListHeader(
                 title = title, tabs = state.tabs, activeTab = state.activeTab,
                 newButtonLabel = newButtonLabel,
                 onTabChange = {
                     onAction(
-                        _root_ide_package_.empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction.ChangeTab(
+                        ListAction.ChangeTab(
                             it
                         )
                     )
                 },
-                onNewClick = { onAction(_root_ide_package_.empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction.New()) }
+                onNewClick = { onAction(ListAction.New()) }
             )
-            _root_ide_package_.empire.digiprem.mycolowepapp.core.design_system.components.datalist.components.DataListToolbar(
+            DataListToolbar(
                 columns = columns, visibleColumns = state.visibleColumns,
                 onExport = {
                     onAction(
-                        _root_ide_package_.empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction.Export(
+                        ListAction.Export(
                             it
                         )
                     )
                 },
                 onImport = {
                     onAction(
-                        _root_ide_package_.empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction.Import(
+                        ListAction.Import(
                             it
                         )
                     )
                 },
                 onToggleColumn = {
                     onAction(
-                        _root_ide_package_.empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction.ToggleColumn(
+                        ListAction.ToggleColumn(
                             it
                         )
                     )
@@ -69,7 +72,7 @@ fun <T> TabletDataListLayout(
             )
             HorizontalDivider()
             Column(modifier = Modifier.weight(1f).verticalScroll(rememberScrollState())) {
-                _root_ide_package_.empire.digiprem.mycolowepapp.core.design_system.components.datalist.components.DataListTable(
+                DataListTable(
                     items = state.items, columns = columns, visibleColumns = state.visibleColumns,
                     sortBy = state.sortBy, filters = state.filters, selectedItem = state.selectedItem,
                     selectedItems = state.selectedItems, showCheckboxes = false,
@@ -77,19 +80,19 @@ fun <T> TabletDataListLayout(
                 )
             }
             HorizontalDivider()
-            _root_ide_package_.empire.digiprem.mycolowepapp.core.design_system.components.datalist.components.DataListPagination(
+            DataListPagination(
                 currentPage = state.currentPage, totalPages = state.totalPages,
                 totalItems = state.totalItems, itemsPerPage = state.itemsPerPage,
                 onPageChange = {
                     onAction(
-                        _root_ide_package_.empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction.ChangePage(
+                        ListAction.ChangePage(
                             it
                         )
                     )
                 },
                 onPageSizeChange = {
                     onAction(
-                        _root_ide_package_.empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction.ChangePageSize(
+                        ListAction.ChangePageSize(
                             it
                         )
                     )
@@ -97,11 +100,11 @@ fun <T> TabletDataListLayout(
             )
         }
         VerticalDivider()
-        _root_ide_package_.empire.digiprem.mycolowepapp.core.design_system.components.datalist.components.DataListDetailPanel(
+        DataListDetailPanel(
             item = state.selectedItem,
             isVisible = state.isDetailPanelOpen,
             panelWidth = 360.dp,
-            onClose = { onAction(_root_ide_package_.empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction.CloseDetail()) },
+            onClose = { onAction(ListAction.CloseDetail()) },
             content = detailContent,
             modifier = Modifier.fillMaxHeight()
         )

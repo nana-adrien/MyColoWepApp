@@ -3,15 +3,13 @@ package empire.digiprem.mycoloapp.core.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import empire.digiprem.mycoloapp.core.design_system.theme.AmberContainer
-import empire.digiprem.mycoloapp.core.design_system.theme.OnAmberContainer
-import empire.digiprem.mycoloapp.core.design_system.theme.SecondaryContainer
 import mycolowepapp.shared.generated.resources.Res
 import mycolowepapp.shared.generated.resources.status_pending
 import mycolowepapp.shared.generated.resources.status_rejected
@@ -29,13 +27,13 @@ fun StatusChip(status: ParticipantChipStatus, modifier: Modifier = Modifier) {
     val (text, backgroundColor, textColor) = when (status) {
         ParticipantChipStatus.VALIDATED -> Triple(
             stringResource(Res.string.status_validated),
-            SecondaryContainer,
+            MaterialTheme.colorScheme.secondaryContainer,
             Color(0xFF1B5E20)
         )
         ParticipantChipStatus.PENDING -> Triple(
             stringResource(Res.string.status_pending),
-            AmberContainer,
-            OnAmberContainer
+            MaterialTheme.colorScheme.tertiaryContainer,
+            MaterialTheme.colorScheme.tertiary
         )
         ParticipantChipStatus.REJECTED -> Triple(
             stringResource(Res.string.status_rejected),

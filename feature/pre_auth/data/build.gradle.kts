@@ -1,4 +1,5 @@
 plugins {
+
     alias(libs.plugins.convention.kmp.network.request)
 }
 
@@ -7,7 +8,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.core.domain)
             implementation(projects.core.data)
-            implementation(projects.feature.admin.login.domain)
+            implementation(projects.feature.preAuth.domain)
         }
     }
 }

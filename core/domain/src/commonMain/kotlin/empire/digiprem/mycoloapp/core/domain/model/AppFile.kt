@@ -1,13 +1,15 @@
 package empire.digiprem.mycoloapp.core.domain.model
 
+import empire.digiprem.mycoloapp.core.domain.enums.MimeType
+
 data class AppFile(
     val byteArray: ByteArray?,
     val name: String,
-    val mimeType: String,
+    val mimeType: MimeType,
     val path: String? = null,
 ) {
-    val isImage: Boolean get() = mimeType.startsWith("image/")
-    val isVideo: Boolean get() = mimeType.startsWith("video/")
+    val isImage: Boolean get() = mimeType.value.startsWith("image/")
+    val isVideo: Boolean get() = mimeType.value.startsWith("video/")
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

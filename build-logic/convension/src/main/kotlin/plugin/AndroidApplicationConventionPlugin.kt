@@ -1,11 +1,12 @@
 package plugin
 
 import com.android.build.api.dsl.ApplicationExtension
-import extension.libs
-import octopusfx.client.mobile.convention.configureKotlinAndroid
+import configs.androidConfig
+import extensions.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import targets.androidTarget
 import kotlin.collections.plusAssign
 import kotlin.text.toInt
 
@@ -18,12 +19,12 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             }
             extensions.configure<ApplicationExtension> {
 
-                namespace = "octopusfx.client.mobile.core"
+                namespace =  libs.findVersion("projectApplicationId").get().toString()
 
                 defaultConfig {
                     applicationId = libs.findVersion("projectApplicationId").get()
                         .toString()
-                    targetSdk = libs.findVersion("projectTargetSdkVersion").get().toString().toInt()
+                    targetSdk = libs.findVersion("projectCompileSdkVersion").get().toString().toInt()
                     versionCode = libs.findVersion("projectVersionCode").get().toString().toInt()
                     versionName = libs.findVersion("projectVersionName").get().toString()
                 }
@@ -37,7 +38,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                         isMinifyEnabled = false
                     }
                 }
-                configureKotlinAndroid(this)
+                androidConfig(this)
             }
         }
     }

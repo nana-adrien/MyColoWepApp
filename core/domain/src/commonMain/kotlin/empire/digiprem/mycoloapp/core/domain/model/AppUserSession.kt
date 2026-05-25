@@ -1,4 +1,8 @@
 package empire.digiprem.mycoloapp.core.domain.model
 
-class AppUserSession {
-}
+data class AppUserSession(
+    val accessToken: String,
+    val refreshToken: String,
+    val expiresIn: Long,
+    val user:AppUserInFo?,
+)

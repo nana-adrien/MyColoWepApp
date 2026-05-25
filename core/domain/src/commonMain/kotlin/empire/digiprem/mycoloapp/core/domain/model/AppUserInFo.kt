@@ -1,4 +1,6 @@
 package empire.digiprem.mycoloapp.core.domain.model
 
-class AppUserInFo {
-}
+data class AppUserInFo(
+    val id: String?,
+    val email: String? = null,
+)

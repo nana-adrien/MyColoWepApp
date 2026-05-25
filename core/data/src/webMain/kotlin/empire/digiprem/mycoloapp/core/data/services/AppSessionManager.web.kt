@@ -1,4 +1,4 @@
-package empire.digiprem.mycoloapp.core.data.networking.services
+package empire.digiprem.mycoloapp.core.data.services
 
 import empire.digiprem.mycoloapp.core.data.mappers.toDomain
 import empire.digiprem.mycoloapp.core.domain.model.AppUserSession

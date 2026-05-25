@@ -1,120 +1,122 @@
+<!-- commonMain/composeResources/values/strings_errors.xml -->
 <resources>
     <!-- App -->
     <string name="app_name">My Colo</string>
     <string name="powered_by">Powered by Digi-Prem</string>
 
     <!-- Landing -->
-    <string name="landing_hero_title">Rejoignez-nous pour une expérience unique</string>
-    <string name="landing_hero_subtitle">Une colonie inoubliable pour toute la famille. Inscrivez-vous dès maintenant et vivez des moments exceptionnels ensemble.</string>
-    <string name="landing_badge">COLONIE MY COLO · INSCRIPTIONS OUVERTES</string>
-    <string name="landing_cta_register">S\'inscrire maintenant</string>
+    <string name="landing_hero_title">Rejoignez-nous pour une exp&#233;rience unique</string>
+    <string name="landing_hero_subtitle">Une colonie inoubliable pour toute la famille. Inscrivez-vous d&#232;s maintenant et vivez des moments exceptionnels ensemble.</string>
+    <string name="landing_badge">COLONIE MY COLO &#183; INSCRIPTIONS OUVERTES</string>
+    <string name="landing_cta_register">S&#39;inscrire maintenant</string>
     <string name="landing_cta_admin_login">Connexion Admin</string>
     <string name="landing_nav_program">Programme</string>
     <string name="landing_nav_contact">Contact</string>
     <string name="landing_feature_1_title">Inscription simple</string>
-    <string name="landing_feature_1_desc">Formulaire rapide et intuitif pour s\'inscrire en quelques minutes</string>
-    <string name="landing_feature_2_title">Code de sécurité</string>
-    <string name="landing_feature_2_desc">Accès sécurisé avec un code fourni par l\'organisateur</string>
-    <string name="landing_feature_3_title">Ouvert à tous</string>
-    <string name="landing_feature_3_desc">Élèves, étudiants, travailleurs – toute la communauté est la bienvenue</string>
+    <string name="landing_feature_1_desc">Formulaire rapide et intuitif pour s&#39;inscrire en quelques minutes</string>
+    <string name="landing_feature_2_title">Code de s&#233;curit&#233;</string>
+    <string name="landing_feature_2_desc">Acc&#232;s s&#233;curis&#233; avec un code fourni par l&#39;organisateur</string>
+    <string name="landing_feature_3_title">Ouvert &#224; tous</string>
+    <string name="landing_feature_3_desc">&#201;l&#232;ves, &#233;tudiants, travailleurs &#8211; toute la communaut&#233; est la bienvenue</string>
     <string name="landing_feature_4_title">Suivi admin</string>
-    <string name="landing_feature_4_desc">Interface d\'administration complète pour gérer les inscriptions</string>
+    <string name="landing_feature_4_desc">Interface d&#39;administration compl&#232;te pour g&#233;rer les inscriptions</string>
 
     <!-- Countdown -->
     <string name="countdown_days">Jours</string>
     <string name="countdown_hours">Heures</string>
     <string name="countdown_minutes">Minutes</string>
     <string name="countdown_seconds">Secondes</string>
-    <string name="countdown_expired">Inscriptions clôturées</string>
+    <string name="countdown_expired">Inscriptions cl&#244;tur&#233;es</string>
 
     <!-- Registration form -->
-    <string name="form_title">Formulaire d\'inscription</string>
+    <string name="form_title">Formulaire d&#39;inscription</string>
     <string name="form_full_name">Nom complet *</string>
-    <string name="form_full_name_hint">Entrez votre nom et prénom</string>
-    <string name="form_age">Âge *</string>
-    <string name="form_age_hint">Votre âge en années</string>
+    <string name="form_full_name_hint">Entrez votre nom et pr&#233;nom</string>
+    <string name="form_age">&#194;ge *</string>
+    <string name="form_age_hint">Votre &#226;ge en ann&#233;es</string>
     <string name="form_family_name">Nom de la famille *</string>
     <string name="form_family_name_hint">Nom de votre famille</string>
-    <string name="form_education_level">Niveau d\'étude *</string>
+    <string name="form_education_level">Niveau d&#39;&#233;tude *</string>
     <string name="education_level_kindergarten">Maternelle</string>
     <string name="education_level_primary">Primaire</string>
-    <string name="education_level_secondary">Collège / Lycée</string>
-    <string name="education_level_higher_worker">Étudiant / Travailleur</string>
-    <string name="form_security_code">Code de sécurité *</string>
-    <string name="form_security_code_hint">Entrez le code fourni par l\'organisateur</string>
-    <string name="form_submit">Envoyer l'inscription</string>
+    <string name="education_level_secondary">Coll&#232;ge / Lyc&#233;e</string>
+    <string name="education_level_higher_worker">&#201;tudiant / Travailleur</string>
+    <string name="form_security_code">Code de s&#233;curit&#233; *</string>
+    <string name="form_security_code_hint">Entrez le code fourni par l&#39;organisateur</string>
+    <string name="form_submit">Envoyer l&#39;inscription</string>
 
     <!-- Validation — Email -->
-    <string name="validation_email_empty">L\'adresse e-mail est requise</string>
+    <string name="validation_email_empty">L&#39;adresse e-mail est requise</string>
     <string name="validation_email_invalid_format">Veuillez entrer une adresse e-mail valide</string>
-    <string name="validation_email_too_long">L\'adresse e-mail est trop longue</string>
+    <string name="validation_email_too_long">L&#39;adresse e-mail est trop longue</string>
 
     <!-- Validation — Password -->
     <string name="validation_password_empty">Le mot de passe est requis</string>
-    <string name="validation_password_too_short">Le mot de passe doit contenir au moins 8 caractères</string>
+    <string name="validation_password_too_short">Le mot de passe doit contenir au moins 8 caract&#232;res</string>
     <string name="validation_password_too_long">Le mot de passe est trop long</string>
     <string name="validation_password_no_uppercase">Le mot de passe doit contenir au moins une majuscule</string>
     <string name="validation_password_no_lowercase">Le mot de passe doit contenir au moins une minuscule</string>
     <string name="validation_password_no_digit">Le mot de passe doit contenir au moins un chiffre</string>
-    <string name="validation_password_no_special_char">Le mot de passe doit contenir au moins un caractère spécial</string>
+    <string name="validation_password_no_special_char">Le mot de passe doit contenir au moins un caract&#232;re sp&#233;cial</string>
     <string name="validation_password_does_not_match">Les mots de passe ne correspondent pas</string>
 
     <!-- Validation messages -->
     <string name="form_validation_full_name_required">Le nom complet est requis</string>
-    <string name="form_validation_age_required">L\'âge est requis</string>
-    <string name="form_validation_age_invalid">Veuillez entrer un âge valide</string>
+    <string name="form_validation_age_required">L&#39;&#226;ge est requis</string>
+    <string name="form_validation_age_invalid">Veuillez entrer un &#226;ge valide</string>
     <string name="form_validation_family_name_required">Le nom de famille est requis</string>
-    <string name="form_validation_education_level_required">Veuillez sélectionner votre niveau d\'étude</string>
-    <string name="form_validation_security_code_required">Le code de sécurité est requis</string>
-    <string name="form_validation_security_code_invalid">Code de sécurité incorrect</string>
+    <string name="form_validation_education_level_required">Veuillez s&#233;lectionner votre niveau d&#39;&#233;tude</string>
+    <string name="form_validation_security_code_required">Le code de s&#233;curit&#233; est requis</string>
+    <string name="form_validation_security_code_invalid">Code de s&#233;curit&#233; incorrect</string>
 
     <!-- Confirmation -->
-    <string name="confirmation_title">Inscription enregistrée !</string>
-    <string name="confirmation_subtitle">Votre inscription a bien été soumise. Vous recevrez une confirmation après vérification.</string>
-    <string name="confirmation_reference_label">Numéro de référence</string>
+    <string name="confirmation_title">Inscription enregistr&#233;e !</string>
+    <string name="confirmation_subtitle">Votre inscription a bien &#233;t&#233; soumise. Vous recevrez une confirmation apr&#232;s v&#233;rification.</string>
+    <string name="confirmation_reference_label">Num&#233;ro de r&#233;f&#233;rence</string>
     <string name="confirmation_step_submitted">Soumise</string>
-    <string name="confirmation_step_verification">Vérification</string>
-    <string name="confirmation_step_confirmed">Confirmée</string>
-    <string name="confirmation_go_home">Retour à l\'accueil</string>
+    <string name="confirmation_step_verification">V&#233;rification</string>
+    <string name="confirmation_step_confirmed">Confirm&#233;e</string>
+    <string name="confirmation_go_home">Retour &#224; l&#39;accueil</string>
     <string name="confirmation_share">Partager</string>
 
     <!-- Admin Login -->
     <string name="admin_login_title">Espace Administrateur</string>
-    <string name="admin_login_subtitle">Connectez-vous pour accéder au tableau de bord</string>
+    <string name="admin_login_subtitle">Connectez-vous pour acc&#233;der au tableau de bord</string>
     <string name="admin_email">Adresse email</string>
     <string name="admin_email_hint">admin@mycolo.fr</string>
     <string name="admin_password">Mot de passe</string>
     <string name="admin_password_hint">Votre mot de passe</string>
     <string name="admin_connect">Se connecter</string>
-    <string name="admin_secure_label">Connexion sécurisée</string>
+    <string name="admin_secure_label">Connexion s&#233;curis&#233;e</string>
     <string name="admin_feature_1">Tableau de bord complet</string>
     <string name="admin_feature_2">Gestion des participants</string>
     <string name="admin_feature_3">Export PDF et Excel</string>
-    <string name="admin_feature_4">Statistiques en temps réel</string>
+    <string name="admin_feature_4">Statistiques en temps r&#233;el</string>
 
     <!-- Dashboard -->
     <string name="dashboard_title">Tableau de bord</string>
     <string name="dashboard_total">Total inscrits</string>
-    <string name="dashboard_validated">Validés</string>
+    <string name="dashboard_validated">Valid&#233;s</string>
     <string name="dashboard_pending">En attente</string>
-    <string name="dashboard_rejected">Refusés</string>
-    <string name="dashboard_by_status">Répartition par statut professionnel</string>
-    <string name="dashboard_by_age">Répartition par tranche d\'âge</string>
-    <string name="dashboard_export_pdf">Télécharger PDF</string>
+    <string name="dashboard_rejected">Refus&#233;s</string>
+    <string name="dashboard_by_status">R&#233;partition par statut professionnel</string>
+    <string name="dashboard_by_age">R&#233;partition par tranche d&#39;&#226;ge</string>
+    <string name="dashboard_export_pdf">T&#233;l&#233;charger PDF</string>
     <string name="dashboard_export_excel">Exporter Excel</string>
     <string name="dashboard_participants_list">Liste des participants</string>
-    <string name="dashboard_search_hint">Rechercher un participant…</string>
-    <string name="dashboard_logout">Déconnexion</string>
-    <string name="dashboard_nav_overview">Vue d\'ensemble</string>
+    <string name="dashboard_search_hint">Rechercher un participant&#8230;</string>
+    <string name="dashboard_logout">D&#233;connexion</string>
+    <string name="dashboard_nav_overview">Vue d&#39;ensemble</string>
     <string name="dashboard_nav_participants">Participants</string>
     <string name="dashboard_nav_stats">Statistiques</string>
     <string name="dashboard_nav_pdf">Rapport PDF</string>
     <string name="dashboard_nav_excel">Export Excel</string>
-    <string name="dashboard_nav_settings">Paramètres</string>
+    <string name="dashboard_nav_settings">Param&#232;tres</string>
     <string name="dashboard_notifications">Notifications</string>
 
     <!-- Status chips -->
-    <string name="status_validated">Validé</string>
+    <string name="status_validated">Valid&#233;</string>
     <string name="status_pending">En attente</string>
-    <string name="status_rejected">Refusé</string>
+    <string name="status_rejected">Refus&#233;</string>
+
 </resources>

@@ -11,7 +11,7 @@ sealed interface NavigationGraph {
     data object Registration : NavigationGraph
 
     @Serializable
-    data class Confirmation(val referenceNumber: String) : NavigationGraph
+    data class Confirmation(val referenceNumber: String="") : NavigationGraph
     @Serializable
     data  class Error404(val path: String) : NavigationGraph
 

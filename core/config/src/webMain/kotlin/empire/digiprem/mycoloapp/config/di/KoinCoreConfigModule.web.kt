@@ -1,2 +1,13 @@
-package empire.digiprem.mycoloapp.config.di 
+package empire.digiprem.mycoloapp.config.di
 
+import empire.digiprem.mycoloapp.core.data.services.AppSessionManagerHandler
+import empire.digiprem.mycoloapp.core.domain.service.AppSessionManager
+import io.github.jan.supabase.auth.SessionManager
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
+import org.koin.dsl.module
+
+actual val coreConfigPlatformModule=module{
+    singleOf(::AppSessionManagerHandler )bind SessionManager::class
+    singleOf(::AppSessionManagerHandler) bind AppSessionManager::class
+}

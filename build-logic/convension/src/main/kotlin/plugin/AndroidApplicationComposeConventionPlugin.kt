@@ -1,9 +1,10 @@
 package plugin
 
 import com.android.build.api.dsl.ApplicationExtension
-import octopusfx.client.mobile.convention.configureAndroidCompose
+import configs.androidComposeConfig
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.internal.Actions.with
 import org.gradle.kotlin.dsl.getByType
 
 class AndroidApplicationComposeConventionPlugin: Plugin<Project> {
@@ -11,11 +12,11 @@ class AndroidApplicationComposeConventionPlugin: Plugin<Project> {
 
         with(target) {
             with(pluginManager) {
-                apply("octopusfx.client.mobile.core.android.application")
+                apply("empire.digiprem.mycoloapp.android.application")
                 apply("org.jetbrains.kotlin.plugin.compose")
             }
             val extension = extensions.getByType<ApplicationExtension>()
-            configureAndroidCompose(extension)
+            androidComposeConfig(extension)
         }
     }
 }

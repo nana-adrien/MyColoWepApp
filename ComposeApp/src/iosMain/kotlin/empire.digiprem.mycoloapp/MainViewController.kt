@@ -1,8 +1,10 @@
-package octopusfx.client.mobile.boxoffice
+package empire.digiprem.mycoloapp
 
 import androidx.compose.ui.window.ComposeUIViewController
-import octopusfx.client.mobile.boxoffice.di.initKoin
+import empire.digiprem.mycoloapp.di.initKoin
 
 fun MainViewController() = ComposeUIViewController(
-    configure = {initKoin()}
+    configure = {
+        initKoin()
+    }
 ) { App() }

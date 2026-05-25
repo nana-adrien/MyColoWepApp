@@ -1,19 +1,16 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.convention.kmp.library)
 }
 
 kotlin {
-    js { browser() }
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs { browser() }
 
     sourceSets {
+
         commonMain.dependencies {
             implementation(libs.compose.resources)
-            implementation(libs.kotlinx.datetime)
         }
+
     }
 }

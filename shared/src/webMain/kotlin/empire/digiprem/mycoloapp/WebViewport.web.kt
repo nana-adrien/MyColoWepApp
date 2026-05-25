@@ -1,2 +1,0 @@
-package empire.digiprem.mycoloapp
-

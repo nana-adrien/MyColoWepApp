@@ -1,4 +1,4 @@
-package empire.digiprem.mycoloapp.core.data.networking
+package empire.digiprem.mycoloapp.core.data
 
 import empire.digiprem.mycoloapp.core.domain.error.AppErrorCode
 import empire.digiprem.mycoloapp.core.domain.error.DataError

@@ -32,8 +32,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.Devices
 import empire.digiprem.mycoloapp.core.design_system.components.wrapper.CardWrapper
 import empire.digiprem.mycoloapp.core.design_system.theme.MyColoTheme
 import empire.digiprem.mycoloapp.core.design_system.theme.Primary
@@ -273,11 +271,11 @@ private fun WebFormPageScaffoldDarkThemePreview() {
 // Phone
 
 
-@Preview(
+/*@Preview(
     name = "Phone",
     group = "WebFormPageScaffold Light Theme",
     device = Devices.PIXEL_3A,
-)
+)*/
 @Composable
 private fun WebFormPageScaffoldLightThemePhonePreview() {
     WebFormPageScaffoldLightThemePreview()
@@ -286,11 +284,11 @@ private fun WebFormPageScaffoldLightThemePhonePreview() {
 
 // Phone
 
-@Preview(
+/*@Preview(
     name = "Phone",
     group = "WebFormPageScaffold Dark Theme",
     device = Devices.PIXEL_3A,
-)
+)*/
 @Composable
 private fun WebFormPageScaffoldDarkThemePhonePreview() {
     WebFormPageScaffoldDarkThemePreview()

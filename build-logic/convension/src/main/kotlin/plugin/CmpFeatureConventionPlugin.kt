@@ -1,8 +1,11 @@
 package plugin
 
-import extension.androidMainImplementation
-import extension.commonMainImplementation
-import extension.libs
+
+import extensions.androidMainImplementation
+import extensions.commonMainImplementation
+import extensions.iosMainImplementation
+import extensions.jsMainImplementation
+import extensions.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -11,10 +14,10 @@ class CmpFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager){
-                apply("octopusfx.client.mobile.boxoffice.cmp.library")
+                apply("empire.digiprem.mycoloapp.cmp.library")
             }
             dependencies {
-                commonMainImplementation(project(":core:presentation"))
+                commonMainImplementation(project(":core:resources"))
                 commonMainImplementation(project(":core:domain"))
 
 
@@ -32,12 +35,17 @@ class CmpFeatureConventionPlugin : Plugin<Project> {
                 commonMainImplementation(libs.findLibrary("jetbrains-lifecycle-viewmodel-savedstate").get())
                 commonMainImplementation(libs.findLibrary("jetbrains-savedstate").get())
                 commonMainImplementation(libs.findLibrary("jetbrains-bundle").get())
-                commonMainImplementation(libs.findLibrary("jetbrains-compose-navigation").get())
+                commonMainImplementation(libs.findLibrary("compose-components-resources").get())
 
+                androidMainImplementation(libs.findLibrary("jetbrains-compose-backhandler").get())
                 androidMainImplementation(libs.findLibrary("koin-android").get())
                 androidMainImplementation(libs.findLibrary("koin-androidx-compose").get())
                 androidMainImplementation(libs.findLibrary("koin-androidx-navigation").get())
                 androidMainImplementation(libs.findLibrary("koin-core-viewmodel").get())
+
+
+                iosMainImplementation(libs.findLibrary("jetbrains-compose-backhandler").get())
+
 
 
             }

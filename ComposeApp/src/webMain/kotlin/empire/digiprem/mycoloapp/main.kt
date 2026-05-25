@@ -1,12 +1,27 @@
-package commonWebMain.kotlin.empire.digiprem.mycoloapp
+package empire.digiprem.mycoloapp
 
 import androidx.compose.ui.ExperimentalComposeUiApi
-import empire.digiprem.mycoloapp.App
-import empire.digiprem.mycoloapp.PlatformComposeViewport
+import empire.digiprem.mycoloapp.di.initKoin
+import kotlin.js.JsName
+
+
+// wasmJsMain — quand l'app est prête
+@JsName("hideLoader")
+external fun hideLoader()
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
-    PlatformComposeViewport {
-        App()
+
+    platformComposeViewport(
+        configure = {
+            initKoin()
+        }
+    ) {
+        App(
+            onNavHostReady = {
+                onNavHostReady(it)
+            }
+        )
     }
+    hideLoader()
 }

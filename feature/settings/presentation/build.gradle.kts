@@ -5,10 +5,7 @@ plugins {
 }
 
 kotlin {
-    js { browser() }
 
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs { browser() }
 
     sourceSets {
         commonMain.dependencies {

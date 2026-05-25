@@ -4,6 +4,7 @@ import com.android.build.api.dsl.LibraryExtension
 import configs.androidComposeConfig
 import configs.androidConfig
 import configs.kotlinMultiplaformConfig
+import extensions.commonMainImplementation
 import extensions.libs
 import extensions.pathToResourcePrefix
 import org.gradle.api.Plugin
@@ -20,7 +21,7 @@ class KmpLibraryConventionPlugin: Plugin<Project> {
                 apply("org.jetbrains.kotlin.multiplatform")
             }
 
-            kotlinMultiplaformConfig()
+            kotlinMultiplaformConfig(true)
             extensions.configure<LibraryExtension>{
                 androidConfig(this)
                 resourcePrefix=this@with.pathToResourcePrefix()
@@ -30,8 +31,9 @@ class KmpLibraryConventionPlugin: Plugin<Project> {
 
             }
             dependencies{
-                "commonMainImplementation"(libs.findLibrary("kotlinx-datetime").get())
-                "commonMainImplementation"(libs.findLibrary("kotlinx-serialization-json").get())
+                commonMainImplementation(libs.findLibrary("kotlinx-datetime").get())
+                commonMainImplementation(libs.findLibrary("kotlinx-serialization-json").get())
+                commonMainImplementation(libs.findLibrary("coroutines-core").get())
                 "commonTestImplementation"(libs.findLibrary("kotlin-test").get())
             }
         }

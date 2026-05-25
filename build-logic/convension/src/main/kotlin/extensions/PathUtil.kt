@@ -17,7 +17,7 @@ fun Project.relativePackageName():String{
         .lowercase()
 }
 fun Project.pathToPackageName(): String {
-    return "octopusfx.client.mobile.libs${relativePackageName()}"
+    return "empire.digiprem.mycoloapp${relativePackageName()}"
 }
 
 fun Project.pathToResourcePrefix(): String {

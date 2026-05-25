@@ -1,4 +1,8 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec
+
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -6,12 +10,40 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlin.serialization)
 }
-
+val devPort = 8080
+val prodPort = 8081
+val isRelease = project.hasProperty("release")
 kotlin {
     js { browser() }
 
     @OptIn(ExperimentalWasmDsl::class)
-    wasmJs { browser() }
+    wasmJs {
+        browser {
+            commonWebpackConfig {
+                mode = KotlinWebpackConfig.Mode.PRODUCTION
+                // ✅ Source maps désactivées en prod (allège le bundle)
+                sourceMaps = false
+
+                devServer = KotlinWebpackConfig.DevServer(
+                    port = if (isRelease) 8081 else 8080,
+
+                )
+            }
+            // ✅ Optimisations Webpack production
+
+            webpackTask {
+                mainOutputFileName = "app.js"
+
+                // ✅ Compression maximale
+                args.add("--optimization-minimize")
+                args.add("--optimization-concatenate-modules")
+            }
+            // ✅ Optimisations spécifiques distribution
+            distribution {
+                outputDirectory = project.file("production/my_colo_web_app/")
+            }
+        }
+    }
 
     sourceSets {
         commonMain.dependencies {
@@ -20,28 +52,16 @@ kotlin {
             implementation(project(":core:navigation"))
             implementation(project(":core:presentation"))
             implementation(project(":core:design_system"))
-            implementation(project(":feature:landing"))
-            implementation(project(":feature:registration:presentation"))
-            implementation(project(":feature:registration:data"))
-            implementation(project(":feature:registration:domain"))
-            implementation(project(":feature:confirmation"))
-            implementation(project(":feature:admin:login:presentation"))
-            implementation(project(":feature:admin:login:data"))
-            implementation(project(":feature:admin:login:domain"))
-            implementation(project(":feature:admin:dashboard:presentation"))
-            implementation(project(":feature:admin:dashboard:domain"))
-            implementation(project(":feature:admin:dashboard:data"))
-            implementation(project(":feature:admin:security_code:presentation"))
-            implementation(project(":feature:admin:security_code:data"))
-            implementation(project(":feature:admin:security_code:domain"))
-            implementation(libs.koin.core)
+          implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.compose.ui)
-          //  implementation(libs.supabase.bom)
+            //  implementation(libs.supabase.bom)
             implementation(libs.kotlinx.datetime)
             implementation(libs.supabase.postgrest)
             implementation(libs.supabase.auth)
+            implementation(libs.supabase.realtime)
+            implementation(libs.supabase.storage)
         }
         jsMain.dependencies {
             //implementation(libs.kotlinx.datetime)
@@ -59,4 +79,7 @@ kotlin {
             implementation(libs.kotlin.test)
         }
     }
+
+
 }
+

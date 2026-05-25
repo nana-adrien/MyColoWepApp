@@ -29,6 +29,7 @@ kotlin {
             implementation(project(":core:navigation"))
             implementation(project(":core:presentation"))
             implementation(project(":core:design_system"))
+            implementation(project(":core:config"))
             implementation(project(":feature:confirmation"))
             implementation(project(":feature:auth:config"))
             implementation(project(":feature:registration:config"))
@@ -41,6 +42,8 @@ kotlin {
             implementation(project(":feature:settings:config"))
 
             implementation(libs.compose.ui)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.koin.core)
         }
     }
 }
@@ -48,28 +51,28 @@ kotlin {
 
 tasks.register("wasmJsBrowserDistributionAndCopyToProduction") {
     dependsOn("wasmJsBrowserDistribution")
-    val buildDir = layout.buildDirectory.get().asFile
-    val projectDir = layout.projectDirectory.asFile
+    //val buildDir = layout.buildDirectory.get().asFile
+   // val projectDir = layout.projectDirectory.asFile
     val projectVersion = project.version.toString()
 
-    val sourceDir = File("${buildDir}/dist/wasmJs/productionExecutable/")
-    val targetDir = File("${projectDir}/production/my_colo_web_app/")
+    //val sourceDir = File("${buildDir}/dist/wasmJs/productionExecutable/")
+   // val targetDir = File("${projectDir}/production/my_colo_web_app/")
 
-    inputs.dir(sourceDir)
-    outputs.dir(targetDir)
+   // inputs.dir(sourceDir)
+   // outputs.dir(targetDir)
 
     doLast {
         // 1. Copie manuelle sans référence au contexte Gradle
-        targetDir.mkdirs()
-        sourceDir.walkTopDown().forEach { source ->
+    //    targetDir.mkdirs()
+       /* sourceDir.walkTopDown().forEach { source ->
             val target = File(targetDir, source.relativeTo(sourceDir).path)
             if (source.isDirectory) {
                 target.mkdirs()
             } else {
                 source.copyTo(target, overwrite = true)
             }
-        }
-        println("✅ Fichiers copiés vers : ${targetDir.absolutePath}")
+        }*/
+      //  println("✅ Fichiers copiés vers : ${targetDir.absolutePath}")
 
         // 2. Génère build-info.json
         val buildInfoFile = File("${projectDir}/production/my_colo_web_app/build-info.json")

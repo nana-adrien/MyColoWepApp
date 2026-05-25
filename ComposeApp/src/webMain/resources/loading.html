@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; font-family: system-ui, sans-serif; }
+        body { display: flex; align-items: center; justify-content: center; background: #fff; }
+
+        @media (prefers-color-scheme: dark) {
+            body { background: #1a1a1a; }
+            .box { border-color: #333; background: #222; }
+            .srv-row { background: #2a2a2a; border-color: #333; }
+            .screen { background: #2a2a2a; border-color: #333; }
+            .screen-line, .stand, .base { background: #444; }
+            .wire { background: #333; }
+            .lbl, .status-text { color: #888; }
+            .progress-track { background: #2a2a2a; border-color: #333; }
+            .progress-bar { background: #fff; }
+        }
+
+        .wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px; padding: 48px 24px; }
+        .scene { position: relative; width: 340px; height: 160px; }
+        .device { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .server { left: 20px; top: 20px; }
+        .client { right: 20px; top: 20px; }
+        .box { border: 0.5px solid #e0e0e0; border-radius: 8px; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+        .server .box { width: 72px; height: 88px; }
+        .client .box { width: 56px; height: 80px; }
+        .srv-rack { width: 44px; display: flex; flex-direction: column; gap: 4px; }
+        .srv-row { height: 10px; background: #f5f5f5; border-radius: 2px; border: 0.5px solid #e0e0e0; display: flex; align-items: center; padding: 0 4px; gap: 3px; }
+        .srv-dot { width: 4px; height: 4px; border-radius: 50%; background: #ddd; }
+        .srv-dot.on { background: #1D9E75; animation: blink 2s infinite; }
+        .screen { width: 34px; height: 24px; background: #f5f5f5; border-radius: 3px; border: 0.5px solid #e0e0e0; display: flex; align-items: center; justify-content: center; }
+        .screen-line { width: 22px; height: 3px; background: #ddd; border-radius: 1px; }
+        .stand { width: 16px; height: 4px; background: #ddd; border-radius: 1px; }
+        .base { width: 28px; height: 3px; background: #ddd; border-radius: 1px; }
+        .lbl { font-size: 11px; color: #999; }
+        .wire { position: absolute; top: 64px; left: 102px; right: 102px; height: 1px; background: #e0e0e0; }
+        .packets-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        .pkt { position: absolute; width: 22px; height: 14px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 500; font-family: monospace; opacity: 0; top: 57px; }
+        .pkt-out { background: #E6F1FB; color: #0C447C; border: 0.5px solid #85B7EB; animation: flyRight 2.4s ease-in-out infinite; }
+        .pkt-in  { background: #E1F5EE; color: #085041; border: 0.5px solid #5DCAA5; animation: flyLeft  2.4s ease-in-out infinite 1.2s; }
+        .status-area { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .status-text { font-size: 14px; color: #888; min-height: 20px; }
+        .progress-track { width: 220px; height: 3px; background: #f0f0f0; border-radius: 2px; overflow: hidden; border: 0.5px solid #e0e0e0; }
+        .progress-bar { height: 100%; background: #111; border-radius: 2px; width: 0%; transition: width 0.4s ease; }
+
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        @keyframes flyRight {
+            0%   { left: 102px; opacity: 0; }
+            10%  { opacity: 1; }
+            85%  { opacity: 1; }
+            100% { left: calc(100% - 124px); opacity: 0; }
+        }
+        @keyframes flyLeft {
+            0%   { left: calc(100% - 124px); opacity: 0; }
+            10%  { opacity: 1; }
+            85%  { opacity: 1; }
+            100% { left: 102px; opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="scene">
+        <div class="device server">
+            <div class="box">
+                <div class="srv-rack">
+                    <div class="srv-row"><div class="srv-dot on"></div><div class="srv-dot"></div></div>
+                    <div class="srv-row"><div class="srv-dot on"></div><div class="srv-dot on"></div></div>
+                    <div class="srv-row"><div class="srv-dot"></div><div class="srv-dot on"></div></div>
+                    <div class="srv-row"><div class="srv-dot on"></div><div class="srv-dot"></div></div>
+                </div>
+            </div>
+            <span class="lbl">serveur</span>
+        </div>
+        <div class="device client">
+            <div class="box">
+                <div class="screen"><div class="screen-line"></div></div>
+                <div class="stand"></div>
+                <div class="base"></div>
+            </div>
+            <span class="lbl">appareil</span>
+        </div>
+        <div class="wire"></div>
+        <div class="packets-layer">
+            <div class="pkt pkt-out">JSON</div>
+            <div class="pkt pkt-in">ACK</div>
+        </div>
+    </div>
+    <div class="status-area">
+        <div class="status-text" id="status">Connexion au serveur…</div>
+        <div class="progress-track"><div class="progress-bar" id="bar"></div></div>
+    </div>
+</div>
+<script>
+    const steps = [
+        [0,   "Connexion au serveur…"],
+        [18,  "Envoi de la requête…"],
+        [36,  "Transfert des données…"],
+        [55,  "Réception des ressources…"],
+        [72,  "Initialisation de l'interface…"],
+        [88,  "Finalisation…"],
+        [100, "Chargement terminé"],
+    ];
+    const bar = document.getElementById('bar');
+    const status = document.getElementById('status');
+    let i = 0;
+    function tick() {
+        if (i >= steps.length) return;
+        const [pct, txt] = steps[i];
+        bar.style.width = pct + '%';
+        status.textContent = txt;
+        i++;
+        if (i < steps.length) setTimeout(tick, i === steps.length - 1 ? 600 : 900);
+    }
+    setTimeout(tick, 400);
+</script>
+</body>
+</html>

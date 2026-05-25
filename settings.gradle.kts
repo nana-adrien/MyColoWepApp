@@ -41,6 +41,10 @@ include(":core:design_system")
 // Feature modules — pre_auth
 include(":feature:pre_auth:landing")
 include(":feature:confirmation")
+include(":feature:pre_auth:domain")
+include(":feature:pre_auth:data")
+include(":feature:pre_auth:presentation")
+include(":feature:pre_auth:config")
 
 // Feature modules — auth
 include(":feature:auth:domain")
@@ -48,17 +52,18 @@ include(":feature:auth:data")
 include(":feature:auth:presentation")
 include(":feature:auth:config")
 
-// Feature modules — admin:login
+// Feature modules — admin:login/**/
+/*
 include(":feature:admin:login:domain")
 include(":feature:admin:login:data")
 include(":feature:admin:login:presentation")
-include(":feature:admin:login:config")
+include(":feature:admin:login:config")*/
 
-// Feature modules — admin:dashboard
+/*// Feature modules — admin:dashboard
 include(":feature:admin:dashboard:domain")
 include(":feature:admin:dashboard:data")
 include(":feature:admin:dashboard:presentation")
-include(":feature:admin:dashboard:config")
+include(":feature:admin:dashboard:config")*/
 
 // Feature modules — registration
 include(":feature:registration:domain")

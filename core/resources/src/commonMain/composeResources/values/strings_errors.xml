@@ -1,0 +1,63 @@
+
+<!-- commonMain/composeResources/values/strings_errors.xml -->
+<resources>
+
+    <!-- ============================================ -->
+    <!-- DataError.Remote — Authentification          -->
+    <!-- ============================================ -->
+    <string name="error_unauthorized">Veuillez vous connecter pour continuer</string>
+    <string name="error_forbidden">Vous n&#39;&#234;tes pas autoris&#233; &#224; effectuer cette action</string>
+
+    <!-- ============================================ -->
+    <!-- DataError.Remote — Données                   -->
+    <!-- ============================================ -->
+    <string name="error_not_found">La ressource demand&#233;e est introuvable</string>
+    <string name="error_conflict">Cette valeur existe d&#233;j&#224;</string>
+    <string name="error_bad_request">La requ&#234;te est invalide</string>
+    <string name="error_read_only">Cette ressource est en lecture seule</string>
+
+    <!-- ============================================ -->
+    <!-- DataError.Remote — Réseau                    -->
+    <!-- ============================================ -->
+    <string name="error_network">V&#233;rifiez votre connexion internet</string>
+    <string name="error_request_timeout">La requ&#234;te a expir&#233;, veuillez r&#233;essayer</string>
+
+    <!-- ============================================ -->
+    <!-- DataError.Remote — Serveur                   -->
+    <!-- ============================================ -->
+    <string name="error_server">Une erreur serveur est survenue</string>
+    <string name="error_serialization">Erreur lors du traitement des donn&#233;es</string>
+    <string name="error_unknown">Une erreur inconnue est survenue</string>
+
+    <!-- ============================================ -->
+    <!-- AppErrorCode — Codes custom triggers         -->
+    <!-- ============================================ -->
+
+    <!-- P0001 -->
+    <string name="error_code_required">Un code de s&#233;curit&#233; est obligatoire pour s&#39;inscrire</string>
+
+    <!-- P0002 -->
+    <string name="error_code_not_found">Ce code de s&#233;curit&#233; est introuvable</string>
+
+    <!-- P0003 -->
+    <string name="error_code_inactive">Ce code de s&#233;curit&#233; a &#233;t&#233; d&#233;sactiv&#233;</string>
+
+    <!-- P0004 -->
+    <string name="error_code_exhausted">Ce code de s&#233;curit&#233; a atteint son nombre maximum d&#39;utilisations</string>
+
+    <!-- P0005 -->
+    <string name="error_code_reactivation_denied">Impossible de r&#233;activer un code &#233;puis&#233;</string>
+
+    <!-- P0006 -->
+    <string name="error_invalid_max_uses">Le nombre maximum doit &#234;tre sup&#233;rieur au nombre d&#39;utilisations actuelles</string>
+
+    <!-- P0007 -->
+    <string name="error_duplicate_participant">Un participant avec ce nom et cette date de naissance est d&#233;j&#224; inscrit</string>
+
+    <!-- P0008 -->
+    <string name="error_participant_not_found_update">Impossible de modifier&#160;: participant introuvable</string>
+
+    <!-- P0009 -->
+    <string name="error_participant_not_found_delete">Impossible de supprimer&#160;: participant introuvable</string>
+
+</resources>

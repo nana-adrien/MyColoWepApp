@@ -2,14 +2,11 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.composeMultiplatform)
-    alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.convention.cmp.library)
 }
 
 kotlin {
-    js {
+  /*  js {
         browser {
             webpackTask {
                 mode = org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.Mode.PRODUCTION
@@ -19,9 +16,9 @@ kotlin {
         }
         binaries.executable()
 
-    }
+    }*/
 
-    @OptIn(ExperimentalWasmDsl::class)
+ /*   @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser {
             commonWebpackConfig {
@@ -29,17 +26,17 @@ kotlin {
                     enabled = true
                 }
 
-                /* devServer = devServer?.apply {
+                *//* devServer = devServer?.apply {
                      hot = false          // Désactive HMR qui casse le WASM
                      liveReload = true
                      overlay = true       // Affiche les erreurs directement dans le navigateur
-                 }*/
+                 }*//*
             }
         }
         binaries.executable()
 
     }
-
+*/
     sourceSets {
         jsMain.dependencies {
             implementation(libs.ktor.client.js)
@@ -52,20 +49,23 @@ kotlin {
 
         commonMain.dependencies {
             //  implementation("org.jetbrains.kotlinx:kotlinx-browser:0.3")
-            implementation(libs.compose.runtime)
-            implementation(libs.compose.foundation)
-            implementation(libs.compose.material3)
-            implementation(libs.compose.material.icons.core)
-            implementation(libs.compose.material.icons.extended)
-            implementation(libs.compose.ui)
-            implementation(libs.navigation.compose)
+            //implementation(libs.compose.runtime)
+           // implementation(libs.compose.foundation)
+           // implementation(libs.compose.material3)
+           // implementation(libs.compose.material.icons.core)
+            //implementation(libs.compose.material.icons.extended)
+            //implementation(libs.compose.ui)
+           // implementation(libs.navigation.compose)
             implementation(libs.compose.components.resources)
             api(project(":core:resources"))
-            implementation(libs.material3.adaptive)
-            implementation(libs.compose.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodelCompose)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation(libs.kotlinx.serialization.json)
+            implementation(project(":core:domain"))
+           // implementation(libs.koin.compose.viewmodel)
+           // implementation(projects.core.designSystem)
+            //implementation(libs.material3.adaptive)
+          //  implementation(libs.compose.uiToolingPreview)
+           // implementation(libs.androidx.lifecycle.viewmodelCompose)
+            //implementation(libs.androidx.lifecycle.runtimeCompose)
+           // implementation(libs.kotlinx.serialization.json)
             implementation(libs.coil.compose)
             implementation(libs.coil.svg)
             implementation(libs.coil.network.ktor)

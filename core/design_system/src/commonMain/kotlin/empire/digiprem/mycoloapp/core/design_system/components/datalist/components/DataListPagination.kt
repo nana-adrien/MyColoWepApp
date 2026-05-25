@@ -63,7 +63,7 @@ fun DataListPagination(
                 Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, "Page précédente", modifier = Modifier.size(18.dp))
             }
 
-            _root_ide_package_.empire.digiprem.mycolowepapp.core.design_system.components.datalist.components.buildPageList(
+            buildPageList(
                 currentPage,
                 totalPages
             ).forEach { page ->

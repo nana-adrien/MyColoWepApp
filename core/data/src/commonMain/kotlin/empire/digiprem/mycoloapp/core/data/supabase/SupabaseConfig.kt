@@ -1,17 +1,16 @@
-package empire.digiprem.mycoloapp.core.data.networking.supabase
+package empire.digiprem.mycoloapp.core.data.supabase
 
-import empire.digiprem.mycoloapp.BuildKonfig
+import empire.digiprem.mycoloapp.core.data.BuildKonfig
+import empire.digiprem.mycoloapp.core.data.BuildKonfig.SUPABASE_URL
 import empire.digiprem.mycoloapp.core.domain.service.AppSessionManager
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.SessionManager
-import io.github.jan.supabase.auth.user.UserSession
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.realtime.Realtime
 import io.github.jan.supabase.serializer.KotlinXSerializer
 import io.github.jan.supabase.storage.Storage
-import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonNamingStrategy
@@ -20,12 +19,12 @@ import kotlin.time.Duration.Companion.seconds
 
 
 
-expect fun createPlatformSessionManager(): AppSessionManager,AppSessionManager
 
 @OptIn(ExperimentalSerializationApi::class)
-fun createAppSupabaseClient(): SupabaseClient = createSupabaseClient(
-    supabaseUrl = BuildKonfig.SUPABASE_URL,
-    supabaseKey = BuildKonfig.SUPABASE_KEY
+fun createAppSupabaseClient(actualSessionManager: SessionManager): SupabaseClient = createSupabaseClient(
+    supabaseUrl =SUPABASE_URL,
+    supabaseKey = BuildKonfig.SUPABASE_KEY,
+
 ) {
     install(Postgrest) {
         serializer = KotlinXSerializer(
@@ -37,7 +36,7 @@ fun createAppSupabaseClient(): SupabaseClient = createSupabaseClient(
         )
     }
     install(Auth) {
-        sessionManager = createPlatformSessionManager()
+        sessionManager = actualSessionManager
     }
     install(Realtime) {
         reconnectDelay = 7.seconds      // ✅ par défaut — délai entre tentatives

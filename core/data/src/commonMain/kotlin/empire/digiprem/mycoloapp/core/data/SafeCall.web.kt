@@ -1,2 +1,2 @@
-package empire.digiprem.mycoloapp.core.data.networking
+package empire.digiprem.mycoloapp.core.data
 

@@ -15,7 +15,7 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":core:domain"))
             implementation(project(":core:data"))
-            implementation(project(":feature:admin:dashboard:domain"))
+            implementation(project(":feature:participants:domain"))
             implementation(project(":feature:registration:domain"))
           /* // implementation(libs.supabase.bom)
             implementation(libs.supabase.postgrest)

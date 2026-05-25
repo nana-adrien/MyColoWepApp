@@ -46,7 +46,7 @@ fun <T> DataListActions(
     }
 
     if (showDeleteDialog) {
-        _root_ide_package_.empire.digiprem.mycolowepapp.core.design_system.components.datalist.components.DeleteConfirmDialog(
+        DeleteConfirmDialog(
             onConfirm = { showDeleteDialog = false; onDelete(item) },
             onDismiss = { showDeleteDialog = false }
         )

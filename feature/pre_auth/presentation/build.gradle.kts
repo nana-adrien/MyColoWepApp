@@ -5,17 +5,13 @@ plugins {
 }
 
 kotlin {
-    js { browser() }
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs { browser() }
 
     sourceSets {
         commonMain.dependencies {
             implementation(projects.core.domain)
             implementation(projects.core.presentation)
             implementation(projects.core.designSystem)
-            implementation(projects.feature.admin.login.domain)
+            implementation(projects.feature.preAuth.domain)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)

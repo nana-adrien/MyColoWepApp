@@ -14,7 +14,7 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":core:domain"))
             implementation(project(":core:data"))
-            implementation(project(":feature:admin:login:domain"))
+            implementation(project(":feature:auth:domain"))
            /* implementation(libs.supabase.auth)
             implementation(libs.koin.core)
             implementation(libs.coroutines.core)*/

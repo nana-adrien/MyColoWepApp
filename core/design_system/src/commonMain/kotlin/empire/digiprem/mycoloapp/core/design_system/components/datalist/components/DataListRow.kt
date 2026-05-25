@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction
 
 @Composable
 fun <T> DataListRow(
@@ -52,16 +53,16 @@ fun <T> DataListRow(
 
         val visibleCols = columns.filter { it.key in visibleColumns }
         visibleCols.forEach { col ->
-            Box(modifier = if (col.width != null) _root_ide_package_.androidx.compose.ui.Modifier.Companion.width(col.width) else Modifier.weight(1f)) {
+            Box(modifier = if (col.width != null) Modifier.width(col.width) else Modifier.weight(1f)) {
                 col.render(this@Row, item)
             }
         }
 
-        _root_ide_package_.empire.digiprem.mycolowepapp.core.design_system.components.datalist.components.DataListActions(
+       DataListActions(
             item = item,
             onView = {
                 onAction(
-                    _root_ide_package_.empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction.View(
+                    ListAction.View(
                         it
                     )
                 )

@@ -1,4 +1,4 @@
-package empire.digiprem.mycoloapp.core.presentation.component
+package empire.digiprem.mycoloapp.core.design_system.components
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size

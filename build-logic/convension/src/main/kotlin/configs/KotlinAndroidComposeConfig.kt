@@ -9,21 +9,24 @@ import org.gradle.kotlin.dsl.dependencies
 import kotlin.text.get
 import kotlin.toString
 
-fun Project.androidConfig(
+fun Project.androidComposeConfig(
     commonExtension: CommonExtension<*, *, *, *,*,*>,
 ) {
     with(commonExtension) {
-        compileSdk=  libs.findVersion("projectCompileSdkVersion").get().toString().toInt()
-        defaultConfig.minSdk=libs.findVersion("projectMinSdkVersion").get().toString().toInt()
+        buildFeatures {
+            compose = true
+        }
         compileOptions {
             sourceCompatibility = JavaVersion.VERSION_21
             targetCompatibility = JavaVersion.VERSION_21
             isCoreLibraryDesugaringEnabled = true
-
         }
-        compilerConfig()
         dependencies {
-            "coreLibraryDesugaring"(libs.getLibrary("android-desugarJdkLibs"))
+            val bom = libs.getLibrary("androidx-compose-bom")
+            "implementation"(platform(bom))
+            "testImplementation"(platform(bom))
+            "debugImplementation"(libs.getLibrary("compose-uiToolingPreview"))
+            "debugImplementation"(libs.getLibrary("androidx-compose-ui-tooling"))
         }
     }
 

@@ -2,9 +2,10 @@ package empire.digiprem.mycoloapp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import empire.digiprem.mycoloapp.feature.registration.presentation.RegistrationEvent
-import empire.digiprem.mycoloapp.supabase.AppSessionManager
+import empire.digiprem.mycoloapp.core.domain.service.AppSessionManager
+import empire.digiprem.mycoloapp.features.registration.presentation.RegistrationEvent
 import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.auth.SessionManager
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.status.SessionStatus
 import kotlinx.coroutines.channels.Channel
@@ -19,16 +20,16 @@ import kotlinx.coroutines.launch
 
 class AppViewModel(
     val superbaseClient: SupabaseClient,
-    val sessionManager: AppSessionManager,
+    val sessionManager: SessionManager,
 ) : ViewModel() {
     var isStarted = false
     private val _state = MutableStateFlow(AppState())
     val state = combine(
         _state,
         superbaseClient.auth.sessionStatus,
-        sessionManager.observeSession().distinctUntilChanged()
+        //sessionManager.observeSession().distinctUntilChanged()
     )
-    { currentState, sessionStatus, sessions ->
+    { currentState, sessionStatus ->
 /*
         println("sessionStatus=${sessionStatus}")
         currentState.copy(
