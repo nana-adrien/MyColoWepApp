@@ -34,6 +34,8 @@ import empire.digiprem.mycoloapp.features.security_code.presentation.SecurityCod
 import empire.digiprem.mycoloapp.features.live.presentation.lobby.LiveLobbyRoot
 import empire.digiprem.mycoloapp.features.live.presentation.broadcast.LiveBroadcastRoot
 import empire.digiprem.mycoloapp.features.live.presentation.watch.LiveWatchRoot
+import empire.digiprem.mycoloapp.features.auth.navigation.AuthRoute
+import empire.digiprem.mycoloapp.features.auth.navigation.authNavGraph
 import empire.digiprem.mycoloapp.navigation.MyColoNavHost
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -124,6 +126,21 @@ fun App(
                             )
                         }
                     }
+
+                    authNavGraph(
+                        navController = navController,
+                        onNavigateBack = { navController.popBackStack() },
+                        onOtpVerified = {
+                            navController.navigate(AuthRoute.ModifierMotDePasse) {
+                                launchSingleTop = true
+                            }
+                        },
+                        onPasswordUpdated = {
+                            navController.navigate(NavigationGraph.AdminLogin) {
+                                popUpTo(AuthRoute.AuthRoot) { inclusive = true }
+                            }
+                        },
+                    )
                 }
             )
         }

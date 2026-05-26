@@ -14,6 +14,7 @@ import empire.digiprem.mycoloapp.features.security_code.config.securityCodeModul
 import empire.digiprem.mycoloapp.feature.pre_auth.config.preAuthModule
 import empire.digiprem.mycoloapp.features.registration.config.registrationModule
 import empire.digiprem.mycoloapp.features.auth.config.authModule
+import empire.digiprem.mycoloapp.features.auth.config.authPasswordModule
 import empire.digiprem.mycoloapp.features.settings.config.settingsModule
 import empire.digiprem.mycoloapp.features.feed.config.feedModule
 import empire.digiprem.mycoloapp.features.live.config.liveModule
@@ -46,6 +47,7 @@ fun initKoin(config: KoinAppDeclaration? = null) {
             coreConfigModule,
             // Feature modules
             authModule,
+            authPasswordModule,
             registrationModule,
             securityCodeModule,
             participantsModule,
