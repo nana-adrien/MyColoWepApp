@@ -12,8 +12,8 @@ kotlin {
             implementation(projects.core.data)
             implementation(projects.feature.live.domain)
             implementation(libs.supabase.functions)
-            /*implementation(libs.supabase.postgrest)
-            implementation(libs.supabase.realtime)*/
+            implementation(libs.supabase.postgrest)
+            implementation(libs.supabase.realtime)
             implementation(libs.koin.core)
         }
         androidMain.dependencies {

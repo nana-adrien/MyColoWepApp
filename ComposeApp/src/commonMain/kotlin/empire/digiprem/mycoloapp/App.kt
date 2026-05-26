@@ -2,7 +2,11 @@ package empire.digiprem.mycoloapp
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -10,6 +14,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -25,6 +31,10 @@ import empire.digiprem.mycoloapp.features.auth.presentation.AdminLoginScreen
 import empire.digiprem.mycoloapp.features.participants.presentation.AdminDashboardScreen
 import empire.digiprem.mycoloapp.features.pre_auth.presentation.LandingScreen
 import empire.digiprem.mycoloapp.features.security_code.presentation.SecurityCodeScreen
+import empire.digiprem.mycoloapp.features.live.presentation.lobby.LiveLobbyRoot
+import empire.digiprem.mycoloapp.features.live.presentation.broadcast.LiveBroadcastRoot
+import empire.digiprem.mycoloapp.features.live.presentation.watch.LiveWatchRoot
+import empire.digiprem.mycoloapp.navigation.MyColoNavHost
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -36,101 +46,86 @@ fun App(
     val state by appViewModel.state.collectAsState()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-
+    val height = LocalWindowInfo.current.containerDpSize.height-40.dp
     MyColoTheme {
         // startDestination résolu UNE SEULE FOIS, après chargement complet
         AlertHandlerContainer {
-            NavHost(
+            MyColoNavHost(
                 navController = navController,
-                startDestination = NavigationGraph.Landing,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                composable<NavigationGraph.Landing> {
-                    key(navBackStackEntry?.id) {
-                        LandingScreen(
-                            onNavigateToRegistration = {
-                                navController.navigate(NavigationGraph.Registration)
-                            },
-                            onNavigateToAdmin = {
-                                navController.navigate(
-                                    if (state.isAuthenticated) NavigationGraph.AdminDashboard else
-                                        NavigationGraph.AdminLogin
+                authenticated = state.isAuthenticated,
+                commonNavGraph = {
+                    composable<NavigationGraph.AdminLogin> {
+                        Column(
+                            modifier = Modifier.heightIn(min=height)
+                        ) {
+                            AdminLoginScreen(
+                                onNavigateBack = { navController.popBackStack() },
+                                onLoginSuccess = {
+                                    navController.navigate(NavigationGraph.AdminDashboard) {
+                                        popUpTo<NavigationGraph.AdminLogin> { inclusive = true }
+                                    }
+                                }
+                            )
+                        }
+                    }
+
+                    composable<NavigationGraph.AdminDashboard> {
+                        key(navBackStackEntry?.id) {
+                            Column(
+                                modifier = Modifier.height(height).padding(top = 56.dp)
+                            ) {
+                                AdminDashboardScreen(
+                                    onLogout = {
+                                        navController.navigate(NavigationGraph.AdminLogin) {
+                                            popUpTo(NavigationGraph.Landing) { inclusive = false }
+                                        }
+                                    }
                                 )
                             }
-                        )
-                    }
-                }
 
-                composable<NavigationGraph.Registration> {
-                    key(navBackStackEntry?.id) {
-
-                        RegistrationScreen(
-                            onNavigateBack = { navController.popBackStack() },
-                            onNavigateToConfirmation = { ref ->
-                                navController.navigate(NavigationGraph.Confirmation(ref)) {
-                                    popUpTo<NavigationGraph.Registration> { inclusive = true }
-                                }
-                            }
-                        )
-                    }
-                }
-
-                composable<NavigationGraph.Confirmation> {
-                    key(navBackStackEntry?.id) {
-                        val route = it.toRoute<NavigationGraph.Confirmation>()
-                        ConfirmationScreen(
-                            referenceNumber = route.referenceNumber,
-                            onNavigateHome = {
-                                navController.navigate(NavigationGraph.Landing) {
-                                    popUpTo<NavigationGraph.Landing> { inclusive = true }
-                                }
-                            }
-                        )
-
-                    }
-                }
-
-                composable<NavigationGraph.AdminLogin> {
-                    AdminLoginScreen(
-                        onNavigateBack = { navController.popBackStack() },
-                        onLoginSuccess = {
-                            navController.navigate(NavigationGraph.AdminDashboard) {
-                                popUpTo<NavigationGraph.AdminLogin> { inclusive = true }
-                            }
                         }
-                    )
-                }
+                    }
 
-                composable<NavigationGraph.AdminDashboard> {
-                    key(navBackStackEntry?.id) {
+                    composable<NavigationGraph.AdminSecurityCodes> {
+                        key(navBackStackEntry?.id) {
+                            SecurityCodeScreen(
+                                onNavigateBack = { navController.popBackStack() }
+                            )
+                        }
+                    }
 
-                        AdminDashboardScreen(
-                            onLogout = {
-                                navController.navigate(NavigationGraph.AdminLogin) {
-                                    popUpTo(NavigationGraph.Landing) { inclusive = false }
+                    composable<NavigationGraph.LiveLobby> {
+                        key(navBackStackEntry?.id) {
+                            LiveLobbyRoot(
+                                onNavigateToWatch = { sessionId ->
+                                    navController.navigate(NavigationGraph.LiveWatch(sessionId))
+                                },
+                                onNavigateToBroadcast = {
+                                    navController.navigate(NavigationGraph.LiveBroadcast)
                                 }
-                            }
-                        )
+                            )
+                        }
+                    }
+
+                    composable<NavigationGraph.LiveBroadcast> {
+                        key(navBackStackEntry?.id) {
+                            LiveBroadcastRoot(
+                                onNavigateBack = { navController.popBackStack() }
+                            )
+                        }
+                    }
+
+                    composable<NavigationGraph.LiveWatch> {
+                        key(navBackStackEntry?.id) {
+                            val route = it.toRoute<NavigationGraph.LiveWatch>()
+                            LiveWatchRoot(
+                                sessionId = route.sessionId,
+                                onNavigateBack = { navController.popBackStack() }
+                            )
+                        }
                     }
                 }
-
-                composable<NavigationGraph.AdminSecurityCodes> {
-                    key(navBackStackEntry?.id) {
-
-                        SecurityCodeScreen(
-                            onNavigateBack = { navController.popBackStack() }
-                        )
-                    }
-                }
-
-                composable<NavigationGraph.Error404> {
-                    key(navBackStackEntry?.id) {
-
-                        Box(modifier = Modifier.fillMaxSize().background(Color.Red))
-                    }
-                }
-            }
-
+            )
         }
 
     }
@@ -152,10 +147,6 @@ fun App(
                     popUpTo<NavigationGraph.AdminDashboard> { inclusive = true }
                 }
         }
-    }
-    LaunchedEffect(navController) {
-        // 1. URL routing (browser hash → écran)
-        onNavHostReady(navController)
     }
 
 }

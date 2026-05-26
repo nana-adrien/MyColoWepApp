@@ -23,4 +23,13 @@ sealed interface NavigationGraph {
 
     @Serializable
     data object AdminSecurityCodes : NavigationGraph
+
+    @Serializable
+    data object LiveLobby : NavigationGraph
+
+    @Serializable
+    data object LiveBroadcast : NavigationGraph
+
+    @Serializable
+    data class LiveWatch(val sessionId: String) : NavigationGraph
 }
