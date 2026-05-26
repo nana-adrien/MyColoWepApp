@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Colo — Live</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0a0a; color: #fff; font-family: -apple-system, sans-serif; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        #header { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: #111; border-bottom: 1px solid #222; }
+        #header h1 { font-size: 15px; font-weight: 600; }
+        #badge { background: #e74c3c; color: white; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; letter-spacing: 0.5px; }
+        #viewer-badge { background: #3498db; color: white; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+        #back { margin-left: auto; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: white; padding: 5px 12px; border-radius: 12px; font-size: 12px; cursor: pointer; }
+        #videos { flex: 1; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px; padding: 4px; overflow: hidden; }
+        video { flex: 1; min-width: 200px; max-height: 100%; background: #111; border-radius: 8px; }
+        #loading { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
+        .spinner { width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.15); border-top-color: #6c5ce7; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        #controls { display: flex; gap: 8px; padding: 10px; justify-content: center; background: rgba(0,0,0,0.95); border-top: 1px solid #222; }
+        button.ctrl { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 8px 18px; border-radius: 18px; font-size: 12px; cursor: pointer; transition: background 0.2s; }
+        button.ctrl:hover { background: rgba(255,255,255,0.18); }
+        button.ctrl.off { background: rgba(231,76,60,0.3); border-color: #e74c3c; }
+        #empty { color: #444; font-size: 15px; text-align: center; padding: 20px; }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>My Colo Live</h1>
+        <span id="live-badge" style="display:none"></span>
+        <button id="back" onclick="history.back()">← Retour</button>
+    </div>
+    <div id="loading">
+        <div class="spinner"></div>
+        <span style="font-size:13px;color:#888;">Connexion en cours...</span>
+    </div>
+    <div id="videos" style="display:none"></div>
+    <div id="controls" style="display:none"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/livekit-client@2.5.3/dist/livekit-client.umd.min.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const lkUrl   = decodeURIComponent(params.get('url') || '');
+        const token   = params.get('token') || '';
+        const isPub   = params.get('publishing') === 'true';
+
+        const $loading  = document.getElementById('loading');
+        const $videos   = document.getElementById('videos');
+        const $controls = document.getElementById('controls');
+        const $badge    = document.getElementById('live-badge');
+
+        if (!lkUrl || !token) {
+            $loading.innerHTML = '<span style="color:#e74c3c">Paramètres de connexion manquants.</span>';
+        } else {
+            startLiveKit();
+        }
+
+        async function startLiveKit() {
+            const room = new LivekitClient.Room({
+                adaptiveStream: true,
+                dynacast: true,
+                videoCaptureDefaults: { resolution: LivekitClient.VideoPresets.h720.resolution },
+            });
+
+            room.on(LivekitClient.RoomEvent.TrackSubscribed, (track, _pub, _participant) => {
+                const empty = document.getElementById('empty');
+                if (empty) empty.remove();
+
+                if (track.kind === LivekitClient.Track.Kind.Video) {
+                    const el = track.attach();
+                    Object.assign(el.style, { flex: '1', minWidth: '200px', background: '#111', borderRadius: '8px' });
+                    $videos.appendChild(el);
+                } else if (track.kind === LivekitClient.Track.Kind.Audio) {
+                    const el = track.attach();
+                    el.style.display = 'none';
+                    document.body.appendChild(el);
+                }
+            });
+
+            room.on(LivekitClient.RoomEvent.TrackUnsubscribed, (track) => {
+                track.detach().forEach(el => el.remove());
+            });
+
+            room.on(LivekitClient.RoomEvent.Disconnected, () => {
+                $badge.textContent = '❌ Déconnecté';
+                $badge.style.background = '#555';
+            });
+
+            try {
+                await room.connect(lkUrl, token);
+
+                $loading.style.display = 'none';
+                $videos.style.display = 'flex';
+
+                if (isPub) {
+                    await room.localParticipant.enableCameraAndMicrophone();
+
+                    const camPub = room.localParticipant.getTrackPublication(LivekitClient.Track.Source.Camera);
+                    if (camPub?.videoTrack) {
+                        const el = camPub.videoTrack.attach();
+                        el.muted = true;
+                        Object.assign(el.style, { flex: '1', minWidth: '200px', background: '#111', borderRadius: '8px' });
+                        $videos.appendChild(el);
+                    }
+
+                    $badge.textContent = '🔴 EN DIRECT';
+                    $badge.className = 'badge';
+                    $badge.style.cssText = 'display:inline-block;background:#e74c3c;color:white;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:0.5px;';
+
+                    $controls.style.display = 'flex';
+
+                    let micOn = true, camOn = true;
+
+                    const micBtn = document.createElement('button');
+                    micBtn.className = 'ctrl';
+                    micBtn.textContent = '🎤 Micro';
+                    micBtn.onclick = async () => {
+                        micOn = !micOn;
+                        await room.localParticipant.setMicrophoneEnabled(micOn);
+                        micBtn.className = micOn ? 'ctrl' : 'ctrl off';
+                        micBtn.textContent = micOn ? '🎤 Micro' : '🔇 Micro off';
+                    };
+
+                    const camBtn = document.createElement('button');
+                    camBtn.className = 'ctrl';
+                    camBtn.textContent = '📹 Caméra';
+                    camBtn.onclick = async () => {
+                        camOn = !camOn;
+                        await room.localParticipant.setCameraEnabled(camOn);
+                        camBtn.className = camOn ? 'ctrl' : 'ctrl off';
+                        camBtn.textContent = camOn ? '📹 Caméra' : '📷 Caméra off';
+                    };
+
+                    const stopBtn = document.createElement('button');
+                    stopBtn.className = 'ctrl off';
+                    stopBtn.textContent = '⏹ Arrêter';
+                    stopBtn.onclick = () => { room.disconnect(); history.back(); };
+
+                    $controls.append(micBtn, camBtn, stopBtn);
+
+                } else {
+                    $badge.textContent = '👁 En direct';
+                    $badge.style.cssText = 'display:inline-block;background:#3498db;color:white;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;';
+
+                    if ($videos.children.length === 0) {
+                        const empty = document.createElement('div');
+                        empty.id = 'empty';
+                        empty.textContent = 'En attente du diffuseur...';
+                        $videos.appendChild(empty);
+                    }
+                }
+
+            } catch (err) {
+                $loading.innerHTML = `<span style="color:#e74c3c">Erreur de connexion :<br>${err.message}</span>`;
+            }
+        }
+    </script>
+</body>
+</html>

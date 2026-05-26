@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -42,6 +43,7 @@ import empire.digiprem.mycoloapp.core.design_system.theme.Primary
 import kotlinx.coroutines.launch
 import mycolowepapp.shared.generated.resources.Res
 import mycolowepapp.shared.generated.resources.admin_connect
+import mycolowepapp.shared.generated.resources.admin_forgot_password
 import mycolowepapp.shared.generated.resources.admin_email
 import mycolowepapp.shared.generated.resources.admin_email_hint
 import mycolowepapp.shared.generated.resources.admin_login_subtitle
@@ -58,6 +60,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun AdminLoginScreen(
     onNavigateBack: () -> Unit,
     onLoginSuccess: () -> Unit,
+    onForgotPassword: () -> Unit = {},
     viewModel: AdminLoginViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -116,7 +119,11 @@ fun AdminLoginScreen(
                 title = stringResource(Res.string.admin_login_title),
                 description = stringResource(Res.string.admin_login_subtitle)
             ) {
-                AdminLoginForm(state = state, onAction = viewModel::onAction)
+                AdminLoginForm(
+                    state = state,
+                    onAction = viewModel::onAction,
+                    onForgotPassword = onForgotPassword,
+                )
             }
        // }
   //  }
@@ -124,9 +131,10 @@ fun AdminLoginScreen(
 
 @Composable
 private fun AdminLoginForm(
-    modifier: Modifier=Modifier,
+    modifier: Modifier = Modifier,
     state: AdminLoginState,
     onAction: (AdminLoginAction) -> Unit,
+    onForgotPassword: () -> Unit,
 ) {
     FormScaffold(
         modifier = modifier,
@@ -139,6 +147,13 @@ private fun AdminLoginForm(
                 text = stringResource(Res.string.admin_connect),
                 onClick = { onAction(AdminLoginAction.OnLoginClick) }
             )
+            TextButton(onClick = onForgotPassword) {
+                Text(
+                    text = stringResource(Res.string.admin_forgot_password),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+            }
         }
     ){
         MyColoTextField(

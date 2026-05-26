@@ -87,6 +87,7 @@
     <string name="admin_password">Mot de passe</string>
     <string name="admin_password_hint">Votre mot de passe</string>
     <string name="admin_connect">Se connecter</string>
+    <string name="admin_forgot_password">Mot de passe oublié ?</string>
     <string name="admin_secure_label">Connexion s&#233;curis&#233;e</string>
     <string name="admin_feature_1">Tableau de bord complet</string>
     <string name="admin_feature_2">Gestion des participants</string>

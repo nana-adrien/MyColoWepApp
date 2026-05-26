@@ -13,7 +13,12 @@ kotlin {
             implementation(projects.feature.live.domain)
         }
         androidMain.dependencies {
-           // implementation(libs.livekit.android)
+            implementation(libs.livekit.android)
+        }
+        val webMain by getting {
+            dependencies {
+                implementation(libs.wrappers.browser)
+            }
         }
     }
 }

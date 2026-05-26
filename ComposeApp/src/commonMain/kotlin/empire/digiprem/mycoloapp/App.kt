@@ -66,6 +66,9 @@ fun App(
                                     navController.navigate(NavigationGraph.AdminDashboard) {
                                         popUpTo<NavigationGraph.AdminLogin> { inclusive = true }
                                     }
+                                },
+                                onForgotPassword = {
+                                    navController.navigate(AuthRoute.AuthRoot)
                                 }
                             )
                         }
