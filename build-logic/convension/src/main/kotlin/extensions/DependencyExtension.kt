@@ -80,7 +80,7 @@ fun DependencyHandlerScope.iosMainImplementation(library: String){
 }
 fun DependencyHandlerScope.iosMainImplementation(dependency: Provider<MinimalExternalModuleDependency>) {
 
-    sourceSetImplementation("iosX64", dependency)
+   // sourceSetImplementation("iosX64", dependency)
     sourceSetImplementation("iosArm64", dependency)
     sourceSetImplementation("iosSimulatorArm64", dependency)
 }

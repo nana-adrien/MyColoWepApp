@@ -10,11 +10,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.support.uppercaseFirstChar
-import targets.androidTarget
-import targets.desktopTarget
-import targets.iosTarget
-import targets.jsTarget
-import targets.wasmJsTarget
 
 class CmpApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {

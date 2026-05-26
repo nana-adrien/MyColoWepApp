@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface AppSessionManager{
     fun observeSession(): Flow<AppUserSession?>
-    fun save(session: AppUserSession)
+    suspend fun save(session: AppUserSession?)
      suspend fun loadAppUserSession(): AppUserSession?
-    fun clearSession()
+    suspend fun clearSession()
 }

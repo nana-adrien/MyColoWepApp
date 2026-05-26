@@ -42,6 +42,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -78,10 +79,22 @@ import mycolowepapp.shared.generated.resources.powered_by
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
+enum class LandingPageSection {
+    HOME_SECTION;
+
+    companion object {
+        fun fromString(section: String): LandingPageSection {
+            return entries.first { it.name == section.uppercase() } ?: HOME_SECTION
+        }
+    }
+}
+
 @Composable
 fun LandingScreen(
+    navigateToSection: LandingPageSection = LandingPageSection.HOME_SECTION,
     onNavigateToRegistration: () -> Unit,
     onNavigateToAdmin: () -> Unit,
+    onNavigateToLive: () -> Unit = {},
 ) {
     val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -90,8 +103,16 @@ fun LandingScreen(
         NavItem("program", stringResource(Res.string.landing_nav_program)),
         NavItem("contact", stringResource(Res.string.landing_nav_contact)),
     )
+    val height = LocalWindowInfo.current.containerDpSize.height
+    Column(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.background)
+            ,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
 
-    WebPageScaffold(
+        /*  WebPageScaffold(
         modifier = Modifier.background(MaterialTheme.colorScheme.background).fillMaxSize(),
         scrollState = scrollState,
         header = {
@@ -123,17 +144,20 @@ fun LandingScreen(
                 ) { Text("↑", color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold) }
             }
         }
-    ) {
-        item {
-            FadeSlideInOnScroll {
-                HeroSection(targetDate = targetDate, onRegisterClick = onNavigateToRegistration)
-            }
+    ) {*/
+        //  item {
+        FadeSlideInOnScroll {
+            HeroSection(targetDate = targetDate, onRegisterClick = onNavigateToRegistration)
         }
-        item {
-            FadeSlideInOnScroll {
-                FeaturesSection()
-            }
+        //  }
+        // item {
+        FadeSlideInOnScroll(
+            modifier = Modifier.padding( horizontal = 24.dp)
+        ) {
+            FeaturesSection()
         }
+        // }
+        /* }*/
     }
 }
 

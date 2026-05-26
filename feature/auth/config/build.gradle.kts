@@ -11,6 +11,7 @@ kotlin {
             api(projects.feature.auth.presentation)
             implementation(libs.koin.core)
             implementation(libs.koin.compose.viewmodel)
+            implementation(libs.androidx.lifecycle.viewmodelCompose )
         }
         androidMain.dependencies {
             implementation(libs.koin.android)

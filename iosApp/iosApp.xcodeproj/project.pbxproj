@@ -7,37 +7,37 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		3EA27981DEE9B15E10D5FE39 /* Octopufx_Box_Office.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Octopufx_Box_Office.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EEE83FC3F5668C7B3D6E9383 /* MyColoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyColoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		A5E577CA5B8BC15D8FD17C90 /* Exceptions for "iosApp" folder in "iosApp" target */ = {
+		50868714BEBC1E9FD93FB5E2 /* Exceptions for "iosApp" folder in "iosApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = CFE58F15C84B93B85E5E2CC8 /* iosApp */;
+			target = 2C39B8255C2EEF99E8F018D9 /* iosApp */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		4FB56D28DB9919FCD9536D24 /* iosApp */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				A5E577CA5B8BC15D8FD17C90 /* Exceptions for "iosApp" folder in "iosApp" target */,
-			);
-			path = iosApp;
-			sourceTree = "<group>";
-		};
-		8E547FCF7F7C065AD564F951 /* Configuration */ = {
+		3E0809D6FCB0B81666CF108A /* Configuration */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Configuration;
+			sourceTree = "<group>";
+		};
+		F4388C3F3DFB9F0AAD65EF17 /* iosApp */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				50868714BEBC1E9FD93FB5E2 /* Exceptions for "iosApp" folder in "iosApp" target */,
+			);
+			path = iosApp;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		A2A1A3925DDB2A0B7FB38D37 /* Frameworks */ = {
+		866A9A85F21B51425E25C990 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -47,20 +47,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		319F95F0AF11F59CF1CB9020 = {
+		1916B123B74760F8A6209667 = {
 			isa = PBXGroup;
 			children = (
-				8E547FCF7F7C065AD564F951 /* Configuration */,
-				4FB56D28DB9919FCD9536D24 /* iosApp */,
-				A4AC17A6D4ECE61B2EDF0399 /* Products */,
+				3E0809D6FCB0B81666CF108A /* Configuration */,
+				F4388C3F3DFB9F0AAD65EF17 /* iosApp */,
+				DE6E8968D6C35E206F8743DE /* Products */,
 			);
 			sourceTree = "<group>";
-			usesTabs = 1;
 		};
-		A4AC17A6D4ECE61B2EDF0399 /* Products */ = {
+		DE6E8968D6C35E206F8743DE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3EA27981DEE9B15E10D5FE39 /* Octopufx_Box_Office.app */,
+				EEE83FC3F5668C7B3D6E9383 /* MyColoApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -68,65 +67,66 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CFE58F15C84B93B85E5E2CC8 /* iosApp */ = {
+		2C39B8255C2EEF99E8F018D9 /* iosApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6977221903F5B5864DFE9AE8 /* Build configuration list for PBXNativeTarget "iosApp" */;
+			buildConfigurationList = 30A18B3AB6888B75BBBEA2FD /* Build configuration list for PBXNativeTarget "iosApp" */;
 			buildPhases = (
-				676C5BEA178ED351FFC96CD2 /* Compile Kotlin Framework */,
-				77625B16953D05D99CAAB7E3 /* Sources */,
-				A2A1A3925DDB2A0B7FB38D37 /* Frameworks */,
-				A8F3702FBA018F6DA5EE327A /* Resources */,
+				36EBC7D000E4ED88EEF57ABC /* Compile Kotlin */,
+				D516A3FA2D6A2499C661A2AC /* Compile Kotlin Framework */,
+				59D1A42311F01CC456EC1765 /* Sources */,
+				866A9A85F21B51425E25C990 /* Frameworks */,
+				BF0B4F9B1DC3257B0B405021 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				4FB56D28DB9919FCD9536D24 /* iosApp */,
+				F4388C3F3DFB9F0AAD65EF17 /* iosApp */,
 			);
 			name = iosApp;
 			packageProductDependencies = (
 			);
 			productName = iosApp;
-			productReference = 3EA27981DEE9B15E10D5FE39 /* Octopufx_Box_Office.app */;
+			productReference = EEE83FC3F5668C7B3D6E9383 /* MyColoApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		9A854FD2391355B48DDC7C35 /* Project object */ = {
+		1F45439536C45ED2078980AB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
-					CFE58F15C84B93B85E5E2CC8 = {
+					2C39B8255C2EEF99E8F018D9 = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
 			};
-			buildConfigurationList = BDE091A93C9FFA3B6E2FB48A /* Build configuration list for PBXProject "iosApp" */;
+			buildConfigurationList = 342EB7AFFE32ECC29CCD89A4 /* Build configuration list for PBXProject "iosApp" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 319F95F0AF11F59CF1CB9020;
+			mainGroup = 1916B123B74760F8A6209667;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = A4AC17A6D4ECE61B2EDF0399 /* Products */;
+			productRefGroup = DE6E8968D6C35E206F8743DE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CFE58F15C84B93B85E5E2CC8 /* iosApp */,
+				2C39B8255C2EEF99E8F018D9 /* iosApp */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		A8F3702FBA018F6DA5EE327A /* Resources */ = {
+		BF0B4F9B1DC3257B0B405021 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -136,7 +136,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		676C5BEA178ED351FFC96CD2 /* Compile Kotlin Framework */ = {
+		36EBC7D000E4ED88EEF57ABC /* Compile Kotlin */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Compile Kotlin";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :ComposeApp:embedAndSignAppleFrameworkForXcode";
+		};
+		D516A3FA2D6A2499C661A2AC /* Compile Kotlin Framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -153,12 +167,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :composeApp:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		77625B16953D05D99CAAB7E3 /* Sources */ = {
+		59D1A42311F01CC456EC1765 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -168,9 +182,9 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		145783AB1ACE32F88B083228 /* Release */ = {
+		2B4BCF507C4DCD57B3502EBC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 8E547FCF7F7C065AD564F951 /* Configuration */;
+			baseConfigurationReferenceAnchor = 3E0809D6FCB0B81666CF108A /* Configuration */;
 			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -226,9 +240,9 @@
 			};
 			name = Release;
 		};
-		4B75C88663122ABF63D375F8 /* Debug */ = {
+		2DA9AE292232F8DCEFC9DA2E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 8E547FCF7F7C065AD564F951 /* Configuration */;
+			baseConfigurationReferenceAnchor = 3E0809D6FCB0B81666CF108A /* Configuration */;
 			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -291,13 +305,12 @@
 			};
 			name = Debug;
 		};
-		54D68030F47222AAD2389AB5 /* Release */ = {
+		3F01C3781D0B76FAEDEC8197 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
@@ -308,41 +321,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		8C61EB574179DEAFF8CA2C1D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = arm64;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
-				DEVELOPMENT_TEAM = "${TEAM_ID}";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = iosApp/Info.plist;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -353,28 +333,56 @@
 			};
 			name = Debug;
 		};
+		A43C1C5BD8C039B84E6D9B69 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
+				DEVELOPMENT_TEAM = "${TEAM_ID}";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = iosApp/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6977221903F5B5864DFE9AE8 /* Build configuration list for PBXNativeTarget "iosApp" */ = {
+		30A18B3AB6888B75BBBEA2FD /* Build configuration list for PBXNativeTarget "iosApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8C61EB574179DEAFF8CA2C1D /* Debug */,
-				54D68030F47222AAD2389AB5 /* Release */,
+				3F01C3781D0B76FAEDEC8197 /* Debug */,
+				A43C1C5BD8C039B84E6D9B69 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BDE091A93C9FFA3B6E2FB48A /* Build configuration list for PBXProject "iosApp" */ = {
+		342EB7AFFE32ECC29CCD89A4 /* Build configuration list for PBXProject "iosApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4B75C88663122ABF63D375F8 /* Debug */,
-				145783AB1ACE32F88B083228 /* Release */,
+				2DA9AE292232F8DCEFC9DA2E /* Debug */,
+				2B4BCF507C4DCD57B3502EBC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 9A854FD2391355B48DDC7C35 /* Project object */;
+	rootObject = 1F45439536C45ED2078980AB /* Project object */;
 }

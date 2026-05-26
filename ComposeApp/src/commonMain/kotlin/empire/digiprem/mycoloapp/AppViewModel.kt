@@ -72,13 +72,4 @@ class AppViewModel(
         //    observeAuthenticatedUser()
     }
 
-    fun observeAuthenticatedUser() {
-        viewModelScope.launch {
-            _state.update { state ->
-                state.copy(
-                    isAuthenticated = sessionManager.loadSessionOrNull() != null,
-                )
-            }
-        }
-    }
 }

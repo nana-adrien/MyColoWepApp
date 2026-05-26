@@ -40,9 +40,9 @@ enum class MimeType(val value: String, val extensions: List<String> = emptyList(
                 ?: MimeType.ALL  // fallback si non trouvé
         }
 
-        fun fromExtension(extension: String): MimeType? =
+        fun fromExtension(extension: String): MimeType=
             entries.find { ext ->
                 ext.extensions.any { it.equals(extension, ignoreCase = true) }
-            }
+            }?: MimeType.ALL
     }
 }

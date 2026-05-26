@@ -31,7 +31,11 @@ import androidx.compose.ui.unit.sp
 import empire.digiprem.mycoloapp.core.design_system.currentDeviceConfigure
 import empire.digiprem.mycoloapp.core.design_system.theme.Primary
 
-data class NavItem(val id: String, val label: String)
+data class NavItem(
+    val id: String,
+    val label: String,
+    val route : Any?=null,
+)
 
 @Composable
 fun ColumnScope.MyColoNavBar(

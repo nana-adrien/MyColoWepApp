@@ -14,6 +14,7 @@ kotlin {
             api(projects.feature.feed.presentation)
             implementation(libs.koin.core)
             implementation(libs.koin.compose.viewmodel)
+            implementation(libs.androidx.lifecycle.viewmodelCompose )
         }
         androidMain.dependencies {
             implementation(libs.koin.android)

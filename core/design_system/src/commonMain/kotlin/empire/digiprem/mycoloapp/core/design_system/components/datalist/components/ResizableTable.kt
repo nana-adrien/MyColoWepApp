@@ -1,7 +1,7 @@
 package empire.digiprem.mycoloapp.core.design_system.components.datalist.components
 
-import androidx.compose.foundation.HorizontalScrollbar
-import androidx.compose.foundation.VerticalScrollbar
+//import androidx.compose.foundation.HorizontalScrollbar
+//import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
@@ -16,7 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.rememberScrollbarAdapter
+//import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -77,10 +77,10 @@ fun ResizableTable(
     val totalWidthPx = columnWidthsPx.sum()
 
     Box(modifier = modifier) {
-        HorizontalScrollbar(
+       /* HorizontalScrollbar(
             adapter = rememberScrollbarAdapter(rememberScrollState()),
             modifier = Modifier.align(Alignment.BottomCenter)
-        )
+        )*/
 
         val scrollState = rememberScrollState()
         val verticalScrollState = rememberScrollState()
@@ -243,12 +243,12 @@ fun ResizableTable(
                 }
 
                 // Scrollbar verticale
-                VerticalScrollbar(
+               /* VerticalScrollbar(
                     adapter = rememberScrollbarAdapter(verticalScrollState),
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
                         .fillMaxHeight()
-                )
+                )*/
             }
         }
     }

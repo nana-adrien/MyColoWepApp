@@ -6,3 +6,4 @@ data class AppUserSession(
     val expiresIn: Long,
     val user:AppUserInFo?,
 )
+

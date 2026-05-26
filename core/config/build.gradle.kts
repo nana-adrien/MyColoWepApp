@@ -18,9 +18,12 @@ kotlin {
             implementation(projects.core.data)
             implementation(projects.core.designSystem)
             implementation(libs.koin.core)
+            implementation(libs.bundles.dataStore.common)
         }
         androidMain.dependencies {
+            implementation(libs.bundles.dataStore.android)
             implementation(libs.koin.android)
+
         }
     }
 }

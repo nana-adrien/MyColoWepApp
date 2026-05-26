@@ -1,2 +1,2 @@
-package empire.digiprem.mycoloapp.core.ui 
+package empire.digiprem.mycoloapp.core.ui
 

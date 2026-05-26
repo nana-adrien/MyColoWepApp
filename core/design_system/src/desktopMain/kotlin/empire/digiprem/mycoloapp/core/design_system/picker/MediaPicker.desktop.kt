@@ -45,7 +45,7 @@ actual fun rememberGalleryPicker(
                             AppFile(
                                 name = file.name,
                                 byteArray = file.readBytes(),
-                                mimeType = "image/${file.extension.lowercase()}",
+                                mimeType = MimeType.fromExtension(file.extension.lowercase()),
                                 path = file.absolutePath
                             )
                         }

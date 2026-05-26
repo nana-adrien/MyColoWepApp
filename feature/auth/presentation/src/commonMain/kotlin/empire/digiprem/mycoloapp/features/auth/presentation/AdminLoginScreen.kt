@@ -75,7 +75,7 @@ fun AdminLoginScreen(
         }
     }
 
-    WebPageScaffold(
+  /*  WebPageScaffold(
         modifier = Modifier.background(MaterialTheme.colorScheme.background).fillMaxSize(),
         scrollState = scrollState,
         header = {
@@ -110,7 +110,7 @@ fun AdminLoginScreen(
             }
         }
     ) {
-        item {
+        item {*/
             WebFormPageScaffold(
                 modifier = Modifier.wrapContentHeight(),
                 title = stringResource(Res.string.admin_login_title),
@@ -118,8 +118,8 @@ fun AdminLoginScreen(
             ) {
                 AdminLoginForm(state = state, onAction = viewModel::onAction)
             }
-        }
-    }
+       // }
+  //  }
 }
 
 @Composable

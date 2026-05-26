@@ -27,37 +27,52 @@ fun Project.kotlinMultiplaformConfig(isLibrary: Boolean = false) {
     jsTarget(!isLibrary)
     wasmJsTarget(!isLibrary)
     androidTarget()
-    iosTarget(frameworkIosNativeName = this@kotlinMultiplaformConfig.pathToFrameworkName())
+    desktopTarget()
 
     extensions.configure<KotlinMultiplatformExtension> {
+        iosTarget(frameworkIosNativeName =this@kotlinMultiplaformConfig.pathToFrameworkName() )
         sourceSets {
-            val iosMain = create("iosMain") {
+
+            val nativeMain = create("nativeMain") {
                 dependsOn(commonMain.get())
             }
+            // ✅ Web — regroupe wasmJs + js
+            val webMain = create("webMain") {
+                dependsOn(commonMain.get())
+            }
+            val mobileMain = create("mobileMain") {
+                dependsOn(nativeMain)
+            }
+            val iosMain = create("iosMain") {
+                dependsOn(mobileMain)
+            }
+
             listOf(
-                "iosX64Main",
+               // "iosX64Main",
                 "iosArm64Main",
                 "iosSimulatorArm64Main"
             ).forEach {
                 getByName(it).dependsOn(iosMain)
             }
-            // ✅ Web — regroupe wasmJs + js
-            val webMain = create("webMain") {
-               // kotlin.srcDirs("src/webMain/commonWebMain/kotlin")
-                dependsOn(commonMain.get())
-            }
+
             listOf(
                 "wasmJsMain",
                 "jsMain",
             ).forEach {
                 getByName(it).dependsOn(webMain)
             }
-            getByName("wasmJsMain") {
-                dependsOn(webMain)
-            }
-            getByName("jsMain") {
-                //dependsOn(webMain)
-            }
+
+            listOf("androidMain", "iosMain")
+                .forEach {
+                    getByName(it).dependsOn(mobileMain)
+                }
+
+            listOf("desktopMain")
+                .forEach {
+                    getByName(it).dependsOn(nativeMain)
+                }
+
+
         }
 
         compilerOptions {
@@ -68,8 +83,6 @@ fun Project.kotlinMultiplaformConfig(isLibrary: Boolean = false) {
         }
 
     }
-
-    desktopTarget()
 
 
 }

@@ -40,10 +40,13 @@ kotlin {
             implementation(project(":feature:profile:config"))
             implementation(project(":feature:pre_auth:config"))
             implementation(project(":feature:settings:config"))
-
+            implementation(libs.compose.resources)
             implementation(libs.compose.ui)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.koin.core)
+        }
+        desktopMain.dependencies {
+            implementation(compose.desktop.currentOs)
         }
     }
 }

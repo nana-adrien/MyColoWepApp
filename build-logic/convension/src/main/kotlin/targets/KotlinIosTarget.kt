@@ -13,13 +13,13 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 internal fun Project.iosTarget(frameworkIosNativeName:String) {
     extensions.configure<KotlinMultiplatformExtension> {
         listOf(
-            iosX64(),
+           // iosX64(),
             iosArm64(),
             iosSimulatorArm64()
         ).forEach { iosTarget->
             iosTarget.binaries.framework{
-                baseName="ComposeApp"
-                isStatic=true
+                baseName= "MyColoComposeApp"
+                isStatic=false
             }
         }
     }

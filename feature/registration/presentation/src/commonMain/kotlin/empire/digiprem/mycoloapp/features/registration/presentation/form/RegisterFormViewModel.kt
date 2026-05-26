@@ -1,7 +1,10 @@
 package empire.digiprem.mycoloapp.features.registration.presentation.form
 
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Modifier
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import empire.digiprem.mycoloapp.core.domain.error.AlertEvent
@@ -26,14 +29,21 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
-class RegisterFormViewModel (
+class RegisterFormViewModel(
     private val registerParticipant: RegisterParticipantUseCase,
-    private val alert: AlertSender
-): ViewModel() {
+    private val alert: AlertSender,
+    private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
+    private val initialSecurityCode: String = savedStateHandle["securityCode"] ?: ""
     var isStarted = false
-    private val _state = MutableStateFlow(RegisterFormState())
+    private val _state = MutableStateFlow(
+        RegisterFormState(
+            securityCodeTextFieldState = TextFieldState(initialSecurityCode)
+        )
+    )
     val state = _state.onStart {
         if (!isStarted) {
             observeValidateTextField()
@@ -47,7 +57,7 @@ class RegisterFormViewModel (
     private val _eventChannel = Channel<RegisterFormEvent>()
     val events = _eventChannel.receiveAsFlow()
 
-    val fullNameValidateFlow =snapshotFlow{ state.value.fullNameTextFieldState.text }
+    val fullNameValidateFlow = snapshotFlow { state.value.fullNameTextFieldState.text }
         .map { text -> text.length >= 3 }
         .distinctUntilChanged()
 
@@ -55,14 +65,14 @@ class RegisterFormViewModel (
         .map { it.birthDate != null }
         .distinctUntilChanged()
 
-    val familyNameValidateFlow = snapshotFlow{ state.value.familyNameTextFieldState.text }
+    val familyNameValidateFlow = snapshotFlow { state.value.familyNameTextFieldState.text }
         .map { text -> text.length >= 3 }
         .distinctUntilChanged()
 
-    val securityCodeValidateFlow = snapshotFlow{ state.value.securityCodeTextFieldState.text}
+    val securityCodeValidateFlow = snapshotFlow { state.value.securityCodeTextFieldState.text }
         .map { it.isNotEmpty() }
         .distinctUntilChanged()
-    val cityValidateFlow = snapshotFlow{ state.value.cityTextFieldState.text}
+    val cityValidateFlow = snapshotFlow { state.value.cityTextFieldState.text }
         .map { it.isNotEmpty() }
         .distinctUntilChanged()
 
@@ -88,7 +98,7 @@ class RegisterFormViewModel (
             fullName && birthDate && educationLevel && genre && familyName
         }.combine(
             securityCodeValidateFlow,cityValidateFlow,
-        )*/ { values-> //isValid, securityCode,city ->
+        )*/ { values -> //isValid, securityCode,city ->
             _state.update {
                 it.copy(
                     userCanSendFrom = values.all { it }
@@ -123,13 +133,15 @@ class RegisterFormViewModel (
                 )
                 registerParticipant(registrationForm)
                     .onSuccess { referenceNumber ->
-                        _state.update { it.copy(
-                            isLoading = false,
-                            birthDate = null,
-                            genre = null,
-                            educationLevel=null,
-                            errorMessage = null,
-                        ) }.apply {
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                birthDate = null,
+                                genre = null,
+                                educationLevel = null,
+                                errorMessage = null,
+                            )
+                        }.apply {
                             _state.value.fullNameTextFieldState.clearText()
                             _state.value.securityCodeTextFieldState.clearText()
                             _state.value.familyNameTextFieldState.clearText()
@@ -139,25 +151,27 @@ class RegisterFormViewModel (
                         _eventChannel.send(RegisterFormEvent.OnSuccess)
                     }
                     .onFailure { error ->
-                       val errorMessage= when (error) {
+                        val errorMessage = when (error) {
                             is DataError.Remote.InvalidOperation -> error.toUiText()
                             else -> {
                                 alert.sendAlert(AlertEvent.Error(error.toUiText()))
                                 null
                             }
                         }
-                        _state.update { it.copy(
-                            isLoading = false,
-                            errorMessage =errorMessage
-                        ) }
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                errorMessage = errorMessage
+                            )
+                        }
                     }
 
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 alert.sendAlert(AlertEvent.Error(DataError.Remote.Unknown.toUiText()))
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        errorMessage =null
+                        errorMessage = null
                     )
                 }
             }

@@ -359,7 +359,7 @@ private fun DesktopDashboardTopBar(
     onAddParticipantClick: () -> Unit
 ) {
     Row(
-        modifier            = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface).padding(horizontal = 24.dp, vertical = 12.dp),
+        modifier            = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 12.dp),
         verticalAlignment   = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {

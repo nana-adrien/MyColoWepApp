@@ -65,12 +65,16 @@ kotlin {
           //  implementation(libs.compose.uiToolingPreview)
            // implementation(libs.androidx.lifecycle.viewmodelCompose)
             //implementation(libs.androidx.lifecycle.runtimeCompose)
-           // implementation(libs.kotlinx.serialization.json)
+            implementation(libs.koin.core)
             implementation(libs.coil.compose)
             implementation(libs.coil.svg)
             implementation(libs.coil.network.ktor)
             implementation(libs.bundles.ktor.common)
+            implementation(libs.koin.core)
 
+        }
+        androidMain.dependencies {
+            implementation(libs.koin.android)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

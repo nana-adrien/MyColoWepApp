@@ -1,9 +1,9 @@
 package empire.digiprem.mycoloapp.features.feed.data.dto
 
 import empire.digiprem.mycoloapp.features.feed.domain.model.Comment
-import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.time.Instant
 
 @Serializable
 data class CommentDto(

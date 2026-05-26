@@ -5,6 +5,7 @@ import configs.androidComposeConfig
 import configs.androidConfig
 import configs.kotlinMultiplaformConfig
 import extensions.commonMainImplementation
+import extensions.jvmMainImplementation
 import extensions.libs
 import extensions.pathToResourcePrefix
 import org.gradle.api.Plugin
@@ -34,6 +35,7 @@ class KmpLibraryConventionPlugin: Plugin<Project> {
                 commonMainImplementation(libs.findLibrary("kotlinx-datetime").get())
                 commonMainImplementation(libs.findLibrary("kotlinx-serialization-json").get())
                 commonMainImplementation(libs.findLibrary("coroutines-core").get())
+                jvmMainImplementation(libs.findLibrary("kotlinx-coroutines-swing").get())
                 "commonTestImplementation"(libs.findLibrary("kotlin-test").get())
             }
         }

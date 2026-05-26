@@ -7,11 +7,11 @@ androidx-lifecycle = "2.9.6"
 composeBom = "2025.07.00"
 composeMultiplatform = "1.10.3"
 androidxActivity = "1.13.0"
-core-splashscreen="1.0.1"
+core-splashscreen = "1.0.1"
 composeJetbrains = "1.8.2"
-compose-lifecycle="2.9.6"
-jetbrains-core-bundle="1.0.1"
-jetbrains-savedstate="1.3.1"
+compose-lifecycle = "2.9.6"
+jetbrains-core-bundle = "1.0.1"
+jetbrains-savedstate = "1.3.1"
 
 junit = "4.13.2"
 kotlin = "2.3.21"
@@ -20,27 +20,28 @@ agp = "8.11.2"
 # Tools
 androidTools = "32.2.0"
 buildkonfig = "0.17.1"
-androidDesugarJdklibs="2.1.5"
+androidDesugarJdklibs = "2.1.5"
 
 material3 = "1.10.0-alpha05"
 material-icon = "1.7.3"
-navigation-compose= "2.9.2"
-adaptive ="1.2.0-alpha04"
+navigation-compose = "2.9.2"
+adaptive = "1.2.0-alpha04"
 kotlinx-coroutines = "1.9.0"
-supabase = "3.6.0"
+supabase = "3.5.0"
 kotlinx-datetime = "0.8.0"
 kotlinx-datetime-wasmjs = "0.5.0-wasm0"
-ktor="3.2.3"
-coil="3.3.0"
-coil-network="3.3.0"
-kotlinx-serialization="1.9.0"
+ktor = "3.2.3"
+coil = "3.3.0"
+coil-network = "3.3.0"
+datastore = "1.3.0-alpha09"
+kotlinx-serialization = "1.9.0"
 buildKonfig = "0.17.1"
 
-projectCompileSdkVersion="36"
-projectMinSdkVersion="24"
-projectVersionCode="1"
-projectVersionName="1.0.0"
-projectApplicationId="empire.digiprem.mycoloapp"
+projectCompileSdkVersion = "36"
+projectMinSdkVersion = "24"
+projectVersionCode = "1"
+projectVersionName = "1.0.0"
+projectApplicationId = "empire.digiprem.mycoloapp"
 uiDesktop = "1.7.0"
 
 
@@ -58,7 +59,7 @@ koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", ver
 koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 koin-androidx-navigation = { group = "io.insert-koin", name = "koin-androidx-navigation", version.ref = "koin" }
-koin-core-viewmodel={group="io.insert-koin",name="koin-core-viewmodel",version.ref="koin"}
+koin-core-viewmodel = { group = "io.insert-koin", name = "koin-core-viewmodel", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -66,7 +67,7 @@ kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.
 junit = { module = "junit:junit", version.ref = "junit" }
 androidx-lifecycle-viewmodelCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
-androidx-compose-bom={module="androidx.compose:compose-bom",version.ref="composeBom"}
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "composeMultiplatform" }
 compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "composeMultiplatform" }
@@ -78,6 +79,18 @@ coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" 
 coil-svg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coil" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil-network" }
 
+
+#data store
+
+
+# ✅ Preferences DataStore — KMP (sans dépendance Android)
+datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastore" }
+# ✅ Preferences DataStore — Android uniquement (avec Context)
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+# ✅ DataStore Core — KMP (sans dépendance Android)
+datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "datastore" }
+# ✅ DataStore typé — Android uniquement
+datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 
 # Ktor
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
@@ -92,10 +105,10 @@ ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "kto
 
 # superbase
 #supabase-bom          = { module = "io.github.jan-tennert.supabase:bom", version.ref = "supabase"}
-supabase-postgrest    = { module = "io.github.jan-tennert.supabase:postgrest-kt" , version.ref = "supabase"}
-supabase-auth         = { module = "io.github.jan-tennert.supabase:auth-kt" , version.ref = "supabase"}
-supabase-storage      = { module = "io.github.jan-tennert.supabase:storage-kt" , version.ref = "supabase"}
-supabase-realtime     = { module = "io.github.jan-tennert.supabase:realtime-kt" , version.ref = "supabase"}
+supabase-postgrest = { module = "io.github.jan-tennert.supabase:postgrest-kt", version.ref = "supabase" }
+supabase-auth = { module = "io.github.jan-tennert.supabase:auth-kt", version.ref = "supabase" }
+supabase-storage = { module = "io.github.jan-tennert.supabase:storage-kt", version.ref = "supabase" }
+supabase-realtime = { module = "io.github.jan-tennert.supabase:realtime-kt", version.ref = "supabase" }
 supabase-functions = { module = "io.github.jan-tennert.supabase:functions-kt", version.ref = "supabase" }
 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
@@ -105,7 +118,7 @@ kotlinx-datetime-wasmjs = { module = "org.jetbrains.kotlinx:kotlinx-datetime", v
 compose-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "composeMultiplatform" }
 
 
-compose-material-icons-core= { module = "org.jetbrains.compose.material:material-icons-core", version.ref = "material-icon" }
+compose-material-icons-core = { module = "org.jetbrains.compose.material:material-icons-core", version.ref = "material-icon" }
 compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "material-icon" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "composeMultiplatform" }
@@ -114,7 +127,7 @@ compose-uiToolingPreview = { group = "androidx.compose.ui", name = "ui-tooling-p
 compose-ui-tooling = { group = "org.jetbrains.compose.components:components-ui-tooling-preview", name = "composeMultiplatform" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
-core-splashscreen={group="androidx.core",name="core-splashscreen",version.ref="core-splashscreen"}
+core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "core-splashscreen" }
 
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 
@@ -143,8 +156,8 @@ compose-gradle-compiler-Plugin = { group = "org.jetbrains.kotlin", name = "compo
 compose-gradlePlugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "composeMultiplatform" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
-buildkoinfig-gradlePlugin={group="com.codingfeline.buildkonfig",name="buildkonfig-gradle-plugin", version.ref="buildkonfig"}
-buildkoinfig-compiler={group="com.codingfeline.buildkonfig",name="buildkonfig-compiler", version.ref="buildkonfig"}
+buildkoinfig-gradlePlugin = { group = "com.codingfeline.buildkonfig", name = "buildkonfig-gradle-plugin", version.ref = "buildkonfig" }
+buildkoinfig-compiler = { group = "com.codingfeline.buildkonfig", name = "buildkonfig-compiler", version.ref = "buildkonfig" }
 androidx-ui-desktop = { group = "androidx.compose.ui", name = "ui-desktop", version.ref = "uiDesktop" }
 
 
@@ -167,7 +180,7 @@ convention-kmp-library = { id = "empire.digiprem.mycoloapp.kmp.library", version
 convention-kmp-network-request = { id = "empire.digiprem.mycoloapp.kmp.netWork.request", version = "unspecified" }
 convention-cmp-library = { id = "empire.digiprem.mycoloapp.cmp.library", version = "unspecified" }
 convention-cmp-feature = { id = "empire.digiprem.mycoloapp.cmp.feature", version = "unspecified" }
-convention-buildkonfig={id="empire.digiprem.mycoloapp.buildKonfig",version="unspecified"}
+convention-buildkonfig = { id = "empire.digiprem.mycoloapp.buildKonfig", version = "unspecified" }
 #convention-publishLibrary={id="empire.digiprem.mycoloapp.publishLibrary",version="unspecified"}
 
 
@@ -181,4 +194,13 @@ ktor-common = [
     "ktor-client-content-negotiation",
     "ktor-serialization-kotlinx-json",
     "ktor-client-logging",
+]
+
+dataStore-common = [
+    "datastore-preferences-core",
+    "datastore-core"
+]
+dataStore-android = [
+    "datastore-preferences",
+    "datastore"
 ]

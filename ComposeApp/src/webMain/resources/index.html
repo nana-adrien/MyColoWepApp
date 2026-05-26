@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy"
           content="default-src 'self';
                    style-src 'self' 'unsafe-inline';
@@ -10,6 +11,11 @@
                    font-src 'self' data:;
                    connect-src 'self' https: wss:;">
     <title>MyColoApp</title>
+
+    <!-- ✅ Télécharge en parallèle avant que app.js les demande -->
+    <link rel="preload" href="ComposeApp.js" as="script">
+    <link rel="preload" href="ComposeApp.wasm" as="fetch" crossorigin>
+    <link rel="preload" href="skiko.wasm" as="fetch" crossorigin>
     <style>
         * {
             box-sizing: border-box;
@@ -45,6 +51,12 @@
 <div id="root"></div>
 
 <script src="ComposeApp.js"></script>
+<!-- index.html -->
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js');
+    }
+</script>
 <script>
     // ✅ Masque le loader quand Compose est prêt
     window.hideLoader = function () {

@@ -27,7 +27,7 @@ fun Project.pathToResourcePrefix(): String {
 }
 fun Project.pathToFrameworkName(): String {
     val parts= path.split(":","_","-"," ")
-    return parts.joinToString("") { parts->
+    return "MyColo" +  parts.joinToString("") { parts->
             parts.replaceFirstChar {
                 it.titlecase(Locale.ROOT)
             }

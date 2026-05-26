@@ -36,6 +36,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun RegisterForm(
     modifier: Modifier = Modifier,
     viewModel: RegisterFormViewModel = koinViewModel(),
+    defaultAdminSecurityCode:String?=null,
     onSuccess: () -> Unit = {},
     onError: (String) -> Unit = {},
 ) {
@@ -50,6 +51,7 @@ fun RegisterForm(
     RegisterFormContent(
         modifier = modifier,
         state = state,
+        defaultAdminSecurityCode = defaultAdminSecurityCode,
         onAction = viewModel::onAction
     )
 }
@@ -58,6 +60,7 @@ fun RegisterForm(
 private fun RegisterFormContent(
     modifier: Modifier = Modifier,
     state: RegisterFormState,
+    defaultAdminSecurityCode:String?=null,
     onAction: (RegisterFormAction) -> Unit,
 ) {
     FormScaffold(
@@ -125,7 +128,7 @@ private fun RegisterFormContent(
 
         MyColoTextField(
             placeholder ="Ville de Residence",
-            title = "Ville de Residence*",
+            title = "ex.Douala",
             state = state.cityTextFieldState,
             enabled = !state.isLoading,
         )
@@ -149,7 +152,7 @@ private fun RegisterFormContent(
         SecurityCodeTextField(
             modifier = Modifier.fillMaxWidth(),
             maxLength = 6,
-            enabled = !state.isLoading,
+            enabled = !state.isLoading && defaultAdminSecurityCode.isNullOrBlank(),
             title = stringResource(Res.string.form_security_code),
             state = state.securityCodeTextFieldState,
         )

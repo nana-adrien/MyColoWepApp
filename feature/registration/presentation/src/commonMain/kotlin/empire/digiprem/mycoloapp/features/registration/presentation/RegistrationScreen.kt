@@ -70,6 +70,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegistrationScreen(
+    defaultAdminSecurityCode:String,
     onNavigateBack: () -> Unit,
     onNavigateToConfirmation: (String) -> Unit,
     viewModel: RegistrationViewModel = koinViewModel<RegistrationViewModel>()
@@ -100,7 +101,7 @@ fun RegistrationScreen(
         NavItem("contact", stringResource(Res.string.landing_nav_contact)),
     )
 
-    WebPageScaffold(
+  /*  WebPageScaffold(
         modifier = Modifier.background(MaterialTheme.colorScheme.background).fillMaxSize(),
         scrollState = scrollState,
         header = {
@@ -135,16 +136,18 @@ fun RegistrationScreen(
             }
         }
     ) {
-        item {
+        item {*/
             WebFormPageScaffold(
                 modifier = Modifier.wrapContentHeight(),
                 title = stringResource(Res.string.form_title),
                 description =  "Complétez tous les champs pour soumettre votre candidature.",
             ){
-                RegisterForm()
+                RegisterForm(
+                    defaultAdminSecurityCode=defaultAdminSecurityCode,
+                )
             }
-        }
-    }
+      //  }
+    //}
 
 
 }

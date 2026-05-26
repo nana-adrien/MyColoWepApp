@@ -1,7 +1,7 @@
 package empire.digiprem.mycoloapp.core.design_system
 
-import androidx.compose.foundation.LocalScrollbarStyle
-import androidx.compose.foundation.VerticalScrollbar
+//import androidx.compose.foundation.LocalScrollbarStyle
+//import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.rememberScrollbarAdapter
+//import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -56,7 +56,7 @@ fun WebPageScaffold(
             }
         }
 
-        VerticalScrollbar(
+       /* VerticalScrollbar(
             modifier = Modifier.fillMaxHeight().align(Alignment.TopEnd).background(Color.Transparent),
             adapter = rememberScrollbarAdapter(scrollState),
             style = LocalScrollbarStyle.current.copy(
@@ -65,6 +65,6 @@ fun WebPageScaffold(
                 hoverColor = MaterialTheme.colorScheme.primary,
                 hoverDurationMillis = 200
             )
-        )
+        )*/
     }
 }
