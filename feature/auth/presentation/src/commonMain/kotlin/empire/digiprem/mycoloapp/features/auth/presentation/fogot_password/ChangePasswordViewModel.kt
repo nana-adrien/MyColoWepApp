@@ -1,4 +1,4 @@
-package empire.digiprem.mycoloapp.features.auth.presentation
+package empire.digiprem.mycoloapp.features.auth.presentation.fogot_password
 
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
@@ -10,7 +10,7 @@ import empire.digiprem.mycoloapp.core.domain.util.onFailure
 import empire.digiprem.mycoloapp.core.domain.util.onSuccess
 import empire.digiprem.mycoloapp.core.extension.toUiText
 import empire.digiprem.mycoloapp.features.auth.domain.error.AuthPasswordError
-import empire.digiprem.mycoloapp.features.auth.domain.usecase.ModifierMotDePasseUseCase
+import empire.digiprem.mycoloapp.features.auth.domain.usecase.ChangePasswordUseCase
 import empire.digiprem.mycoloapp.core.domain.util.UiText
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,12 +24,12 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class ModifierMotDePasseViewModel(
-    private val modifierMotDePasseUseCase: ModifierMotDePasseUseCase,
+class ChangePasswordViewModel(
+    private val changePasswordUseCase: ChangePasswordUseCase,
     private val alert: AlertSender,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(ModifierMotDePasseState())
+    private val _state = MutableStateFlow(ChangePasswordState())
     private var isStarted = false
 
     val state = _state.onStart {
@@ -40,42 +40,42 @@ class ModifierMotDePasseViewModel(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000L),
-        initialValue = ModifierMotDePasseState()
+        initialValue = ChangePasswordState()
     )
 
-    private val _eventChannel = Channel<ModifierMotDePasseEvent>()
+    private val _eventChannel = Channel<ChangePasswordEvent>()
     val events = _eventChannel.receiveAsFlow()
 
     private fun observeFields() {
         combine(
-            snapshotFlow { _state.value.nouveauMotDePasseState.text.isNotEmpty() }.distinctUntilChanged(),
-            snapshotFlow { _state.value.confirmationMotDePasseState.text.isNotEmpty() }.distinctUntilChanged(),
-        ) { hasNouveauMdp, hasConfirmation ->
-            _state.update { it.copy(userCanSend = hasNouveauMdp && hasConfirmation) }
+            snapshotFlow { _state.value.newPasswordState.text.isNotEmpty() }.distinctUntilChanged(),
+            snapshotFlow { _state.value.confirmPasswordState.text.isNotEmpty() }.distinctUntilChanged(),
+        ) { hasNewPassword, hasConfirmation ->
+            _state.update { it.copy(userCanSend = hasNewPassword && hasConfirmation) }
         }.launchIn(viewModelScope)
     }
 
-    fun onAction(action: ModifierMotDePasseAction) {
+    fun onAction(action: ChangePasswordAction) {
         when (action) {
-            ModifierMotDePasseAction.OnConfirmerClick -> modifierMotDePasse()
-            ModifierMotDePasseAction.OnToggleNouveauMotDePasseVisibility ->
-                _state.update { it.copy(isNouveauMotDePasseVisible = !it.isNouveauMotDePasseVisible) }
-            ModifierMotDePasseAction.OnToggleConfirmationMotDePasseVisibility ->
-                _state.update { it.copy(isConfirmationMotDePasseVisible = !it.isConfirmationMotDePasseVisible) }
-            ModifierMotDePasseAction.OnEffacerErreur ->
+            ChangePasswordAction.OnConfirmClick -> changePassword()
+            ChangePasswordAction.OnToggleNewPasswordVisibility ->
+                _state.update { it.copy(isNewPasswordVisible = !it.isNewPasswordVisible) }
+            ChangePasswordAction.OnToggleConfirmPasswordVisibility ->
+                _state.update { it.copy(isConfirmPasswordVisible = !it.isConfirmPasswordVisible) }
+            ChangePasswordAction.OnClearError ->
                 _state.update { it.copy(errorMessage = null) }
         }
     }
 
-    private fun modifierMotDePasse() {
+    private fun changePassword() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, errorMessage = null) }
-            modifierMotDePasseUseCase(
-                newPassword = _state.value.nouveauMotDePasseState.text.toString(),
-                confirmPassword = _state.value.confirmationMotDePasseState.text.toString(),
+            changePasswordUseCase(
+                newPassword = _state.value.newPasswordState.text.toString(),
+                confirmPassword = _state.value.confirmPasswordState.text.toString(),
             ).onSuccess {
                 _state.update { it.copy(isLoading = false) }
-                _eventChannel.send(ModifierMotDePasseEvent.OnMotDePasseModifie)
+                _eventChannel.send(ChangePasswordEvent.OnPasswordChanged)
             }.onFailure { error ->
                 val message = when (error) {
                     AuthPasswordError.PasswordMismatch -> UiText.DynamicString("Les mots de passe ne correspondent pas")

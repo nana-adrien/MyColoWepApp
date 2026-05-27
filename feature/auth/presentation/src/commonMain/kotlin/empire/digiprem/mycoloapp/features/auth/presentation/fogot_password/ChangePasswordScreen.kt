@@ -1,4 +1,4 @@
-package empire.digiprem.mycoloapp.features.auth.presentation
+package empire.digiprem.mycoloapp.features.auth.presentation.fogot_password
 
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
@@ -10,65 +10,66 @@ import empire.digiprem.mycoloapp.core.design_system.FormScaffold
 import empire.digiprem.mycoloapp.core.design_system.MyColoButton
 import empire.digiprem.mycoloapp.core.design_system.WebFormPageScaffold
 import empire.digiprem.mycoloapp.core.design_system.components.form.MyColoPasswordTextField
+import empire.digiprem.mycoloapp.features.auth.presentation.components.AuthenticationScaffold
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun ModifierMotDePasseScreen(
+fun ChangePasswordScreen(
     onNavigateBack: () -> Unit,
     onPasswordUpdated: () -> Unit,
-    viewModel: ModifierMotDePasseViewModel = koinViewModel(),
+    viewModel: ChangePasswordViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
-                ModifierMotDePasseEvent.OnMotDePasseModifie -> onPasswordUpdated()
+                ChangePasswordEvent.OnPasswordChanged -> onPasswordUpdated()
             }
         }
     }
 
-    WebFormPageScaffold(
+    AuthenticationScaffold(
         modifier = Modifier.wrapContentHeight(),
         title = "Modifier le mot de passe",
         description = "Saisissez votre nouveau mot de passe",
     ) {
-        ModifierMotDePasseForm(state = state, onAction = viewModel::onAction)
+        ChangePasswordForm(state = state, onAction = viewModel::onAction)
     }
 }
 
 @Composable
-private fun ModifierMotDePasseForm(
-    state: ModifierMotDePasseState,
-    onAction: (ModifierMotDePasseAction) -> Unit,
+private fun ChangePasswordForm(
+    state: ChangePasswordState,
+    onAction: (ChangePasswordAction) -> Unit,
 ) {
     FormScaffold(
         errorMessage = state.errorMessage,
-        onCleanErrorClick = { onAction(ModifierMotDePasseAction.OnEffacerErreur) },
+        onCleanErrorClick = { onAction(ChangePasswordAction.OnClearError) },
         footer = {
             MyColoButton(
                 text = "Confirmer",
                 isLoading = state.isLoading,
                 enabled = !state.isLoading && state.userCanSend,
-                onClick = { onAction(ModifierMotDePasseAction.OnConfirmerClick) },
+                onClick = { onAction(ChangePasswordAction.OnConfirmClick) },
             )
         }
     ) {
         MyColoPasswordTextField(
-            state = state.nouveauMotDePasseState,
+            state = state.newPasswordState,
             title = "Nouveau mot de passe",
             placeholder = "Minimum 6 caractères",
-           // isPasswordVisible = state.isNouveauMotDePasseVisible,
+           // isPasswordVisible = state.isNewPasswordVisible,
             enabled = !state.isLoading,
-           // onToggleVisibility = { onAction(ModifierMotDePasseAction.OnToggleNouveauMotDePasseVisibility) },
+           // onToggleVisibility = { onAction(ChangePasswordAction.OnToggleNewPasswordVisibility) },
         )
         MyColoPasswordTextField(
-            state = state.confirmationMotDePasseState,
+            state = state.confirmPasswordState,
             title = "Confirmer le mot de passe",
             placeholder = "Répétez le mot de passe",
-            //isPasswordVisible = state.isConfirmationMotDePasseVisible,
+            //isPasswordVisible = state.isConfirmPasswordVisible,
             enabled = !state.isLoading,
-           // onToggleVisibility = { onAction(ModifierMotDePasseAction.OnToggleConfirmationMotDePasseVisibility) },
+           // onToggleVisibility = { onAction(ChangePasswordAction.OnToggleConfirmPasswordVisibility) },
         )
     }
 }
