@@ -18,7 +18,13 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
@@ -35,9 +41,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
@@ -47,10 +56,16 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import empire.digiprem.mycoloapp.core.design_system.AppHorizontalScrollBar
+import empire.digiprem.mycoloapp.core.design_system.AppVerticalScrollBar
 import empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ColumnDef
 import empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ColumnSort
 import empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction
 import empire.digiprem.mycoloapp.core.design_system.components.datalist.model.SortOrder
+import empire.digiprem.mycoloapp.core.design_system.components.menu.AppContextMenu
+import empire.digiprem.mycoloapp.core.design_system.extension.mouseClickable
+import empire.digiprem.mycoloapp.core.design_system.model.MenuAction
+import empire.digiprem.mycoloapp.core.design_system.model.MenuActionId
 
 @Composable
 fun <T> DataListTable2(
@@ -78,22 +93,22 @@ fun <T> DataListTable2(
                 .horizontalScroll(rememberScrollState())
                 .padding(horizontal = 12.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
-        ){
-           if (showCheckboxes) {
-                    Checkbox(
-                        checked = selectedItems.size == items.size && items.isNotEmpty(),
-                        onCheckedChange = { checked ->
-                            if (checked) onAction( ListAction.SelectAll())
-                            else onAction( ListAction.UnselectAll())
-                        },
-                        modifier = Modifier.size(24.dp)
-                    )
-                    Spacer(Modifier.width(8.dp))
-                }
+        ) {
+            if (showCheckboxes) {
+                Checkbox(
+                    checked = selectedItems.size == items.size && items.isNotEmpty(),
+                    onCheckedChange = { checked ->
+                        if (checked) onAction(ListAction.SelectAll())
+                        else onAction(ListAction.UnselectAll())
+                    },
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(Modifier.width(8.dp))
+            }
 
             visibleCols.map { col ->
                 Row(
-                    modifier = if (col.width != null)  Modifier.Companion.width(col.width) else Modifier.weight(1f),
+                    modifier = if (col.width != null) Modifier.Companion.width(col.width) else Modifier.weight(1f),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
@@ -106,16 +121,16 @@ fun <T> DataListTable2(
                     )
                     if (col.sortable) {
                         val sortIcon = when {
-                            sortBy?.columnKey == col.key && sortBy.order ==  SortOrder.ASC -> Icons.Filled.ArrowUpward
-                            sortBy?.columnKey == col.key && sortBy.order ==  SortOrder.DESC -> Icons.Filled.ArrowDownward
+                            sortBy?.columnKey == col.key && sortBy.order == SortOrder.ASC -> Icons.Filled.ArrowUpward
+                            sortBy?.columnKey == col.key && sortBy.order == SortOrder.DESC -> Icons.Filled.ArrowDownward
                             else -> Icons.Filled.UnfoldMore
                         }
                         IconButton(
                             onClick = {
                                 val nextOrder = when {
-                                    sortBy?.columnKey != col.key ->  SortOrder.ASC
-                                    sortBy.order ==  SortOrder.ASC ->  SortOrder.DESC
-                                    else ->  SortOrder.NONE
+                                    sortBy?.columnKey != col.key -> SortOrder.ASC
+                                    sortBy.order == SortOrder.ASC -> SortOrder.DESC
+                                    else -> SortOrder.NONE
                                 }
                                 onAction(
                                     ListAction.SortBy(
@@ -123,7 +138,8 @@ fun <T> DataListTable2(
                                             col.key,
                                             nextOrder
                                         )
-                                    ))
+                                    )
+                                )
                             },
                             modifier = Modifier.size(20.dp)
                         ) {
@@ -158,12 +174,12 @@ fun <T> DataListTable2(
 
         activeFilterColumn?.let { colKey ->
             columns.find { it.key == colKey && it.filterable }?.let {
-                 DataListColumnFilter(
+                DataListColumnFilter(
                     columnKey = colKey,
                     currentValue = filters[colKey] ?: "",
                     onFilter = { key, value ->
                         onAction(
-                             ListAction.FilterBy(
+                            ListAction.FilterBy(
                                 key,
                                 value
                             )
@@ -182,7 +198,7 @@ fun <T> DataListTable2(
         } else {
             items.forEachIndexed { index, item ->
                 val key = itemKey(item)
-                 DataListRow(
+                DataListRow(
                     item = item,
                     columns = columns,
                     visibleColumns = visibleColumns,
@@ -193,12 +209,12 @@ fun <T> DataListTable2(
                     onAction = onAction,
                     onCheckedChange = { checked ->
                         if (checked) onAction(
-                             ListAction.SelectItem(
+                            ListAction.SelectItem(
                                 item
                             )
                         )
                         else onAction(
-                             ListAction.UnselectItem(
+                            ListAction.UnselectItem(
                                 item
                             )
                         )
@@ -247,7 +263,7 @@ fun <T> DataListTable(
     val totalWidthPx = columnWidthsPx.sum() + actionsWidthPx + checkboxWidthPx
 
     val horizontalScrollState = rememberScrollState()
-    val verticalScrollState = rememberScrollState()
+    val verticalScrollState = rememberLazyListState()
 
     Column(modifier = modifier.fillMaxWidth()) {
 
@@ -277,10 +293,13 @@ fun <T> DataListTable(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .horizontalScroll(horizontalScrollState)
-                .background(MaterialTheme.colorScheme.surfaceVariant)
                 .height(48.dp)
-        ) {
+                .horizontalScroll(horizontalScrollState)
+                .shadow(elevation = 8.dp)
+                .background(MaterialTheme.colorScheme.surfaceContainer)
+                .padding(horizontal = 10.dp)
+        )
+        {
             Row(
                 modifier = Modifier
                     .width(with(density) { totalWidthPx.toDp() })
@@ -336,8 +355,10 @@ fun <T> DataListTable(
                                 val sortIcon = when {
                                     sortBy?.columnKey == col.key && sortBy.order == SortOrder.ASC ->
                                         Icons.Filled.ArrowUpward
+
                                     sortBy?.columnKey == col.key && sortBy.order == SortOrder.DESC ->
                                         Icons.Filled.ArrowDownward
+
                                     else -> Icons.Filled.UnfoldMore
                                 }
                                 IconButton(
@@ -449,26 +470,29 @@ fun <T> DataListTable(
                 color = MaterialTheme.colorScheme.outline
             )
         }
+        Box(
+            modifier = Modifier.padding(horizontal = 10.dp).weight(1f).wrapContentSize()
+        ) {
 
-        // ============================================
-        // CORPS — lignes de données
-        // ============================================
-        if (items.isEmpty()) {
-            emptyContent()
-        } else {
-            Box(modifier = Modifier.fillMaxSize()) {
-                Column(
-                    modifier = Modifier
-                        .horizontalScroll(horizontalScrollState) // ✅ même scrollState que l'en-tête
-                        //.verticalScroll(verticalScrollState)
-                        .heightIn(max = 800.dp)
-                        .width(with(density) { totalWidthPx.toDp() })
-                ) {
-                    items.forEachIndexed { rowIndex, item ->
+            LazyColumn(
+                state = verticalScrollState,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .horizontalScroll(horizontalScrollState)
+                    .width(with(density) { totalWidthPx.toDp() })
+                    .heightIn(max = 800.dp),
+
+                )
+            {
+                if (items.isNotEmpty()) {
+
+                    itemsIndexed(
+                        items = items,
+                    ) { rowIndex, item ->
+                        val enabledItemMenu by rememberSaveable { mutableStateOf(false) }
                         val key = itemKey(item)
                         val isSelected = selectedItem?.let { itemKey(it) } == key
                         val isEven = rowIndex % 2 == 0
-
                         Row(
                             modifier = Modifier
                                 .width(with(density) { totalWidthPx.toDp() })
@@ -477,14 +501,19 @@ fun <T> DataListTable(
                                     when {
                                         isSelected -> MaterialTheme.colorScheme.primaryContainer
                                         isEven -> MaterialTheme.colorScheme.surface
-                                        else -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
+                                        else -> Color.Transparent
                                     }
                                 )
-                                .clickable { onAction(ListAction.View(item)) },
+                                .mouseClickable(
+                                    onLeftClick = {
+                                        onAction(ListAction.View(item))
+                                    }
+                                ),
                             verticalAlignment = Alignment.CenterVertically
-                        ) {
+                        )
+                        {
                             // Checkbox par ligne
-                            if (showCheckboxes) {
+                            if (!showCheckboxes) {
                                 Box(
                                     modifier = Modifier
                                         .width(with(density) { checkboxWidthPx.toDp() })
@@ -499,6 +528,21 @@ fun <T> DataListTable(
                                             else onAction(ListAction.UnselectItem(item))
                                         },
                                         modifier = Modifier.size(24.dp)
+                                    )
+                                }
+                            } else {
+                                Box(
+                                    modifier = Modifier
+                                        .width(with(density) { checkboxWidthPx.toDp() })
+                                        .fillMaxHeight()
+                                        .padding(horizontal = 8.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = (rowIndex+1).toString(),
+                                        style = MaterialTheme.typography.labelSmall,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
                             }
@@ -564,22 +608,313 @@ fun <T> DataListTable(
                                 )
                             }
                         }
-
                         HorizontalDivider(
                             thickness = 0.5.dp,
                             color = MaterialTheme.colorScheme.outlineVariant
                         )
+                        AppContextMenu(
+                            expanded = enabledItemMenu,
+                            onDismiss = {enabledItemMenu=false},
+                            modifier = Modifier,
+                            actions =
+                        )
+                    }
+
+
+                    /*Box(modifier = Modifier.fillMaxSize()) {
+                            Column(
+                                modifier = Modifier
+                                    .horizontalScroll(horizontalScrollState) // ✅ même scrollState que l'en-tête
+                                    //.verticalScroll(verticalScrollState)
+                                    .width(with(density) { totalWidthPx.toDp() })
+
+                            ) {*/
+                    /*    items.forEachIndexed { rowIndex, item ->
+                            val key = itemKey(item)
+                            val isSelected = selectedItem?.let { itemKey(it) } == key
+                            val isEven = rowIndex % 2 == 0
+
+                            Row(
+                                modifier = Modifier
+                                    .width(with(density) { totalWidthPx.toDp() })
+                                    .height(48.dp)
+                                    .background(
+                                        when {
+                                            isSelected -> MaterialTheme.colorScheme.primaryContainer
+                                            isEven -> MaterialTheme.colorScheme.surface
+                                            else -> Color.Transparent
+                                        }
+                                    )
+                                    .clickable { onAction(ListAction.View(item)) },
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                // Checkbox par ligne
+                                if (showCheckboxes) {
+                                    Box(
+                                        modifier = Modifier
+                                            .width(with(density) { checkboxWidthPx.toDp() })
+                                            .fillMaxHeight()
+                                            .padding(horizontal = 8.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Checkbox(
+                                            checked = key in selectedItems,
+                                            onCheckedChange = { checked ->
+                                                if (checked) onAction(ListAction.SelectItem(item))
+                                                else onAction(ListAction.UnselectItem(item))
+                                            },
+                                            modifier = Modifier.size(24.dp)
+                                        )
+                                    }
+                                }
+
+                                // Cellules de données
+                                visibleCols.forEachIndexed { colIndex, col ->
+                                    val widthPx = columnWidthsPx.getOrElse(colIndex) { 150f }
+
+                                    Box(
+                                        modifier = Modifier
+                                            .width(with(density) { widthPx.toDp() })
+                                            .fillMaxHeight()
+                                            .padding(horizontal = 8.dp),
+                                        contentAlignment = Alignment.CenterStart
+                                    ) {
+                                        col.render(this@Row, item)
+                                    }
+
+                                    // Diviseur vertical entre cellules
+                                    if (colIndex < visibleCols.size - 1) {
+                                        Box(
+                                            modifier = Modifier
+                                                .width(4.dp)
+                                                .fillMaxHeight()
+                                                .background(
+                                                    MaterialTheme.colorScheme.outline.copy(alpha = 0.1f)
+                                                )
+                                        )
+                                    }
+                                }
+
+                                // Actions par ligne
+                                Box(
+                                    modifier = Modifier
+                                        .width(with(density) { actionsWidthPx.toDp() })
+                                        .fillMaxHeight()
+                                        .padding(horizontal = 4.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    DataListActions(
+                                        item = item,
+                                        onView = {
+                                            onAction(
+                                                _root_ide_package_.empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction.View(
+                                                    it
+                                                )
+                                            )
+                                        },
+                                        onEdit = {
+                                            onAction(
+                                                _root_ide_package_.empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction.Edit(
+                                                    it
+                                                )
+                                            )
+                                        },
+                                        onDelete = {
+                                            onAction(
+                                                _root_ide_package_.empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction.Delete(
+                                                    it
+                                                )
+                                            )
+                                        },
+                                    )
+                                }
+                            }
+
+                            HorizontalDivider(
+                                thickness = 0.5.dp,
+                                color = MaterialTheme.colorScheme.outlineVariant
+                            )
+                        }*/
+                    //   }
+
+                    // Scrollbar verticale
+                    /*  VerticalScrollbar(
+                          adapter = rememberScrollbarAdapter(verticalScrollState),
+                          modifier = Modifier
+                              .align(Alignment.CenterEnd)
+                              .fillMaxHeight()
+                      )*/
+                    //}
+                    //}
+                } else {
+                    item {
+                        emptyContent()
                     }
                 }
 
-                // Scrollbar verticale
-              /*  VerticalScrollbar(
-                    adapter = rememberScrollbarAdapter(verticalScrollState),
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .fillMaxHeight()
-                )*/
             }
+            /* Column(
+                 modifier = Modifier.fillMaxSize()
+                     .verticalScroll(verticalScrollState)
+             ) {
+                 if (items.isEmpty()) {
+                     emptyContent()
+                 } else {
+                     Box(modifier = Modifier.fillMaxSize()) {
+                         Column(
+                             modifier = Modifier
+                                 .horizontalScroll(horizontalScrollState) // ✅ même scrollState que l'en-tête
+                                 //.verticalScroll(verticalScrollState)
+                                 .heightIn(max = 800.dp)
+                                 .width(with(density) { totalWidthPx.toDp() })
+                         ) {
+                             items.forEachIndexed { rowIndex, item ->
+                                 val key = itemKey(item)
+                                 val isSelected = selectedItem?.let { itemKey(it) } == key
+                                 val isEven = rowIndex % 2 == 0
+
+                                 Row(
+                                     modifier = Modifier
+                                         .width(with(density) { totalWidthPx.toDp() })
+                                         .height(48.dp)
+                                         .background(
+                                             when {
+                                                 isSelected -> MaterialTheme.colorScheme.primaryContainer
+                                                 isEven -> MaterialTheme.colorScheme.surface
+                                                 else -> Color.Transparent
+                                             }
+                                         )
+                                         .clickable { onAction(ListAction.View(item)) },
+                                     verticalAlignment = Alignment.CenterVertically
+                                 ) {
+                                     // Checkbox par ligne
+                                     if (showCheckboxes) {
+                                         Box(
+                                             modifier = Modifier
+                                                 .width(with(density) { checkboxWidthPx.toDp() })
+                                                 .fillMaxHeight()
+                                                 .padding(horizontal = 8.dp),
+                                             contentAlignment = Alignment.Center
+                                         ) {
+                                             Checkbox(
+                                                 checked = key in selectedItems,
+                                                 onCheckedChange = { checked ->
+                                                     if (checked) onAction(ListAction.SelectItem(item))
+                                                     else onAction(ListAction.UnselectItem(item))
+                                                 },
+                                                 modifier = Modifier.size(24.dp)
+                                             )
+                                         }
+                                     }
+
+                                     // Cellules de données
+                                     visibleCols.forEachIndexed { colIndex, col ->
+                                         val widthPx = columnWidthsPx.getOrElse(colIndex) { 150f }
+
+                                         Box(
+                                             modifier = Modifier
+                                                 .width(with(density) { widthPx.toDp() })
+                                                 .fillMaxHeight()
+                                                 .padding(horizontal = 8.dp),
+                                             contentAlignment = Alignment.CenterStart
+                                         ) {
+                                             col.render(this@Row, item)
+                                         }
+
+                                         // Diviseur vertical entre cellules
+                                         if (colIndex < visibleCols.size - 1) {
+                                             Box(
+                                                 modifier = Modifier
+                                                     .width(4.dp)
+                                                     .fillMaxHeight()
+                                                     .background(
+                                                         MaterialTheme.colorScheme.outline.copy(alpha = 0.1f)
+                                                     )
+                                             )
+                                         }
+                                     }
+
+                                     // Actions par ligne
+                                     Box(
+                                         modifier = Modifier
+                                             .width(with(density) { actionsWidthPx.toDp() })
+                                             .fillMaxHeight()
+                                             .padding(horizontal = 4.dp),
+                                         contentAlignment = Alignment.Center
+                                     ) {
+                                         DataListActions(
+                                             item = item,
+                                             onView = {
+                                                 onAction(
+                                                     _root_ide_package_.empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction.View(
+                                                         it
+                                                     )
+                                                 )
+                                             },
+                                             onEdit = {
+                                                 onAction(
+                                                     _root_ide_package_.empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction.Edit(
+                                                         it
+                                                     )
+                                                 )
+                                             },
+                                             onDelete = {
+                                                 onAction(
+                                                     _root_ide_package_.empire.digiprem.mycoloapp.core.design_system.components.datalist.model.ListAction.Delete(
+                                                         it
+                                                     )
+                                                 )
+                                             },
+                                         )
+                                     }
+                                 }
+
+                                 HorizontalDivider(
+                                     thickness = 0.5.dp,
+                                     color = MaterialTheme.colorScheme.outlineVariant
+                                 )
+                             }
+                         }
+
+                         // Scrollbar verticale
+                         *//*  VerticalScrollbar(
+                              adapter = rememberScrollbarAdapter(verticalScrollState),
+                              modifier = Modifier
+                                  .align(Alignment.CenterEnd)
+                                  .fillMaxHeight()
+                          )*//*
+                    }
+                }
+            }*/
+            // ============================================
+            // CORPS — lignes de données
+            // ============================================
+            AppHorizontalScrollBar(
+                scrollState = horizontalScrollState,
+                modifier = Modifier.align(Alignment.BottomCenter),
+            )
+            AppVerticalScrollBar(
+                scrollState = verticalScrollState,
+                modifier = Modifier.align(Alignment.CenterEnd),
+            )
         }
+        Spacer(Modifier.height(15.dp))
+        DataListPagination(
+            currentPage = 1,
+            totalPages = 1,
+            totalItems = 3,
+            itemsPerPage = 10,
+            onPageChange = {},
+            onPageSizeChange = {},
+        )
     }
+}
+
+
+enum class ItemMenuAction: MenuActionId{
+    show_detail,
+    select,
+    delete,
+    edit;
+
 }

@@ -1,4 +1,4 @@
 package empire.digiprem.mycoloapp.core.design_system.extension
 
-class DataErrorEx {
+class PdfDocumentStructureEx {
 }
